@@ -1,0 +1,36 @@
+{
+  "name": "@apiverve/mcp-server",
+  "version": "1.0.0",
+  "description": "APIVerve MCP Server - Access 249+ APIs through the Model Context Protocol",
+  "main": "index.js",
+  "bin": {
+    "apiverve-mcp": "./bin/install.js"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "apiverve",
+    "api",
+    "claude",
+    "chatgpt",
+    "ai",
+    "llm"
+  ],
+  "author": "APIVerve",
+  "license": "MIT",
+  "homepage": "https://apiverve.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apiverve/mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/apiverve/mcp/issues"
+  },
+  "mcpServers": {
+    "apiverve": {
+      "type": "sse",
+      "url": "https://api.apiverve.com/v1/mcp"
+    }
+  }
+}
