@@ -4,7 +4,7 @@
 
 <img src="https://apiverve.com/images/favicon.png" alt="APIVerve Logo" width="80" />
 
-**249+ APIs accessible through the Model Context Protocol**
+**306+ APIs accessible through the Model Context Protocol**
 
 [![npm version](https://img.shields.io/npm/v/@apiverve/mcp-server)](https://www.npmjs.com/package/@apiverve/mcp-server)
 [![PyPI version](https://img.shields.io/pypi/v/apiverve-mcp)](https://pypi.org/project/apiverve-mcp/)
@@ -17,11 +17,11 @@
 
 ## 🚀 Overview
 
-The **APIVerve MCP Server** provides seamless access to 249+ production-ready APIs through the [Model Context Protocol](https://modelcontextprotocol.io). Connect AI assistants like Claude, ChatGPT, and other MCP-compatible clients to a vast ecosystem of data and functionality.
+The **APIVerve MCP Server** provides seamless access to 306+ production-ready APIs through the [Model Context Protocol](https://modelcontextprotocol.io). Connect AI assistants like Claude, ChatGPT, and other MCP-compatible clients to a vast ecosystem of data and functionality.
 
 ### ✨ Features
 
-- 🎯 **249+ APIs** - Weather, news, geocoding, validation, conversion, and more
+- 🎯 **306+ APIs** - Weather, news, geocoding, validation, conversion, and more
 - 🔐 **OAuth 2.0 Authentication** - Secure, industry-standard authentication
 - 📊 **Token-Based Pricing** - Pay only for what you use
 - 🚀 **High Performance** - Cloud-hosted with 99%+ uptime
@@ -110,14 +110,14 @@ APIVerve uses OAuth 2.0 for secure authentication:
 1. **Sign up** at [https://apiverve.com](https://apiverve.com)
 2. **Get your API key** from the dashboard
 3. **Authorize** when prompted by your MCP client
-4. **Start using** 249+ APIs immediately
+4. **Start using** 306+ APIs immediately
 
 **Free tier available** - No credit card required to start!
 
 ## 🎯 Available APIs
 
 <details>
-<summary><b>Click to see all 249+ available APIs</b></summary>
+<summary><b>Click to see all 306+ available APIs</b></summary>
 
 ### 🌤️ Weather & Environment
 - Weather Forecast
