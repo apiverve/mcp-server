@@ -4,7 +4,7 @@
 
 <img src="https://apiverve.com/images/favicon.png" alt="APIVerve Logo" width="80" />
 
-**306+ APIs accessible through the Model Context Protocol**
+**356+ APIs accessible through the Model Context Protocol**
 
 [![npm version](https://img.shields.io/npm/v/@apiverve/mcp-server)](https://www.npmjs.com/package/@apiverve/mcp-server)
 [![PyPI version](https://img.shields.io/pypi/v/apiverve-mcp)](https://pypi.org/project/apiverve-mcp/)
@@ -17,11 +17,11 @@
 
 ## 🚀 Overview
 
-The **APIVerve MCP Server** provides seamless access to 306+ production-ready APIs through the [Model Context Protocol](https://modelcontextprotocol.io). Connect AI assistants like Claude, ChatGPT, and other MCP-compatible clients to a vast ecosystem of data and functionality.
+The **APIVerve MCP Server** provides seamless access to 356+ production-ready APIs through the [Model Context Protocol](https://modelcontextprotocol.io). Connect AI assistants like Claude, ChatGPT, and other MCP-compatible clients to a vast ecosystem of data and functionality.
 
 ### ✨ Features
 
-- 🎯 **306+ APIs** - Weather, news, geocoding, validation, conversion, and more
+- 🎯 **356+ APIs** - Weather, news, geocoding, validation, conversion, and more
 - 🔐 **OAuth 2.0 Authentication** - Secure, industry-standard authentication
 - 📊 **Token-Based Pricing** - Pay only for what you use
 - 🚀 **High Performance** - Cloud-hosted with 99%+ uptime
@@ -30,94 +30,80 @@ The **APIVerve MCP Server** provides seamless access to 306+ production-ready AP
 
 ## 📦 Installation
 
-### For Claude Desktop / MCP Clients
+APIVerve is a **remote** MCP server — there is nothing to run locally. Point your client at the URL below and it will handle sign-in for you.
 
-Add to your MCP settings file:
+### Quick setup
 
-**Claude Desktop (`claude_desktop_config.json`):**
+```bash
+npx @apiverve/mcp-server
+```
+
+Configures VS Code and Cursor, and prints the manual step for Claude Desktop. Target one client with `npx @apiverve/mcp-server cursor`.
+
+For headless setups, pass a key instead of using sign-in:
+
+```bash
+npx @apiverve/mcp-server --api-key YOUR_API_KEY
+```
+
+Python users can do the same with `pip install apiverve-mcp` then `apiverve-mcp` (or `apiverve-mcp --api-key YOUR_API_KEY`).
+
+### Manual setup
+
+**Claude Desktop** — remote servers are added through the app, not a config file:
+
+> Settings → Connectors → Add custom connector → `https://api.apiverve.com/v1/mcp`
+
+**VS Code** (`mcp.json`):
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "apiverve": {
-      "type": "sse",
+      "type": "http",
       "url": "https://api.apiverve.com/v1/mcp"
     }
   }
 }
 ```
 
-**VS Code / Cline:**
-```json
-{
-  "inputs": [],
-  "servers": {
-    "APIVerve": {
-      "type": "sse",
-      "url": "https://api.apiverve.com/v1/mcp",
-      "headers": {}
-    }
-  }
-}
-```
-
-**Cursor:**
+**Cursor** (`~/.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
     "apiverve": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everything"],
-      "env": {
-        "MCP_BRIDGE_URL": "https://api.apiverve.com/v1/mcp"
-      }
+      "url": "https://api.apiverve.com/v1/mcp"
     }
   }
 }
 ```
 
-Or configure directly in Cursor settings (Settings > Features > Model Context Protocol)
-
-### NPM Package
-
-```bash
-npm install -g @apiverve/mcp-server
-```
-
-Then run:
-```bash
-apiverve-mcp install
-```
-
-This will automatically configure your MCP client.
-
-### Python Package
-
-```bash
-pip install apiverve-mcp
-```
-
-```python
-from apiverve_mcp import configure_mcp
-
-# Auto-configure MCP client
-configure_mcp()
-```
-
 ## 🔑 Authentication
 
-APIVerve uses OAuth 2.0 for secure authentication:
+Two ways in — pick whichever fits:
 
-1. **Sign up** at [https://apiverve.com](https://apiverve.com)
-2. **Get your API key** from the dashboard
-3. **Authorize** when prompted by your MCP client
-4. **Start using** 306+ APIs immediately
+**OAuth (default, recommended)** — leave the config as shown above. On first use the server returns an authorization challenge and your client walks you through sign-in. No key is stored on disk, and access can be revoked from the dashboard.
 
-**Free tier available** - No credit card required to start!
+**API key** — add your key as a header. Useful for CI and headless environments where no browser is available:
+
+```json
+{
+  "mcpServers": {
+    "apiverve": {
+      "url": "https://api.apiverve.com/v1/mcp",
+      "headers": { "x-api-key": "YOUR_API_KEY" }
+    }
+  }
+}
+```
+
+Claude Desktop's Custom Connectors cannot send custom headers, so it is OAuth-only.
+
+Get a key at [https://apiverve.com](https://apiverve.com). **Free tier available** — no credit card required to start!
 
 ## 🎯 Available APIs
 
 <details>
-<summary><b>Click to see all 306+ available APIs</b></summary>
+<summary><b>Click to see all 356+ available APIs</b></summary>
 
 ### 🌤️ Weather & Environment
 - Weather Forecast
@@ -185,16 +171,17 @@ Claude: [Uses Currency Converter API]
 
 ### Programmatic Usage (Python)
 
-```python
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+Connect straight to the remote server — no local process involved:
 
-async with stdio_client(StdioServerParameters(
-    command="apiverve-mcp",
-    args=[]
-)) as (read, write):
+```python
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
+
+url = "https://api.apiverve.com/v1/mcp"
+headers = {"x-api-key": "YOUR_API_KEY"}
+
+async with streamablehttp_client(url, headers=headers) as (read, write, _):
     async with ClientSession(read, write) as session:
-        # Initialize
         await session.initialize()
 
         # List available tools
@@ -216,17 +203,17 @@ APIVerve uses a flexible token-based pricing model with multiple tiers to fit yo
 
 **[View Pricing Plans →](https://apiverve.com/pricing)**
 
-Token costs vary by API complexity - simple APIs start at 1 token per call.
+Credit costs vary by API complexity - simple APIs start at 1 credit per call.
 
 ## 🛠️ Technical Details
 
 ### Server Information
 
-- **Type**: Server-Sent Events (SSE)
-- **Protocol**: MCP 2024-11-05
-- **Authentication**: OAuth 2.0 with PKCE
+- **Transport**: Streamable HTTP
+- **Protocol**: MCP 2025-06-18 (negotiates down to 2025-03-26 and 2024-11-05)
+- **Authentication**: OAuth 2.0 with PKCE, or `x-api-key` header
 - **Base URL**: `https://api.apiverve.com/v1/mcp`
-- **API Version**: 1.0.1
+- **API Version**: 1.1.0
 
 ### OAuth Endpoints
 
