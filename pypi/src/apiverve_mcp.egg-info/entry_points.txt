@@ -1,0 +1,2 @@
+[console_scripts]
+apiverve-mcp = apiverve_mcp.__main__:main
