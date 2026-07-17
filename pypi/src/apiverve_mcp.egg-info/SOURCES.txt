@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+src/apiverve_mcp/__init__.py
+src/apiverve_mcp/__main__.py
+src/apiverve_mcp.egg-info/PKG-INFO
+src/apiverve_mcp.egg-info/SOURCES.txt
+src/apiverve_mcp.egg-info/dependency_links.txt
+src/apiverve_mcp.egg-info/entry_points.txt
+src/apiverve_mcp.egg-info/top_level.txt
