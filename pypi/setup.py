@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='apiverve-mcp',
     version='1.1.0',
-    description='APIVerve MCP Server - Access 360+ APIs through the Model Context Protocol',
+    description='APIVerve MCP Server - Access 368+ APIs through the Model Context Protocol',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     author='APIVerve',
