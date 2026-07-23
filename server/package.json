@@ -1,0 +1,12 @@
+{
+  "name": "@apiverve/mcp-server-local",
+  "version": "0.0.0-generated",
+  "private": true,
+  "description": "APIVerve local MCP server — stdio transport, tools baked from the API catalog, calls executed against api.apiverve.com.",
+  "type": "module",
+  "main": "index.js",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}
