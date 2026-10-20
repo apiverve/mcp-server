@@ -4,7 +4,7 @@
 
 <img src="https://apiverve.com/images/favicon.png" alt="APIVerve Logo" width="80" />
 
-**368+ APIs accessible through the Model Context Protocol**
+**387+ APIs accessible through the Model Context Protocol**
 
 [![npm version](https://img.shields.io/npm/v/@apiverve/mcp-server)](https://www.npmjs.com/package/@apiverve/mcp-server)
 [![PyPI version](https://img.shields.io/pypi/v/apiverve-mcp)](https://pypi.org/project/apiverve-mcp/)
@@ -17,11 +17,11 @@
 
 ## 🚀 Overview
 
-The **APIVerve MCP Server** provides seamless access to 368+ production-ready APIs through the [Model Context Protocol](https://modelcontextprotocol.io). Connect AI assistants like Claude, ChatGPT, and other MCP-compatible clients to a vast ecosystem of data and functionality.
+The **APIVerve MCP Server** provides seamless access to 387+ production-ready APIs through the [Model Context Protocol](https://modelcontextprotocol.io). Connect AI assistants like Claude, ChatGPT, and other MCP-compatible clients to a vast ecosystem of data and functionality.
 
 ### ✨ Features
 
-- 🎯 **368+ APIs** - Weather, news, geocoding, validation, conversion, and more
+- 🎯 **387+ APIs** - Weather, news, geocoding, validation, conversion, and more
 - 🔐 **OAuth 2.0 Authentication** - Secure, industry-standard authentication
 - 📊 **Token-Based Pricing** - Pay only for what you use
 - 🚀 **High Performance** - Cloud-hosted with 99%+ uptime
@@ -103,7 +103,7 @@ Get a key at [https://apiverve.com](https://apiverve.com). **Free tier available
 ## 🎯 Available APIs
 
 <details>
-<summary><b>Click to see all 368+ available APIs</b></summary>
+<summary><b>Click to see all 387+ available APIs</b></summary>
 
 ### 🌤️ Weather & Environment
 - Weather Forecast
@@ -213,7 +213,7 @@ Credit costs vary by API complexity - simple APIs start at 1 credit per call.
 - **Protocol**: MCP 2025-06-18 (negotiates down to 2025-03-26 and 2024-11-05)
 - **Authentication**: OAuth 2.0 with PKCE, or `x-api-key` header
 - **Base URL**: `https://api.apiverve.com/v1/mcp`
-- **API Version**: 1.1.0
+- **API Version**: 1.1.1
 
 ### OAuth Endpoints
 
