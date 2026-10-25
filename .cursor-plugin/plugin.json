@@ -1,0 +1,18 @@
+{
+  "name": "apiverve",
+  "displayName": "APIVerve",
+  "version": "1.1.1",
+  "description": "Live data, validation and utility APIs in Cursor: IP and DNS lookups, email and phone validation, exchange rates, SSL checks, VIN decoding and 380+ more through one connection.",
+  "author": {
+    "name": "APIVerve",
+    "email": "hello@apiverve.com"
+  },
+  "homepage": "https://docs.apiverve.com/vervekit/mcp",
+  "repository": "https://github.com/apiverve/mcp-server",
+  "license": "MIT",
+  "category": "developer-tools",
+  "keywords": ["apiverve", "mcp", "api", "validation", "geolocation", "dns", "finance", "weather", "developer-tools"],
+  "logo": "assets/logo.png",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

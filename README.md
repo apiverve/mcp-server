@@ -32,6 +32,12 @@ The **APIVerve MCP Server** provides seamless access to 387+ production-ready AP
 
 APIVerve is a **remote** MCP server — there is nothing to run locally. Point your client at the URL below and it will handle sign-in for you.
 
+### One-click install
+
+[![Add APIVerve to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=apiverve&config=eyJ1cmwiOiJodHRwczovL2FwaS5hcGl2ZXJ2ZS5jb20vdjEvbWNwIn0%3D)
+
+This repo is also a Cursor plugin (`.cursor-plugin/`): it adds the server plus a skill that tells the agent when and how to use the tools.
+
 ### Quick setup
 
 ```bash

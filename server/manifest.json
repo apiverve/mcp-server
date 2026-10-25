@@ -1,7 +1,7 @@
 {
   "apiBase": "https://api.apiverve.com",
   "version": "1.1.1",
-  "generatedAt": 1792529961714,
+  "generatedAt": 1792971079321,
   "apis": {
     "acronymexpander": {
       "title": "Acronym Expander",
@@ -646,7 +646,7 @@
     },
     "binlookup": {
       "title": "BIN Lookup",
-      "description": "BIN Lookup checks the first six digits of a payment card to return card brand, type, issuing bank, and country of issuance. Pass a card BIN to inspect whether incoming cards are debit, credit, or prepaid.",
+      "description": "BIN Lookup is a BIN checker API: send the first 6 to 8 digits of a payment card and get the card brand, type (debit or credit), issuing bank and country of issuance back as JSON. Check incoming cards at checkout before you charge them.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/binlookup",
@@ -1001,7 +1001,7 @@
     },
     "cardvalidator": {
       "title": "Card Validator",
-      "description": "Card Validator checks whether a card number is valid, identifies the card brand, and flags risk. It runs the Luhn checksum, detects the scheme (Visa, Mastercard, Amex and more), returns the PCI-safe BIN and last 4 digits, flags known processor test cards, and returns a composite risk score.",
+      "description": "Card Validator is a credit card number validator API: it checks whether a card number is valid, identifies the card brand, and flags risk. It runs the Luhn checksum, detects the scheme (Visa, Mastercard, Amex and more), returns the PCI-safe BIN and last 4 digits, flags known processor test cards, and returns a composite risk score.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/cardvalidator",
@@ -2197,7 +2197,7 @@
     },
     "disposablephone": {
       "title": "Disposable Phone Number Checker",
-      "description": "Disposable Phone Number Checker flags temporary and burner phone numbers supplied in E.164 format. Pass any number to check whether it is disposable and view the date it was first seen on temporary SMS lists.",
+      "description": "Disposable Phone Number Checker is a phone fraud API that flags temporary, burner and virtual phone numbers published on SMS-receiving sites. Pass a number in E.164 format to check whether it is disposable and see the date it was first seen on those lists.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/disposablephone",
@@ -2465,7 +2465,7 @@
     },
     "domainexpiration": {
       "title": "Domain Expiration",
-      "description": "Domain Expiration tracks domain expiration health and domain age for any web address. It returns days remaining until expiry, an expiration status, and age in days and years, with paid plans adding exact registration timestamps.",
+      "description": "Domain Expiration is a domain expiration checker API. Pass any domain and it reads the registry record over RDAP or WHOIS to return the days left until the domain expires, an expiration status from healthy to expired, and its age in days and years, with paid plans adding exact registration timestamps.",
       "category": "Domain Data",
       "method": "GET",
       "path": "/v1/domainexpiration",
@@ -2571,7 +2571,7 @@
     },
     "emaildisposablechecker": {
       "title": "Disposable Email Checker",
-      "description": "Disposable Email Checker is a disposable email detection API that tests whether an email address belongs to a disposable or temp mail provider. Pass any email to receive its domain and a true or false flag showing if it is temporary.",
+      "description": "Disposable Email Checker is a disposable email detection API that tests whether an email address belongs to a disposable or temp mail provider. Pass any email to get back the domain parsed from it and a true or false flag showing whether it is temporary. That also makes it a quick way to drop throwaway domains when you derive a company domain from a list of emails.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/emaildisposablechecker",
@@ -2588,7 +2588,7 @@
     },
     "emailvalidator": {
       "title": "Email Validator",
-      "description": "Email Validator checks whether an email address is valid, deliverable and safe. It validates the format, resolves the domain's mail (MX) records, flags disposable and role-based addresses, and returns a composite risk score with typo correction.",
+      "description": "Email Validator is an email validation API that checks whether an address is well-formed, whether its domain can receive mail, and whether it is safe to accept. It validates the format, resolves MX records (including null MX and the A-record fallback), checks for SPF and DMARC, flags disposable, role and free-provider addresses, and returns a normalized address for spotting duplicates. Paid plans add a risk score and typo correction.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/emailvalidator",
@@ -3627,7 +3627,7 @@
     },
     "ifsclookup": {
       "title": "IFSC Lookup",
-      "description": "IFSC Lookup is an IFSC code search API that verifies Indian bank branch details from any IFSC code, returning the bank name, branch, street address, and district. It confirms city and state records, while paid plans add transfer modes like NEFT and UPI.",
+      "description": "IFSC Lookup is an IFSC code search API that verifies Indian bank branch details from any IFSC code, returning the bank name, branch, street address, city, district and state, plus the state's ISO code and the bank and branch codes. Paid plans add MICR, SWIFT and the NEFT, RTGS, IMPS and UPI flags.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/ifsclookup",
@@ -4146,7 +4146,7 @@
     "jobpostings": {
       "title": "Job Postings",
       "description": "Job Postings is a jobs API that returns the open positions on a company's public career board. Every job comes back in the same shape: title, department, team, locations, remote and workplace type, employment type, posting date and apply link. Filter by keyword, location, department, employment type, posting date or remote. Paid plans add the full job description and salary ranges where the company publishes them.",
-      "category": "data",
+      "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/jobpostings",
       "params": [
@@ -4227,7 +4227,7 @@
     "jobsearch": {
       "title": "Job Search",
       "description": "Job Search is a jobs API that searches the open positions at thousands of companies at once. Search by job title keywords, location, country, remote work, employment type, posting date or company, and get the newest matching jobs first, each with its title, company, location, country, workplace type, posting date and apply link. Paid plans add salary ranges, a minimum salary filter, larger pages and each job's full description.",
-      "category": "data",
+      "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/jobsearch",
       "params": [
@@ -6350,7 +6350,7 @@
     },
     "phonenumbervalidator": {
       "title": "Phone Number Validator",
-      "description": "Phone Number Validator checks a phone number and country code to determine validity, line type, and country of origin. It flags disposable or VoIP numbers and outputs standardized international, national, RFC3966, and E.164 formats.",
+      "description": "Phone Number Validator checks a phone number and returns whether it is valid, its line type, country, area and time zone, and the carrier its mobile range was allocated to. It flags disposable and VoIP numbers and outputs E.164, international, national and RFC3966 formats.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/phonenumbervalidator",
@@ -6366,9 +6366,9 @@
         {
           "name": "country",
           "in": "query",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The country code of the phone number (e.g., us, uk)",
+          "description": "The two-letter country code of the phone number (e.g., us, uk). Optional when the number is in international format starting with +",
           "example": "us"
         }
       ]
@@ -7285,7 +7285,7 @@
     },
     "routinglookup": {
       "title": "Routing Number Lookup",
-      "description": "Routing Number Lookup is a bank routing number lookup API that verifies US ABA routing numbers to confirm bank names, states, and checksum validity. It identifies the routing type and Federal Reserve district, while paid plans add full street addresses, branch details, and replacement numbers.",
+      "description": "Routing Number Lookup is a bank routing number lookup and validation API for US ABA numbers. It checks the check digit, finds the bank name and state, and identifies the routing type and Federal Reserve district, while paid plans add full street addresses, branch details, and replacement numbers.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/routinglookup",
@@ -7318,7 +7318,7 @@
     },
     "salestax": {
       "title": "Sales Tax Lookup",
-      "description": "Sales Tax Lookup is a US sales tax API that finds current sales tax rates for any US ZIP code or two-letter state abbreviation. It returns the jurisdiction state code and the estimated combined tax rate.",
+      "description": "Sales Tax Lookup is a US sales tax rate API: send a five-digit ZIP code or a two-letter state code and get the current combined sales tax rate back as JSON. The Free plan returns the state and the combined rate; paid plans add the state, county, city and special district rates that make it up.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/salestax",
@@ -7335,7 +7335,7 @@
     },
     "salestaxcalculator": {
       "title": "Sales Tax Calculator",
-      "description": "Sales Tax Calculator is a US sales tax API that computes the exact sales tax amount and combined rate for purchases in any US state or ZIP code. Paid plans add breakdowns by state, county, city, and special district rates.",
+      "description": "Sales Tax Calculator is a US sales tax calculation API: send an order amount with a ZIP code or state and get the combined rate, the tax amount and the order total back as JSON. Paid plans split both the rate and the tax amount by state, county, city and special district.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/salestaxcalculator",
@@ -7368,7 +7368,7 @@
     },
     "sanctionscreening": {
       "title": "Sanctions Screening",
-      "description": "Sanctions Screening checks a person or company name against the US Treasury OFAC Specially Designated Nationals (SDN) list. It returns scored matches with aliases, dates of birth, addresses and sanctions programs so you can decide whether to block or review.",
+      "description": "Sanctions Screening is an OFAC API that checks a person, company or vessel name against the US Treasury OFAC SDN and Consolidated lists, the UN Security Council Consolidated List, the EU consolidated financial sanctions list and the UK Sanctions List. It returns scored JSON matches with the list each hit came from, aliases, dates of birth, addresses and sanctions programs so you can decide whether to block or review.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/sanctionscreening",
@@ -7404,6 +7404,14 @@
           "type": "string",
           "description": "Restrict screening to one entry type",
           "example": "individual"
+        },
+        {
+          "name": "lists",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Comma-separated list codes to screen (ofac_sdn, ofac_cons, un, eu, uk). Omit to screen every list",
+          "example": "ofac_sdn,un,eu,uk"
         }
       ]
     },
@@ -7882,7 +7890,7 @@
     },
     "sslchecker": {
       "title": "SSL Certificate Checker",
-      "description": "SSL Checker inspects a website's SSL certificate. It returns the certificate details plus derived signals — whether it is currently valid or expired, how many days until it expires, whether it expires soon, and whether it is self-signed.",
+      "description": "SSL Checker is an SSL certificate API that connects to a website and checks its live certificate in seconds. It returns the certificate details, whether the chain verifies to a trusted root and matches the hostname, the negotiated TLS version and cipher, HSTS and OCSP stapling, plus expiry signals: valid or expired, days until expiry, expiring soon and self-signed.",
       "category": "Domain Data",
       "method": "GET",
       "path": "/v1/sslchecker",
@@ -8579,7 +8587,7 @@
     },
     "tlscheck": {
       "title": "TLS Checker",
-      "description": "TLS Check inspects which TLS/SSL protocol versions a server supports. It probes TLS 1.0 through 1.3, reports which are negotiable, and derives a security verdict — the highest supported version, whether deprecated protocols are still exposed, and a composite risk score.",
+      "description": "TLS Checker tests which TLS protocol versions a server accepts by running a live handshake for each of TLS 1.0, 1.1, 1.2 and 1.3. It reports the highest version, the cipher the server picks, whether the certificate validates, whether deprecated protocols are still exposed, a risk score and a letter grade from a published rubric.",
       "category": "Networking",
       "method": "GET",
       "path": "/v1/tlscheck",
@@ -9228,7 +9236,7 @@
     },
     "vatrates": {
       "title": "VAT Rates",
-      "description": "VAT Rates is a European VAT rates API that returns current Value Added Tax rates for EU and non-EU countries, with historical rates by date on paid plans. Includes standard, reduced, and special rates with support for regional exceptions.",
+      "description": "VAT Rates is a European VAT rates API: send a two-letter country code and get the current VAT rates for that country as JSON, with the full standard, reduced, super-reduced and parking set for EU members plus the UK, and standard rates for non-EU countries such as Switzerland and Norway. Paid plans add historical rates by date and regional exceptions by postcode.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/vatrates",
@@ -9625,7 +9633,7 @@
     },
     "whoislookup": {
       "title": "WHOIS Lookup",
-      "description": "WHOIS Lookup checks domain registration records to return registrar details, creation and expiration dates, domain age, and active nameservers. Pass any domain name to inspect status codes and calculate days since registration.",
+      "description": "WHOIS Lookup is a domain WHOIS API that reads the registry's RDAP or WHOIS record for any domain and returns the registrar, creation and expiry dates, nameservers, EPP status codes explained in plain English, transfer-lock and privacy flags, the registrant country where it is published, and domain age in days and years.",
       "category": "Domain Data",
       "method": "GET",
       "path": "/v1/whoislookup",
