@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "apiverve",
+  "version": "1.1.1",
+  "description": "Live data, validation and utility APIs: IP and DNS lookups, email and phone validation, exchange rates, SSL checks, VIN decoding and 380+ more through one hosted MCP server.",
+  "author": {
+    "name": "APIVerve",
+    "url": "https://apiverve.com",
+    "email": "hello@apiverve.com"
+  },
+  "homepage": "https://docs.apiverve.com/vervekit/mcp",
+  "repository": "https://github.com/apiverve/mcp-server",
+  "license": "MIT",
+  "keywords": ["apiverve", "api", "email validation", "phone validation", "ip lookup", "geolocation", "dns", "whois", "ssl", "exchange rate", "currency", "vin", "sec filings"]
+}
