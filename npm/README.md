@@ -36,7 +36,13 @@ APIVerve is a **remote** MCP server — there is nothing to run locally. Point y
 
 [![Add APIVerve to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=apiverve&config=eyJ1cmwiOiJodHRwczovL2FwaS5hcGl2ZXJ2ZS5jb20vdjEvbWNwIn0%3D) [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=apiverve&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fapi.apiverve.com%2Fv1%2Fmcp%22%7D)
 
-This repo is also a Cursor plugin (`.cursor-plugin/`): it adds the server plus a skill that tells the agent when and how to use the tools.
+This repo is also a Cursor plugin (`.cursor-plugin/`) and a Gemini CLI extension (`gemini-extension.json`): each adds the server plus a skill that tells the agent when and how to use the tools.
+
+**Gemini CLI:**
+
+```bash
+gemini extensions install https://github.com/apiverve/mcp-server
+```
 
 ### Quick setup
 
