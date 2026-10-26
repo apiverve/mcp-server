@@ -268,6 +268,7 @@ If you hit token limits:
 
 - **GitHub Issues**: [apiverve/mcp-server/issues](https://github.com/apiverve/mcp-server/issues)
 - **Email**: hello@apiverve.com
+- **Privacy Policy**: [apiverve.com/privacy](https://apiverve.com/privacy)
 - **Discord**: [Join our community](https://apiverve.com/discord)
 
 ## 📄 License
