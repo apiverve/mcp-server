@@ -1,6 +1,6 @@
 {
   "name": "apiverve",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Live data, validation and utility APIs for Gemini CLI: IP and DNS lookups, email and phone validation, exchange rates, SSL checks, VIN decoding and 380+ more through one hosted MCP server.",
   "mcpServers": {
     "apiverve": {

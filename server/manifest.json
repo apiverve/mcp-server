@@ -1,7 +1,7 @@
 {
   "apiBase": "https://api.apiverve.com",
-  "version": "1.1.1",
-  "generatedAt": 1792973594772,
+  "version": "1.1.2",
+  "generatedAt": 1793637357736,
   "apis": {
     "acronymexpander": {
       "title": "Acronym Expander",
@@ -189,7 +189,7 @@
     },
     "airquality": {
       "title": "Air Quality",
-      "description": "Air Quality is an air pollution API that reports particulate pollution levels and health recommendations for any city or zip code. Look up PM2.5 and PM10 concentrations to check current air conditions; paid plans add ozone, toxic gases, and EPA index scores.",
+      "description": "Air Quality is an air pollution API that reports particulate pollution levels and health recommendations for any city or zip code. Look up PM2.5 and PM10 concentrations to check current air conditions; paid plans add ozone, toxic gases, EPA and DEFRA index scores, and an estimated 0-500 US AQI with its category and dominant pollutant.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/airquality",
@@ -201,6 +201,14 @@
           "type": "string",
           "description": "The city name for which you want to get the air quality data (e.g., New York)",
           "example": "San Francisco"
+        },
+        {
+          "name": "aqi",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the estimated 0-500 US AQI, its category, the dominant pollutant and the index for each pollutant",
+          "example": true
         }
       ]
     },
@@ -555,7 +563,7 @@
     },
     "bible": {
       "title": "Bible",
-      "description": "Bible retrieves scripture passages and verses across nine public-domain translations, including the modern Berean Standard Bible (BSB), KJV, ASV, YLT and Darby. Supply a book, chapter, and optional verse number to get the text with testament classification, word count, and chapter totals.",
+      "description": "Bible retrieves scripture passages and verses across nine public-domain translations, including the modern Berean Standard Bible (BSB), KJV, ASV, YLT and Darby. Look up a book, chapter and verse range or a written reference like Jn 3:16-18, search for words and phrases, get a random verse or the verse of the day, and step to the previous or next passage.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/bible",
@@ -565,7 +573,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The name of the book in the bible (e.g., Genesis)",
+          "description": "The name of the book in the bible (e.g., Genesis). Abbreviations such as Gen, Ps, 1 Cor or Jn are accepted",
           "example": "Genesis"
         },
         {
@@ -591,6 +599,14 @@
           "type": "integer",
           "description": "The verse number in the chapter",
           "example": 17
+        },
+        {
+          "name": "verseEnd",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Last verse of a range starting at verse (e.g., verse=16&verseEnd=18). A value past the end of the chapter returns the rest of it",
+          "example": 18
         }
       ]
     },
@@ -658,6 +674,14 @@
           "type": "string",
           "description": "The first six digits of the credit card number (BIN)",
           "example": "448590"
+        },
+        {
+          "name": "ip",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Optional IP address of the customer paying with the card. When given, customerIp says which country the IP is in and whether it matches the country that issued the card",
+          "example": "81.2.69.142"
         }
       ]
     },
@@ -737,7 +761,7 @@
     },
     "bitcoin": {
       "title": "Bitcoin Price",
-      "description": "Bitcoin Price fetches the current Bitcoin price, recent movement direction, and update timestamps in USD. Paid plans can quote across 172 currencies and add 24-hour volume, market cap, and hourly history.",
+      "description": "Bitcoin Price fetches the current Bitcoin price, recent movement direction, and update timestamps in USD. Paid plans can quote across 172 currencies and add market cap, 24-hour volume, supply, all-time highs, 1-hour to 1-year changes, 30-day stats, and hourly and 30-day daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/bitcoin",
@@ -756,6 +780,14 @@
           "required": false,
           "type": "boolean",
           "description": "Include hourly price data for the past 24 hours",
+          "example": true
+        },
+        {
+          "name": "daily",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the daily closing price, market cap and volume for the last 30 days",
           "example": true
         }
       ]
@@ -996,6 +1028,20 @@
           "type": "boolean",
           "description": "Include an AI-generated face avatar for the card owner",
           "example": true
+        },
+        {
+          "name": "gateway",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Return this payment gateway's documented test cards instead of generated numbers. They trigger a known outcome in the gateway's test mode"
+        },
+        {
+          "name": "scenario",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "With gateway: the outcome to test, such as success, declined, insufficient_funds, expired_card, incorrect_cvc, fraud or 3ds_required (Stripe). Decline scenarios are mostly Visa cards, so the brand is ignored when the gateway has none for it"
         }
       ]
     },
@@ -1107,7 +1153,7 @@
     },
     "chartgenerator": {
       "title": "Chart Generator",
-      "description": "Chart Generator is a chart API that turns your data into chart and graph images. Supports bar, line, pie, doughnut, radar, and polar area charts with customizable styling.",
+      "description": "Chart Generator is a chart API that turns your data into chart and graph images. Supports bar, line, pie, doughnut, radar, polar area, scatter and bubble charts with customizable styling.",
       "category": "Data Generation",
       "method": "POST",
       "path": "/v1/chartgenerator",
@@ -1122,9 +1168,9 @@
         {
           "name": "labels",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "Array of labels for the x-axis or chart segments"
+          "description": "Array of labels for the x-axis or chart segments. Required except for scatter and bubble charts, whose points carry their own x values"
         },
         {
           "name": "datasets",
@@ -1160,6 +1206,13 @@
           "required": false,
           "type": "string",
           "description": "Output format"
+        },
+        {
+          "name": "backgroundColor",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Canvas background: a colour name, #hex, rgb()/rgba(), or transparent (PNG and SVG only; JPEG falls back to white). Defaults to white"
         }
       ]
     },
@@ -1763,7 +1816,7 @@
     },
     "cpiinflation": {
       "title": "CPI Inflation",
-      "description": "CPI Inflation provides monthly Consumer Price Index data broken down by category including food, housing, transportation, medical care, and more. Includes year-over-year inflation rates for each category.",
+      "description": "CPI Inflation provides monthly Consumer Price Index data broken down by category including food, housing, transportation, medical care, and more. Includes year-over-year and month-over-month inflation rates for each category, with three-month changes on paid plans.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/cpiinflation",
@@ -1975,7 +2028,7 @@
     },
     "currencyconverter": {
       "title": "Currency Converter",
-      "description": "Currency Converter calculates foreign exchange conversions across 170+ currencies using real-time rates. Pass an amount with source and target currency codes to receive the converted total, exchange rate, and 24-hour trend direction.",
+      "description": "Currency Converter calculates foreign exchange conversions across 170+ currencies using real-time rates. Pass an amount with source and target currency codes to receive the converted total, exchange rate, both currency names and 24-hour trend direction; paid plans add 1-day to 1-year changes, 30-day stats, and hourly and 30-day history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/currencyconverter",
@@ -2011,12 +2064,69 @@
           "type": "string",
           "description": "Optional past date (YYYY-MM-DD) to use that day's closing rates instead of live rates. History runs from 1999-01-04 for about 30 major currencies and covers every supported currency from March 2024. A day with no rates, such as a weekend or holiday, uses the last close before it.",
           "example": "2025-06-02"
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the pair's daily closing rate for the last 30 days",
+          "example": true
+        },
+        {
+          "name": "hourly",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the pair's rate for each of the last 24 hours (live rates only, not with date)",
+          "example": true
+        }
+      ]
+    },
+    "currencyrate": {
+      "title": "Currency Rate",
+      "description": "Currency Rate returns one currency's live value in US dollars or any other base, across 170+ currencies, with its name, symbol and direction since yesterday. Paid plans add any base currency, 1-day to 1-year changes, 24-hour and 30-day highs and lows, and hourly and 30-day daily history.",
+      "category": "Finance",
+      "method": "GET",
+      "path": "/v1/currencyrate",
+      "params": [
+        {
+          "name": "currency",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "The ISO 4217 code of the currency to price (e.g. EUR)",
+          "example": "EUR"
+        },
+        {
+          "name": "base",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "The currency to price it in; defaults to USD",
+          "example": "USD"
+        },
+        {
+          "name": "hourly",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the price for each of the last 24 hours",
+          "example": true
+        },
+        {
+          "name": "daily",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the daily closing price for the last 30 days",
+          "example": true
         }
       ]
     },
     "currencysymbols": {
       "title": "Currency Symbols",
-      "description": "Currency Symbols matches ISO currency codes or country names to the countries that use them. Paid plans add the currency symbol, full currency name, ISO numeric code, and decimal precision.",
+      "description": "Currency Symbols matches ISO currency codes or country names to the countries that use them. Paid plans add the currency symbol, full currency name, ISO numeric code, decimal precision, and the currency's live rate and value against the US dollar.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/currencysymbols",
@@ -2207,8 +2317,16 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The phone number to check in E.164 format (e.g., +12085813945)",
+          "description": "The phone number to check, in E.164 format (e.g., +12085813945), or in national format together with country",
           "example": "+12085813945"
+        },
+        {
+          "name": "country",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Two-letter ISO country code for a number given in national format (e.g., GB for 07700 900123). Not needed for E.164 numbers",
+          "example": "US"
         }
       ]
     },
@@ -2365,8 +2483,16 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The domain name for which you want to lookup the DNS records. Do not include the protocol, and not subdomains (e.g., myspace.com)",
+          "description": "The domain or DNS name to look up, without the protocol. Underscore names work too, such as _dmarc.example.com or _sip._tcp.example.com",
           "example": "myspace.com"
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Comma-separated record types to look up. Leave it out for A, AAAA, CNAME, MX, NS, PTR, SRV, SOA, TXT and CAA. HTTPS, SVCB, TLSA, NAPTR, DS and DNSKEY are returned only when named here",
+          "example": "A,MX,TXT"
         }
       ]
     },
@@ -2563,11 +2689,60 @@
     },
     "earthquake": {
       "title": "Worldwide Earthquakes",
-      "description": "Worldwide Earthquakes tracks global seismic activity recorded over the past hour. It delivers magnitudes, epicenter coordinates, location names, tsunami warning flags, and 24-hour activity summaries sourced from the USGS.",
+      "description": "Worldwide Earthquakes tracks global seismic activity recorded over the past hour. It delivers magnitudes, epicenter coordinates and depth, location names, tsunami warning flags, USGS event links and 24-hour activity summaries sourced from the USGS. Filter by minimum magnitude; paid plans list the past 24 hours, search around any point, and add 7- and 30-day counts, the month's largest quake and daily history.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/earthquake",
-      "params": []
+      "params": [
+        {
+          "name": "period",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Time window: hour (the past hour) or day (the past 24 hours)",
+          "example": "day"
+        },
+        {
+          "name": "minMagnitude",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Only return earthquakes of at least this magnitude",
+          "example": 2.5
+        },
+        {
+          "name": "lat",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Latitude to search around. With lon, returns only earthquakes within radius km, nearest first, each with distanceKm",
+          "example": 34.05
+        },
+        {
+          "name": "lon",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Longitude to search around (use with lat)",
+          "example": -118.24
+        },
+        {
+          "name": "radius",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Search radius in kilometers around lat/lon",
+          "example": 250
+        },
+        {
+          "name": "daily",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include one row per UTC day for the last 30 days: event count, largest magnitude and M4.5+ count",
+          "example": true
+        }
+      ]
     },
     "emaildisposablechecker": {
       "title": "Disposable Email Checker",
@@ -2579,10 +2754,18 @@
         {
           "name": "email",
           "in": "query",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The email address to check (e.g., support@myspace.com)",
+          "description": "The email address to check (e.g., support@myspace.com). Send this or domain",
           "example": "support@myspace.com"
+        },
+        {
+          "name": "domain",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "A domain to check instead of a full address (e.g., mailinator.com). Send this or email",
+          "example": "mailinator.com"
         }
       ]
     },
@@ -2638,7 +2821,7 @@
     },
     "ethereum": {
       "title": "Ethereum Price",
-      "description": "Ethereum Price is an Ethereum price feed API that tracks the spot price and movement direction of Ethereum in US dollars. Paid plans add conversion into 172 currencies, 24-hour trading volume, market capitalization, and hourly price snapshots.",
+      "description": "Ethereum Price is an Ethereum price feed API that tracks the spot price and movement direction of Ethereum in US dollars. Paid plans add 172 currencies, market cap, 24-hour volume, supply, all-time highs, 1-hour to 1-year changes, 30-day stats, and hourly and 30-day daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/ethereum",
@@ -2660,31 +2843,18 @@
           "example": true
         },
         {
-          "name": "hourly[].hour",
+          "name": "daily",
           "in": "query",
           "required": false,
-          "type": "number",
-          "description": "UTC hour-of-day slot (0-23) the price was captured in"
-        },
-        {
-          "name": "hourly[].price",
-          "in": "query",
-          "required": false,
-          "type": "number",
-          "description": "Price at that hour, in the requested currency"
-        },
-        {
-          "name": "hourly[].timestamp",
-          "in": "query",
-          "required": false,
-          "type": "string",
-          "description": "ISO 8601 time the hourly price was captured"
+          "type": "boolean",
+          "description": "Include the daily closing price, market cap and volume for the last 30 days",
+          "example": true
         }
       ]
     },
     "exchangerate": {
       "title": "Exchange Rate",
-      "description": "Exchange Rate looks up the conversion rate between two currency codes. It returns the current forex rate and last-updated timestamp across 170+ supported currencies, in USD or any other base; paid plans add the inverse rate.",
+      "description": "Exchange Rate looks up the conversion rate between two currency codes across 170+ currencies, with both currency names and the last-updated time. Paid plans add the inverse rate, the pair's 1-day to 1-year change, its 30-day high, low, average and volatility, past dates, and hourly and 30-day daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/exchangerate",
@@ -2712,6 +2882,22 @@
           "type": "string",
           "description": "Optional past date (YYYY-MM-DD) to use that day's closing rates instead of live rates. History runs from 1999-01-04 for about 30 major currencies and covers every supported currency from March 2024. A day with no rates, such as a weekend or holiday, uses the last close before it.",
           "example": "2025-06-02"
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the pair's daily closing rate for the last 30 days",
+          "example": true
+        },
+        {
+          "name": "hourly",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the pair's rate for each of the last 24 hours (live rates only, not with date)",
+          "example": true
         }
       ]
     },
@@ -3094,7 +3280,7 @@
     },
     "globalstockmarket": {
       "title": "Global Stock Market",
-      "description": "Global Stock Market tracks share price indices across 36 countries using a normalized 2015 baseline. Send a two-letter country code to receive the latest market index value, baseline, and date.",
+      "description": "Global Stock Market tracks share price indices across 36 countries using a normalized 2015 baseline. Send a two-letter country code to receive the latest monthly index value with the previous month's reading and direction, while paid plans add 1, 3, 6 and 12-month and year-to-date changes, the 12-month high, low and average, and the last 12 monthly readings.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/globalstockmarket",
@@ -3122,12 +3308,20 @@
           "type": "integer",
           "description": "Month to retrieve data for (1-12). Required when year is specified.",
           "example": 6
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the 12 monthly readings ending at the returned month",
+          "example": true
         }
       ]
     },
     "goldprice": {
       "title": "Gold Price",
-      "description": "Gold Price fetches real-time spot gold prices per troy ounce, gram, and kilogram. Each response includes the price update timestamp, 24-hour price change, and market direction, while paid plans add custom currencies and hourly history.",
+      "description": "Gold Price fetches real-time spot gold prices per troy ounce, gram, and kilogram. Each response includes the update timestamp, 24-hour price change, and market direction, while paid plans add custom currencies, karat prices, 7- and 30-day changes, 30-day stats, and hourly and daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/goldprice",
@@ -3149,25 +3343,12 @@
           "example": true
         },
         {
-          "name": "hourly[].hour",
+          "name": "daily",
           "in": "query",
           "required": false,
-          "type": "number",
-          "description": "UTC hour-of-day slot (0-23) the price was captured in"
-        },
-        {
-          "name": "hourly[].price",
-          "in": "query",
-          "required": false,
-          "type": "number",
-          "description": "Price at that hour, in the requested currency"
-        },
-        {
-          "name": "hourly[].timestamp",
-          "in": "query",
-          "required": false,
-          "type": "string",
-          "description": "ISO 8601 time the hourly price was captured"
+          "type": "boolean",
+          "description": "Include the daily closing price per ounce for the last 30 days",
+          "example": true
         }
       ]
     },
@@ -3189,7 +3370,7 @@
     },
     "gravatarlookup": {
       "title": "Gravatar Lookup",
-      "description": "Gravatar Lookup fetches public Gravatar profiles and avatar image URLs for any email address. It returns the user's display name, username, biography, location, company, and job title.",
+      "description": "Gravatar Lookup fetches public Gravatar profiles and avatar image URLs for any email address. It returns the display name, username, biography, location, company, job title and pronouns; paid plans add linked accounts (hidden ones flagged) and whether the email has its own uploaded avatar.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/gravatarlookup",
@@ -3444,6 +3625,14 @@
           "type": "string",
           "description": "The zodiac sign for which you want to get the horoscope",
           "example": "aries"
+        },
+        {
+          "name": "period",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "daily (default), weekly or monthly",
+          "example": "daily"
         }
       ]
     },
@@ -3555,6 +3744,48 @@
           "required": false,
           "type": "boolean",
           "description": "Set to true for landscape orientation"
+        },
+        {
+          "name": "format",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Paper size"
+        },
+        {
+          "name": "scale",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Zoom applied to the page content, 0.1 to 2"
+        },
+        {
+          "name": "printBackground",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Print background colours and images; set false for an ink-saving document"
+        },
+        {
+          "name": "pageRanges",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Only these pages, e.g. 1-3, 5"
+        },
+        {
+          "name": "headerTemplate",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "HTML printed at the top of every page. Spans with class pageNumber, totalPages, date, title or url are filled in. Use inline styles with a font-size (Chromium defaults to a tiny font) and leave room with marginTop"
+        },
+        {
+          "name": "footerTemplate",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "HTML printed at the bottom of every page, with the same placeholders as headerTemplate, e.g. <span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span>"
         }
       ]
     },
@@ -3697,7 +3928,15 @@
       "category": "AI/Computer Vision",
       "method": "POST",
       "path": "/v1/imagetotext",
-      "params": []
+      "params": [
+        {
+          "name": "language",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Language of the text, as ISO 639-1 codes; comma-separate several for mixed text (e.g. en,ja). Defaults to en"
+        }
+      ]
     },
     "imeigenerator": {
       "title": "IMEI Generator",
@@ -3903,7 +4142,7 @@
     },
     "interestrate": {
       "title": "Interest Rate",
-      "description": "Interest Rate retrieves central bank policy rates for 22 major economies by country code. It delivers the latest interest rate percentage, central bank name, recorded date, and whether the rate moved up, down, or remained unchanged.",
+      "description": "Interest Rate retrieves central bank policy rates for 22 major economies by country code. It delivers the latest interest rate percentage, central bank name, recorded date, and whether the rate moved up, down, or remained unchanged, while paid plans add the 12-month change, the 12-month high, low and average, and the last 12 monthly rates.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/interestrate",
@@ -3923,6 +4162,22 @@
           "type": "string",
           "description": "Optional month in YYYY-MM format for a historical lookup. Omit for the current rate.",
           "example": "2024-06"
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the 12 monthly rates ending at the returned month",
+          "example": true
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the 12-month change and the 12-month high, low and average",
+          "example": true
         }
       ]
     },
@@ -4111,7 +4366,7 @@
     },
     "iplookup": {
       "title": "IP Lookup",
-      "description": "IP Lookup is an IP address location API that resolves any IP to its country, region, timezone and continent. Paid plans add city, coordinates, postal code, an accuracy radius and an EU-membership flag for compliance routing.",
+      "description": "IP Lookup is an IP address location API that resolves any IP to its country, region, timezone and continent, with the country's currency, calling code, languages and flag and the local time there. Private and reserved addresses are labelled instead of failing. Paid plans add city, coordinates, postal code, an accuracy radius, an EU-membership flag, ASN and the reverse DNS hostname.",
       "category": "Networking",
       "method": "GET",
       "path": "/v1/iplookup",
@@ -4729,7 +4984,7 @@
     },
     "lottery": {
       "title": "Lottery Numbers",
-      "description": "Lottery Numbers fetches winning lottery numbers, bonus balls, draw dates, and jackpot amounts for major games. Specify Powerball, Mega Millions, EuroMillions, or Lotto Max to receive draw results with prize totals.",
+      "description": "Lottery Numbers fetches winning lottery numbers, bonus balls, draw dates, and jackpot amounts for major games. Specify Powerball, Mega Millions, EuroMillions, or Lotto Max to receive draw results with prize totals, and on paid plans the next draw's estimate and number frequency statistics from the last 100 draws.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/lottery",
@@ -4749,6 +5004,14 @@
           "type": "string",
           "description": "Optional date for historical lookup (YYYY-MM-DD). Returns the nearest draw to this date.",
           "example": "2024-01-15"
+        },
+        {
+          "name": "stats",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include number frequency statistics over the last 100 draws",
+          "example": true
         }
       ]
     },
@@ -5304,7 +5567,7 @@
     },
     "moonphases": {
       "title": "Moon Phases",
-      "description": "Moon Phases calculates the current lunar phase, illumination percentage, and lunar age for today. It reports waxing or waning status, Earth-moon distance, and emoji representations, while paid plans add custom date queries and full moon tracking.",
+      "description": "Moon Phases calculates the current lunar phase, illumination percentage, and lunar age for today. It reports waxing or waning status, Earth-moon distance in Earth radii and kilometers, the next principal phase and emoji representations, while paid plans add custom date queries and the dates of the next new moon, first quarter, full moon and last quarter.",
       "category": "Astrology",
       "method": "GET",
       "path": "/v1/moonphases",
@@ -5315,6 +5578,14 @@
           "required": false,
           "type": "boolean",
           "description": "Get the moon phase for today",
+          "example": true
+        },
+        {
+          "name": "phases",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the dates of the next new moon, first quarter and last quarter and the days to each",
           "example": true
         }
       ]
@@ -5484,7 +5755,7 @@
     },
     "mortgagerate": {
       "title": "Mortgage Rate",
-      "description": "Mortgage Rate reports weekly US fixed mortgage rates for 15-year and 30-year terms. Pass the loan term to get the latest percentage rate, survey date, and direction of weekly change.",
+      "description": "Mortgage Rate reports weekly US fixed mortgage rates for 15-year and 30-year terms. Pass the loan term to get the latest percentage rate, survey date, and direction of weekly change, while paid plans add 4-week and 52-week changes, the 52-week high, low and average, and the last 52 weekly rates.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/mortgagerate",
@@ -5512,6 +5783,22 @@
           "type": "integer",
           "description": "Month to retrieve rates for (1-12). Required when year is specified.",
           "example": 6
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the weekly rates for the 52 weeks ending at the latest survey (current rate only)",
+          "example": true
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the 4-week and 52-week changes and the 52-week high, low and average (current rate only)",
+          "example": true
         }
       ]
     },
@@ -5614,7 +5901,7 @@
     },
     "nationaldebt": {
       "title": "National Debt",
-      "description": "National Debt provides real-time access to the US national debt (Debt to the Penny). It returns the total public debt, debt held by the public, intragovernmental holdings, and per-capita debt calculations.",
+      "description": "National Debt provides the US national debt (Debt to the Penny), updated daily from the Treasury. It returns the total public debt, debt held by the public, intragovernmental holdings, per-capita debt calculations, the previous record's total, and on paid plans how much the debt grew over a day, 30 days and a year.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/nationaldebt",
@@ -5626,6 +5913,14 @@
           "type": "string",
           "description": "Optional date in YYYY-MM-DD format for historical lookup. Omit for current data.",
           "example": "2023-06-15"
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the previous record's total and the growth over 1 day, 30 days and 1 year",
+          "example": true
         }
       ]
     },
@@ -5953,7 +6248,7 @@
     },
     "palladiumprice": {
       "title": "Palladium Price",
-      "description": "Palladium Price tracks real-time spot rates for palladium per ounce, gram, and kilogram in USD. It supplies 24-hour price changes and update timestamps, while paid plans add custom currencies and 24-hour hourly history.",
+      "description": "Palladium Price tracks real-time spot rates for palladium per ounce, gram, and kilogram in USD. It supplies 24-hour price changes and update timestamps, while paid plans add custom currencies, 7- and 30-day changes, 30-day stats, and hourly and 30-day daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/palladiumprice",
@@ -5972,6 +6267,14 @@
           "required": false,
           "type": "boolean",
           "description": "Include hourly price data for the past 24 hours",
+          "example": true
+        },
+        {
+          "name": "daily",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the daily closing price per ounce for the last 30 days",
           "example": true
         }
       ]
@@ -6562,7 +6865,7 @@
     },
     "platinumprice": {
       "title": "Platinum Price",
-      "description": "Platinum Price retrieves real-time spot rates for platinum per troy ounce, gram, and kilogram. Each response reports prices in USD, 24-hour net price changes, direction markers, and update timestamps, with paid plans supporting 172 currencies.",
+      "description": "Platinum Price retrieves real-time spot rates for platinum per troy ounce, gram, and kilogram. Each response reports prices in USD, 24-hour net price changes, direction markers, and update timestamps; paid plans add 172 currencies, 7- and 30-day changes, 30-day stats, and hourly and daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/platinumprice",
@@ -6581,6 +6884,14 @@
           "required": false,
           "type": "boolean",
           "description": "Include hourly price data for the past 24 hours",
+          "example": true
+        },
+        {
+          "name": "daily",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the daily closing price per ounce for the last 30 days",
           "example": true
         }
       ]
@@ -6856,7 +7167,7 @@
     },
     "randomgenerator": {
       "title": "Random Data Generator",
-      "description": "Random Data Generator produces mock values including names, emails, addresses, dates, and UUIDs for application testing. Specify a supported data type to receive a generated record; paid plans can generate batches up to 100 items.",
+      "description": "Random Data Generator produces random numbers in any range (whole or decimal, with or without repeats), dice of any size, coin flips, booleans, random strings, UUIDs, and mock names, emails, addresses and dates for application testing. Numbers, dice, coins, booleans and strings come from a cryptographically secure generator. Paid plans can generate batches up to 100 items.",
       "category": "Data Generation",
       "method": "GET",
       "path": "/v1/randomgenerator",
@@ -6884,6 +7195,62 @@
           "type": "boolean",
           "description": "Include an AI-generated face avatar (only applies when type=name)",
           "example": true
+        },
+        {
+          "name": "min",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Smallest number to draw, inclusive (type=number). Defaults to 0",
+          "example": 1
+        },
+        {
+          "name": "max",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Largest number to draw, inclusive (type=number). Defaults to 999999",
+          "example": 100
+        },
+        {
+          "name": "decimals",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Decimal places for type=number (0 to 10); 0 draws whole numbers",
+          "example": 2
+        },
+        {
+          "name": "unique",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Draw without repeats (type=number with whole numbers, or type=dice)",
+          "example": true
+        },
+        {
+          "name": "sides",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Number of sides on each die for type=dice (2 to 1000)",
+          "example": 20
+        },
+        {
+          "name": "length",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Length of each value for type=string (1 to 256)",
+          "example": 16
+        },
+        {
+          "name": "charset",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Characters for type=string",
+          "example": "alphanumeric"
         }
       ]
     },
@@ -6918,7 +7285,16 @@
       "category": "Entertainment",
       "method": "GET",
       "path": "/v1/randomjoke",
-      "params": []
+      "params": [
+        {
+          "name": "safe",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Only return jokes reviewed as safe for a general audience (no sexual, offensive, violent or political jokes). Set to false to include the full collection, which has adult humor",
+          "example": true
+        }
+      ]
     },
     "randompun": {
       "title": "Random Pun",
@@ -6958,6 +7334,27 @@
           "type": "boolean",
           "description": "Include an AI-generated face avatar matching user's gender and age",
           "example": true
+        },
+        {
+          "name": "gender",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only generate users of this gender"
+        },
+        {
+          "name": "nationality",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "ISO country code for localised names, phone numbers and addresses (e.g. DE, JP, BR). Defaults to US"
+        },
+        {
+          "name": "seed",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Any string; the same seed (with the same other parameters) returns the same users, for repeatable test data"
         }
       ]
     },
@@ -7318,7 +7715,7 @@
     },
     "salestax": {
       "title": "Sales Tax Lookup",
-      "description": "Sales Tax Lookup is a US sales tax rate API: send a five-digit ZIP code or a two-letter state code and get the current combined sales tax rate back as JSON. The Free plan returns the state and the combined rate; paid plans add the state, county, city and special district rates that make it up.",
+      "description": "Sales Tax Lookup is a US sales tax rate API: send a ZIP or ZIP+4 code or a two-letter state code and get the current combined sales tax rate, city and state back as JSON. Paid plans add the state, county, city and special district rates that make it up, and whether the state taxes at origin or destination.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/salestax",
@@ -7328,7 +7725,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The zip code for which you want to get the sales tax rate",
+          "description": "The zip code for which you want to get the sales tax rate. ZIP+4 (64082-1234) is accepted and priced at its 5-digit ZIP",
           "example": "64082"
         }
       ]
@@ -7492,7 +7889,7 @@
     },
     "sentimentanalysis": {
       "title": "Sentiment Analysis",
-      "description": "Sentiment Analysis evaluates the emotional tone of any text string. It returns an AFINN valence score, a comparative word-normalized score, and a five-tier sentiment label from very negative to very positive.",
+      "description": "Sentiment Analysis evaluates the emotional tone of any text string. It returns an AFINN valence score, a comparative word-normalized score, and a five-tier sentiment label from very negative to very positive. Paid plans add sentence-level labels from a transformer model, a mixed-sentiment flag, magnitude, and the words that drove the score.",
       "category": "AI/Computer Vision",
       "method": "POST",
       "path": "/v1/sentimentanalysis",
@@ -7606,7 +8003,7 @@
     },
     "silverprice": {
       "title": "Silver Price",
-      "description": "Silver Price quotes spot silver prices per troy ounce, gram, and kilogram in US dollars, including 24-hour price change and trend direction. Paid plans can request quotes across 172 currencies, 24-hour high and low ranges, and hourly price snapshots.",
+      "description": "Silver Price quotes spot silver prices per troy ounce, gram, and kilogram in US dollars, including 24-hour price change and trend direction. Paid plans add 172 currencies, 24-hour highs and lows, 7- and 30-day changes, 30-day stats, and hourly and 30-day daily history.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/silverprice",
@@ -7625,6 +8022,14 @@
           "required": false,
           "type": "boolean",
           "description": "Include hourly price data for the past 24 hours",
+          "example": true
+        },
+        {
+          "name": "daily",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the daily closing price per ounce for the last 30 days",
           "example": true
         }
       ]
@@ -8654,12 +9059,26 @@
           "required": false,
           "type": "integer",
           "description": "Time period in seconds"
+        },
+        {
+          "name": "algorithm",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "HMAC algorithm: SHA1 (default, what most authenticator apps use), SHA256 or SHA512"
+        },
+        {
+          "name": "time",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "Unix time in seconds to use instead of now"
         }
       ]
     },
     "tradebalance": {
       "title": "Trade Balance",
-      "description": "Trade Balance provides monthly US international trade data - exports, imports, and the resulting goods-and-services trade balance (deficit or surplus) on a Balance of Payments basis.",
+      "description": "Trade Balance provides monthly US international trade data - exports, imports, and the resulting goods-and-services trade balance (deficit or surplus) on a Balance of Payments basis. Each month comes with the previous month's balance, and paid plans add month-on-month and year-on-year changes, rolling 12-month totals and the last 12 months.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/tradebalance",
@@ -8671,12 +9090,28 @@
           "type": "string",
           "description": "Optional date in YYYY-MM format for historical lookup. Omit for current data.",
           "example": "2023-06"
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the 12 monthly readings ending at the returned month",
+          "example": true
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the previous month's balance, month-on-month and year-on-year changes and rolling 12-month totals",
+          "example": true
         }
       ]
     },
     "translator": {
       "title": "Translator",
-      "description": "Translator is a language translation API that translates written text into target languages using standard language codes. Submit any string with a target language code to receive the translated text and the confirmed or auto-detected source language.",
+      "description": "Translator is a language translation API that translates plain text or HTML into target languages using standard language codes. Submit any string with a target language code to receive the translated text, both language names, and the confirmed or auto-detected source language.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/translator",
@@ -8701,12 +9136,19 @@
           "required": false,
           "type": "string",
           "description": "The language code of the text to translate (e.g., en). If left blank, language will be auto-detected"
+        },
+        {
+          "name": "format",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "text (default) or html. With html, markup and entities are kept and only the text between tags is translated"
         }
       ]
     },
     "treasuryyields": {
       "title": "Treasury Yields",
-      "description": "Treasury Yields provides current and historical US Treasury constant-maturity market yields across the full curve (1-month through 30-year), plus TIPS real yields. Essential data for yield curve analysis and fixed income research.",
+      "description": "Treasury Yields provides current and historical US Treasury constant-maturity market yields across the full curve (1-month through 30-year), plus TIPS real yields. Paid plans add curve spreads, inversion flags, the curve's shape and breakeven inflation for yield curve analysis.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/treasuryyields",
@@ -8716,7 +9158,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Optional month in YYYY-MM format for a recent-month lookup (recent months only). Omit for current data.",
+          "description": "Optional month in YYYY-MM format, back to 2010-01; returns that month's closing curve. Omit for the latest daily curve.",
           "example": "2025-06"
         },
         {
@@ -9082,8 +9524,24 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The device type for the user agent string",
+          "description": "The device type: desktop, mobile (phones) or tablet",
           "example": "desktop"
+        },
+        {
+          "name": "browser",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only user agents of this browser",
+          "example": "chrome"
+        },
+        {
+          "name": "os",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only user agents of this operating system. iPads send the macOS desktop user agent",
+          "example": "windows"
         }
       ]
     },
@@ -9125,12 +9583,28 @@
           "type": "integer",
           "description": "The number of usernames to generate",
           "example": 10
+        },
+        {
+          "name": "platform",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only suggest handles this platform accepts (length and characters)",
+          "example": "twitter"
+        },
+        {
+          "name": "maxLength",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Longest handle to suggest (3 to 50); combined with platform, the shorter limit wins",
+          "example": 15
         }
       ]
     },
     "usernameprofanity": {
       "title": "Username Profanity",
-      "description": "Username Profanity flags offensive or inappropriate usernames before they reach your database. Send any candidate handle to receive a clear true or false profanity check result.",
+      "description": "Username Profanity flags offensive or inappropriate usernames before they reach your database. Send any candidate handle to receive a clear true or false profanity check result; paid plans add the matched words and categories, reserved-name and contact-detail checks, a masked version of the username and a single allowed verdict.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/usernameprofanity",
@@ -9297,6 +9771,14 @@
           "type": "boolean",
           "description": "Add the NHTSA 5-star crash-test rating for the closest tested version of this vehicle.",
           "example": true
+        },
+        {
+          "name": "fuelEconomy",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add EPA fuel economy (city, highway and combined MPG, or MPGe for electric) for the matching versions of this vehicle.",
+          "example": true
         }
       ]
     },
@@ -9393,7 +9875,7 @@
     },
     "weatherforecast": {
       "title": "Weather",
-      "description": "Weather is a current weather API that reports conditions for any city name or zip code: real-time temperature and wind speed with compass direction, in both metric and imperial units. Paid plans add a 7-day forecast with daily highs, lows, rain chance and conditions for the week ahead.",
+      "description": "Weather is a current weather API that reports conditions for any city name or zip code: real-time temperature and wind speed with compass direction, in both metric and imperial units, with the location's coordinates, time zone and local time, day or night, and a UV risk level. Paid plans add a 7-day forecast with daily highs, lows, rain chance and conditions for the week ahead.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/weatherforecast",
@@ -9959,7 +10441,7 @@
     },
     "worldtime": {
       "title": "World Time",
-      "description": "World Time looks up the current local time, date, and timezone for any city. Search by city name to get matching locations with country codes, IANA timezone identifiers, and formatted times in 12-hour and 24-hour formats.",
+      "description": "World Time looks up the current local time, date, and timezone for any city, or for any latitude and longitude. Search by city name to get matching locations with country codes, IANA timezone identifiers, UTC offsets, and formatted times in 12-hour, 24-hour, and ISO 8601 formats.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/worldtime",
