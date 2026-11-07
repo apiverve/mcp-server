@@ -1,7 +1,7 @@
 {
   "name": "apiverve",
   "displayName": "APIVerve",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Live data, validation and utility APIs in Cursor: IP and DNS lookups, email and phone validation, exchange rates, SSL checks, VIN decoding and 380+ more through one connection.",
   "author": {
     "name": "APIVerve",

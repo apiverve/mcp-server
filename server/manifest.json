@@ -1,7 +1,7 @@
 {
   "apiBase": "https://api.apiverve.com",
-  "version": "1.1.2",
-  "generatedAt": 1793637357736,
+  "version": "1.1.3",
+  "generatedAt": 1794089304873,
   "apis": {
     "acronymexpander": {
       "title": "Acronym Expander",
@@ -113,7 +113,7 @@
     },
     "airlinelookup": {
       "title": "Airline Lookup",
-      "description": "Airline Lookup is an airline codes API that matches IATA codes and airline names to carrier profiles, returning the official title, callsign, registration country, and low-cost status. Paid tiers add three-letter ICAO code lookups and carrier logo URLs.",
+      "description": "Airline Lookup is an airline codes API that matches IATA codes and airline names to carrier profiles, returning the official title, callsign, registration country, whether the carrier is still operating, and low-cost status. Paid tiers add the country's ISO code, three-letter ICAO code lookups and carrier logo URLs.",
       "category": "Transportation",
       "method": "GET",
       "path": "/v1/airlinelookup",
@@ -172,7 +172,7 @@
     },
     "airports": {
       "title": "Airports Lookup",
-      "description": "Airports Lookup resolves 3-letter IATA codes into official airport names, matching ICAO codes, cities, states, and country codes. Paid plans add ICAO code lookups, geographic coordinates, elevation, and local timezones across more than 40,000 facilities.",
+      "description": "Airports Lookup resolves 3-letter IATA codes into official airport names, matching ICAO codes, cities, states, country codes and country names. Paid plans add ICAO code lookups, search by airport name or city, geographic coordinates, elevation, local timezones and the current UTC offset across more than 29,000 facilities.",
       "category": "Transportation",
       "method": "GET",
       "path": "/v1/airports",
@@ -469,7 +469,7 @@
     },
     "barcodegenerator": {
       "title": "Barcode Generator",
-      "description": "Barcode Generator creates downloadable barcode images from text or product codes in Code 128 or Code 39 formats. Each response provides a temporary image download link, file format, and expiration timestamp.",
+      "description": "Barcode Generator creates downloadable barcode images from text or product codes in Code 128, Code 39, EAN-13, EAN-8, UPC-A, UPC-E, ITF-14, Codabar, MSI and other linear formats, with bar width, height and margin adjustable on paid plans. Each response provides a temporary image download link, the image size in pixels, file format, and expiration timestamp.",
       "category": "Data Generation",
       "method": "POST",
       "path": "/v1/barcodegenerator",
@@ -508,6 +508,41 @@
           "required": false,
           "type": "boolean",
           "description": "Whether to display the value below the barcode (default: true)"
+        },
+        {
+          "name": "barWidth",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "Width of the narrowest bar in pixels (default: 4)"
+        },
+        {
+          "name": "height",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "Height of the bars in pixels (default: 40)"
+        },
+        {
+          "name": "margin",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "Quiet-zone margin around the barcode in pixels (default: 10)"
+        },
+        {
+          "name": "fontSize",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "Font size of the text label in pixels (default: 20)"
+        },
+        {
+          "name": "textMargin",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "Space between the bars and the text label in pixels (default: 2)"
         }
       ]
     },
@@ -942,7 +977,7 @@
     },
     "callingcode": {
       "title": "Country Calling Code",
-      "description": "Country Calling Code is a phone number country code API that looks up international dialing codes and official names from a two-letter ISO country code. It returns an array of calling prefixes and standard country identifiers.",
+      "description": "Country Calling Code is a phone number country code API that looks up international dialing codes and official names from a two-letter ISO country code. It returns an array of calling prefixes, standard country identifiers and, on request, the country's exit and trunk prefixes, other regions sharing its code, valid number lengths and example numbers by line type.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/callingcode",
@@ -954,6 +989,14 @@
           "type": "string",
           "description": "The 2 letter ISO code for the country (e.g. FR)",
           "example": "FR"
+        },
+        {
+          "name": "dialing",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the dialing block: the international prefix, and (paid plans) the national prefix, regions sharing the calling code, valid number lengths and example numbers",
+          "example": true
         }
       ]
     },
@@ -1260,7 +1303,7 @@
     },
     "citieslookup": {
       "title": "Cities Lookup",
-      "description": "Cities Lookup is a city search API that searches over 150,000 global cities to find country codes, population counts, and city size classifications by name. Paid plans add GeoJSON coordinates and custom match limits.",
+      "description": "Cities Lookup is a city search API that searches over 150,000 global cities to find country codes, population counts, and city size classifications by name, with an optional country filter. Paid plans add region codes, capital status, GeoJSON coordinates and custom match limits.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/citieslookup",
@@ -1272,6 +1315,14 @@
           "type": "string",
           "description": "The city name for which you want to get the data (e.g., New York)",
           "example": "San Francisco"
+        },
+        {
+          "name": "country",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Two-letter ISO country code to restrict matches to one country (e.g., US)",
+          "example": "US"
         },
         {
           "name": "limit",
@@ -1766,7 +1817,7 @@
     },
     "countrylookup": {
       "title": "Country Lookup",
-      "description": "Country Lookup matches any country name or ISO code to its official names, ISO 3166 codes, capitals, region, languages, and flag emoji. Paid plans add coordinates and major cities.",
+      "description": "Country Lookup matches any country name or ISO code to its official names, ISO 3166 codes, capitals, region, languages, and flag emoji. Paid plans add coordinates and major cities, and with details=true demonyms, land area and UN membership.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/countrylookup",
@@ -1785,6 +1836,14 @@
           "required": false,
           "type": "boolean",
           "description": "Specify if you would like to return all major cities of the country found",
+          "example": true
+        },
+        {
+          "name": "details",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Set to true to add demonyms, land area in square kilometers, and UN membership to each country",
           "example": true
         }
       ]
@@ -2373,7 +2432,7 @@
     },
     "dividends": {
       "title": "Dividends",
-      "description": "Dividends returns the dividend-per-share history for a US public company by ticker - the amount reported each quarter and year straight from official SEC filings - plus a derived dividend-growth summary with year-over-year growth, multi-year growth rates and a consecutive-years-of-growth streak calculated for you.",
+      "description": "Dividends returns the dividend-per-share history for a US public company by ticker - the amount reported each quarter and year straight from official SEC filings - plus a derived dividend-growth summary with year-over-year growth, multi-year growth rates and a consecutive-years-of-growth streak calculated for you. Paid plans can add dividend yield and the full-year payout ratio.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/dividends",
@@ -2401,6 +2460,14 @@
           "type": "integer",
           "description": "Number of periods to return in the history list (1-25). Defaults to 5.",
           "example": 10
+        },
+        {
+          "name": "metrics",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add a metrics block with the trailing annual dividend, dividend yield and payout ratio.",
+          "example": true
         }
       ]
     },
@@ -3059,7 +3126,7 @@
     },
     "financialratios": {
       "title": "Financial Ratios",
-      "description": "Financial Ratios returns the key profitability, liquidity, leverage, efficiency and cash-flow ratios for a US public company by ticker - margins, ROE, ROA, current ratio, debt-to-equity, interest coverage, asset turnover, FCF margin and more - all computed from SEC filing data.",
+      "description": "Financial Ratios returns the key profitability, liquidity, leverage, efficiency and cash-flow ratios for a US public company by ticker - margins, ROE, ROA, current ratio, debt-to-equity, interest coverage, asset turnover, FCF margin and more - all computed from SEC filing data. On paid plans, valuation=true adds market cap, P/E, P/S, P/B and earnings yield against the latest stored share price.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/financialratios",
@@ -3085,6 +3152,14 @@
           "required": false,
           "type": "integer",
           "description": "Fiscal quarter to retrieve. Defaults to latest available."
+        },
+        {
+          "name": "valuation",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add a valuation block: market cap, P/E, earnings yield, P/S and P/B against the latest stored share price, with the trailing-twelve-month EPS, revenue and net income behind them. Latest filing only; null for a year/quarter request. The block is paid; free plans get it back null.",
+          "example": true
         }
       ]
     },
@@ -3214,7 +3289,7 @@
     },
     "gdp": {
       "title": "GDP Data",
-      "description": "Get GDP (Gross Domestic Product) data for any country including current values and historical data going back to 1960.",
+      "description": "Get GDP (Gross Domestic Product) data for any country including current values and historical data going back to 1960. With changes=true it also returns the direction against the previous year, and on paid plans the prior year's GDP, the dollar and percent change, whether real growth is accelerating or slowing, and 5- and 10-year compound annual growth.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/gdp",
@@ -3234,6 +3309,14 @@
           "type": "integer",
           "description": "Specific year to retrieve data for (1960-present). Returns latest if not specified.",
           "example": 2023
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the change against the previous year, the growth trend, the 5-year average growth rate and the 5- and 10-year compound annual growth rates",
+          "example": true
         }
       ]
     },
@@ -3807,7 +3890,7 @@
     },
     "httpstatuslookup": {
       "title": "HTTP Status Code Lookup",
-      "description": "HTTP Status Code Lookup decodes any HTTP status code by returning its standard name and detailed description. Provide a numeric code to inspect its meaning and response behavior across standard ranges.",
+      "description": "HTTP Status Code Lookup decodes any HTTP status code by returning its standard name and detailed description. Provide a numeric code to inspect its meaning and response behavior across standard ranges, and add details=true for a link to the defining RFC section, plus on paid plans its retry and caching behavior and the headers that go with it.",
       "category": "Reference Data",
       "method": "GET",
       "path": "/v1/httpstatuslookup",
@@ -3819,6 +3902,14 @@
           "type": "integer",
           "description": "HTTP status code to lookup",
           "example": 404
+        },
+        {
+          "name": "details",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Also return the registry name, defining RFC section and link, retry and default-caching flags, and related headers",
+          "example": true
         }
       ]
     },
@@ -3883,7 +3974,7 @@
     },
     "imageconverter": {
       "title": "Image Converter",
-      "description": "Image Converter transforms images between formats. Convert HEIC from iPhones, modern WebP and AVIF formats, or classic PNG, JPG, GIF, and TIFF. Includes optional resizing and quality control.",
+      "description": "Image Converter transforms images between formats. Convert HEIC from iPhones, modern WebP and AVIF formats, or classic PNG, JPG, GIF, and TIFF. Includes optional resizing and quality control, and paid plans also get the pixel width and height of the converted file.",
       "category": "Images",
       "method": "POST",
       "path": "/v1/imageconverter",
@@ -4021,7 +4112,7 @@
     },
     "incometaxcalculator": {
       "title": "Income Tax Calculator",
-      "description": "Income Tax Calculator computes US federal income tax and take-home pay from gross income and filing status. It outputs total tax owed, effective and marginal rates, standard deductions, and net monthly income.",
+      "description": "Income Tax Calculator computes US federal income tax and take-home pay from gross income and filing status. It outputs total tax owed, effective and marginal rates, standard deductions, and net monthly income, and can add Social Security and Medicare (FICA) for true take-home pay.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/incometaxcalculator",
@@ -4054,7 +4145,7 @@
     },
     "inflation": {
       "title": "Inflation Rate",
-      "description": "Inflation Rate reports annual inflation rates and Consumer Price Index (CPI) values for any country by two-letter country code. Outputs include the year-over-year price change percentage, CPI index, and base comparison year, with paid plans supporting historical lookups by year.",
+      "description": "Inflation Rate reports annual inflation rates and Consumer Price Index (CPI) values for any country by two-letter country code. Outputs include the year-over-year price change percentage, CPI index, and base comparison year, with paid plans supporting historical lookups by year. On paid plans, changes=true adds the prior year's rate and the change from it, plus the 5-year average, high, low and cumulative CPI rise.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/inflation",
@@ -4074,6 +4165,14 @@
           "type": "integer",
           "description": "The year to retrieve data for. Defaults to the previous year.",
           "example": 2023
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the previous year's rate, the change from it, and the 5-year average, high, low and CPI rise",
+          "example": true
         }
       ]
     },
@@ -4383,7 +4482,7 @@
     },
     "isbnvalidator": {
       "title": "ISBN Validator",
-      "description": "ISBN Validator checks ISBN-10 and ISBN-13 numbers for valid checksums and parses their registration group, publisher, and title parts. Pass any raw book identifier with or without hyphens to inspect normalized digits, format type, and specific rejection reasons.",
+      "description": "ISBN Validator checks ISBN-10 and ISBN-13 numbers for valid checksums, parses their registration group, publisher, and title parts, and converts a valid number to its ISBN-10 and ISBN-13 forms. Pass any raw book identifier with or without hyphens to inspect normalized digits, format type, and specific rejection reasons.",
       "category": "Text Processing",
       "method": "GET",
       "path": "/v1/isbnvalidator",
@@ -4702,7 +4801,7 @@
     },
     "jwtdecoder": {
       "title": "JWT Decoder",
-      "description": "JWT Decoder decodes JWT tokens to reveal header and payload information without performing signature verification. It handles JSON web token decode from any language over REST, so you can inspect claims and expiry without adding a JWT library.",
+      "description": "JWT Decoder decodes JWT tokens to reveal header and payload information, and on paid plans verifies the signature against a public key you supply. It handles JSON web token decode from any language over REST, so you can inspect claims and expiry without adding a JWT library.",
       "category": "Data Conversion",
       "method": "POST",
       "path": "/v1/jwtdecoder",
@@ -4713,6 +4812,13 @@
           "required": true,
           "type": "string",
           "description": "JWT token to decode"
+        },
+        {
+          "name": "publicKey",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Public key to verify the signature with: a PEM public key, a PEM X.509 certificate, or a JWK (as a JSON object or string). Asymmetric algorithms only; HMAC secrets are refused and keys are never fetched from URLs. Omit it to decode only."
         }
       ]
     },
@@ -4914,7 +5020,7 @@
     },
     "loanpaymentcalculator": {
       "title": "Loan Calculator",
-      "description": "Loan Calculator is a payment calculation API that computes monthly loan payments, total interest, and overall loan costs based on principal, annual interest rate, and term length. Include an optional down payment to determine adjusted financing balances and interest ratios.",
+      "description": "Loan Calculator is a payment calculation API that computes monthly loan payments, total interest, and overall loan costs based on principal, annual interest rate, and term length. Include an optional down payment to determine adjusted financing balances and interest ratios. On paid plans, optional inputs add an extra-payment payoff plan with months and interest saved, payoff dates from a start date, biweekly or weekly payment figures, and an APR that includes upfront fees.",
       "category": "Finance",
       "method": "POST",
       "path": "/v1/loanpaymentcalculator",
@@ -4946,6 +5052,34 @@
           "required": false,
           "type": "number",
           "description": "Amount paid up front, subtracted from the loan amount before interest is applied"
+        },
+        {
+          "name": "extraPayment",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Extra principal paid every month. Adds an extra_payment block with the early payoff month, months saved and interest saved"
+        },
+        {
+          "name": "startDate",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Loan start date (YYYY-MM-DD), with the first payment one month later. Adds the payoff date"
+        },
+        {
+          "name": "paymentFrequency",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Also price the loan on a biweekly (26 a year) or weekly (52 a year) schedule. Adds a payment_frequency block; monthly figures are unchanged"
+        },
+        {
+          "name": "fees",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Upfront fees deducted from the amount the borrower receives (origination, closing). Adds the APR including those fees"
         }
       ]
     },
@@ -5099,7 +5233,7 @@
     },
     "macaddresslookup": {
       "title": "MAC Address Lookup",
-      "description": "MAC Address Lookup validates any MAC address and converts it across standard colon, dash, dot, and raw hex formats. On paid plans it becomes a MAC vendor lookup API, adding the device hardware vendor and OUI identifier.",
+      "description": "MAC Address Lookup validates any MAC address and converts it across standard colon, dash, dot, and raw hex formats. Add addressing=true to read whether it is unicast, multicast or broadcast, and on paid plans whether it is universal or locally administered (the mark of a randomized private address). On paid plans it also becomes a MAC vendor lookup API, adding the device hardware vendor and OUI identifier.",
       "category": "Networking",
       "method": "GET",
       "path": "/v1/macaddresslookup",
@@ -5111,6 +5245,14 @@
           "type": "string",
           "description": "The MAC address for which you want to get the data (e.g., 00-B0-D0-63-C2-26)",
           "example": "00-B0-D0-63-C2-26"
+        },
+        {
+          "name": "addressing",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the address type decoded from the first octet: unicast, multicast or broadcast, and universal or locally administered",
+          "example": true
         }
       ]
     },
@@ -5282,7 +5424,7 @@
     },
     "markdowntopdf": {
       "title": "Markdown to PDF",
-      "description": "Markdown to PDF is a PDF generator API that converts markdown text into professionally formatted PDF documents and returns a temporary download URL for each file.",
+      "description": "Markdown to PDF is a PDF generator API that converts markdown text into professionally formatted PDF documents and returns a temporary download URL for each file. Paid plans can set the paper size, orientation and margins, style the document with their own CSS, and print a header and footer with page numbers on every page.",
       "category": "Data Conversion",
       "method": "POST",
       "path": "/v1/markdowntopdf",
@@ -5293,6 +5435,69 @@
           "required": true,
           "type": "string",
           "description": "Markdown text to convert (max 100,000 characters)"
+        },
+        {
+          "name": "format",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Paper size"
+        },
+        {
+          "name": "landscape",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Set to true for landscape orientation"
+        },
+        {
+          "name": "marginTop",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "The top margin in inches"
+        },
+        {
+          "name": "marginRight",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "The right margin in inches"
+        },
+        {
+          "name": "marginBottom",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "The bottom margin in inches"
+        },
+        {
+          "name": "marginLeft",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "The left margin in inches"
+        },
+        {
+          "name": "css",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Stylesheet applied to the rendered markdown, e.g. body { font-family: Georgia, serif } table { border-collapse: collapse }"
+        },
+        {
+          "name": "headerTemplate",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "HTML printed at the top of every page. Spans with class pageNumber, totalPages, date or title are filled in. Use inline styles with a font-size (Chromium defaults to a tiny font) and leave room with marginTop"
+        },
+        {
+          "name": "footerTemplate",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "HTML printed at the bottom of every page, with the same placeholders as headerTemplate, e.g. <span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span>"
         }
       ]
     },
@@ -5525,7 +5730,7 @@
     },
     "mimetypelookup": {
       "title": "MIME Type Lookup",
-      "description": "MIME Type Lookup matches file extensions to MIME types, categories, and default character encodings, or returns matching extensions for any media type. Paid plans add gzip compressibility flags.",
+      "description": "MIME Type Lookup matches file extensions to MIME types, categories, and default character encodings, or returns matching extensions for any media type. Paid plans add gzip compressibility flags, the registry that defines each type (IANA, Apache or nginx), and every extension sharing that type.",
       "category": "Reference Data",
       "method": "GET",
       "path": "/v1/mimetypelookup",
@@ -5697,7 +5902,7 @@
     },
     "mortgagecalculator": {
       "title": "Mortgage Calculator",
-      "description": "Mortgage Calculator computes monthly and annual loan payments from principal, interest rate, and term. It breaks totals down by principal, interest, property tax, insurance, and HOA dues, with paid plans adding full amortization schedules.",
+      "description": "Mortgage Calculator computes monthly and annual loan payments from principal, interest rate, and term. It breaks totals down by principal, interest, property tax, insurance, and HOA dues and returns the loan-to-value ratio, with paid plans adding full amortization schedules, PMI and its removal date, payoff dates, and extra-payment scenarios showing months and interest saved.",
       "category": "Finance",
       "method": "POST",
       "path": "/v1/mortgagecalculator",
@@ -5750,6 +5955,27 @@
           "required": false,
           "type": "number",
           "description": "The annual HOA amount"
+        },
+        {
+          "name": "pmi_rate",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Annual private mortgage insurance rate as a percentage of the loan, charged only when the loan-to-value ratio is above 80%"
+        },
+        {
+          "name": "extra_monthly",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Extra principal paid every month, to see how much sooner the loan is paid off and how much interest that saves"
+        },
+        {
+          "name": "start_date",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Loan start (closing) date; the first payment falls the following month"
         }
       ]
     },
@@ -6940,7 +7166,7 @@
     },
     "profanityfilter": {
       "title": "Profanity Filter",
-      "description": "Profanity Filter is a bad word filter API that scans text for offensive language and masks detected swear words with a chosen replacement character. It returns the sanitized text and a boolean flag indicating if profanity was present.",
+      "description": "Profanity Filter is a bad word filter API that scans text for offensive language and masks detected swear words with a chosen replacement character. It returns the sanitized text and a boolean flag indicating if profanity was present. Paid plans add the count of filtered words, each matched word with its position, and custom allow and block word lists.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/profanityfilter",
@@ -6958,6 +7184,27 @@
           "required": false,
           "type": "string",
           "description": "The mask to replace the profanity words with. Should be a Single Character (e.g., *)"
+        },
+        {
+          "name": "details",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Add a matches list with each filtered word and its start and end position"
+        },
+        {
+          "name": "allow",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Comma-separated words the filter should not flag, up to 100 single words (e.g. hell,damn)"
+        },
+        {
+          "name": "add",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Comma-separated extra words to flag and mask, up to 100 single words"
         }
       ]
     },
@@ -8198,7 +8445,7 @@
     },
     "spellchecker": {
       "title": "Spell Checker",
-      "description": "Spell Checker flags misspelled words in submitted English text and generates correction suggestions. It counts total spelling errors and lists possible replacements for each mistaken word.",
+      "description": "Spell Checker flags misspelled words in submitted English text and generates correction suggestions. It counts total spelling errors, lists possible replacements for each mistaken word, and can return the text with the top suggestions applied, plus on paid plans the character offsets of every misspelling.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/spellchecker",
@@ -8209,6 +8456,20 @@
           "required": true,
           "type": "string",
           "description": "The text to check the spelling of"
+        },
+        {
+          "name": "autocorrect",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Include correctedText, the submitted text with each misspelling replaced by its first suggestion"
+        },
+        {
+          "name": "offsets",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the start and end character position of every occurrence of each misspelled word"
         }
       ]
     },
@@ -8363,7 +8624,7 @@
     },
     "stockmarketopentimes": {
       "title": "Stock Market Open Times",
-      "description": "Stock Market Open Times checks if a global stock exchange is currently trading and provides its opening and closing times. Pass an exchange code like NYSE or LSE to get current open status, official exchange name, and session hours.",
+      "description": "Stock Market Open Times checks if a global stock exchange is currently trading and provides its opening and closing times. Pass an exchange code like NYSE or LSE to get current open status (open, closed, weekend or holiday), the holiday name, official exchange name, and session hours. On paid plans, add schedule=true for the exchange's local time, half-day early closes, and the next open and close with a countdown in minutes.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/stockmarketopentimes",
@@ -8375,12 +8636,20 @@
           "type": "string",
           "description": "The stock exchange code",
           "example": "NYSE"
+        },
+        {
+          "name": "schedule",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include local time, half-day early close, next open and close, and minutes until the next change",
+          "example": true
         }
       ]
     },
     "streetaddressparser": {
       "title": "Street Address Parser",
-      "description": "Street Address Parser is an address parsing API that breaks raw US street addresses into structured location components. Pass any single-line address string to extract the building number, street name, street type, city, state abbreviation, and postal code.",
+      "description": "Street Address Parser is an address parsing API that breaks raw US street addresses into structured location components. Pass any single-line address string to extract the building number, directional, street name, street type, unit, city, state abbreviation, and postal code. Set standardize=true to get the address type (street, PO box or intersection) free, and on paid plans the mailing-format delivery line, last line and ZIP+4.",
       "category": "Parsers",
       "method": "GET",
       "path": "/v1/streetaddressparser",
@@ -8392,6 +8661,14 @@
           "type": "string",
           "description": "The street address to parse",
           "example": "1600 Amphitheatre Parkway, Mountain View, CA 90210"
+        },
+        {
+          "name": "standardize",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add a standardized block: the address type, plus on paid plans the delivery line, last line and ZIP+4",
+          "example": true
         }
       ]
     },
@@ -8496,7 +8773,7 @@
     },
     "sunrisesunset": {
       "title": "Sunrise Sunset",
-      "description": "Sunrise Sunset calculates exact sunrise and sunset times, twilight stages, and golden hour windows for any latitude and longitude coordinates. Paid plans can specify custom dates and receive solar noon.",
+      "description": "Sunrise Sunset calculates exact sunrise and sunset times, twilight stages, and golden hour windows for any latitude and longitude coordinates. Paid plans can specify custom dates and receive solar noon. With local=true, the response names the IANA timezone of the coordinates on any plan, and paid plans also get each time in local time with its UTC offset.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/sunrisesunset",
@@ -8524,6 +8801,14 @@
           "type": "string",
           "description": "The date for which you want to get the sunrise and sunset times (e.g., MM-DD-YYYY : 01-01-2022)",
           "example": "01-16-2026"
+        },
+        {
+          "name": "local",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Also return the timezone of the coordinates and every time in local time",
+          "example": true
         }
       ]
     },
@@ -9257,7 +9542,7 @@
     },
     "unemployment": {
       "title": "Unemployment Rate",
-      "description": "Unemployment Rate looks up labor statistics by two- or three-letter ISO country code. It returns the country name, reporting year, and record count, with paid plans adding historical annual rates.",
+      "description": "Unemployment Rate looks up labor statistics by two- or three-letter ISO country code. It returns the country name, reporting year, and record count, with paid plans adding historical annual rates. With changes=true it also returns whether unemployment rose or fell, and on paid plans the previous year and its rate, the 1- and 5-year change in percentage points, and the 5-year high, low and average.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/unemployment",
@@ -9277,6 +9562,14 @@
           "type": "integer",
           "description": "Specific year to retrieve data for (1991-present). Returns latest if not specified.",
           "example": 2023
+        },
+        {
+          "name": "changes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the change against the previous year, the 5-year change and the 5-year high, low and average rate",
+          "example": true
         }
       ]
     },
@@ -9330,7 +9623,7 @@
     },
     "unitconverter": {
       "title": "Unit Converter",
-      "description": "Unit Converter converts values between different units of measurement. Pass a numeric value with source and target unit identifiers to get the converted result and unit abbreviations.",
+      "description": "Unit Converter converts values between 185 units across 23 measures, from length, mass and volume to speed, pressure, data size, energy and electrical units. Pass a numeric value with source and target unit codes to get the converted result and unit abbreviations. On paid plans, precision sets the decimal places and conversions=true adds the value in every unit of the same measure.",
       "category": "Data Conversion",
       "method": "GET",
       "path": "/v1/unitconverter",
@@ -9358,12 +9651,28 @@
           "type": "string",
           "description": "The unit to convert to",
           "example": "kg"
+        },
+        {
+          "name": "precision",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Decimal places to round results to, between 0 and 10 (default 2)",
+          "example": 4
+        },
+        {
+          "name": "conversions",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Also return the value converted into every unit of the same measure",
+          "example": true
         }
       ]
     },
     "unixtimestamp": {
       "title": "Unix Timestamp Converter",
-      "description": "Unix Timestamp Converter converts Unix timestamps into formatted dates and parses ISO 8601 strings back into epoch seconds. Responses break down dates into ISO 8601, RFC 2822, simple time strings, and individual calendar components like year, month, and hour.",
+      "description": "Unix Timestamp Converter converts Unix timestamps into formatted dates and parses ISO 8601 strings back into epoch seconds. Responses break down dates into ISO 8601, RFC 2822, simple time strings, individual calendar components like year, month and hour, plus the day of the year. Paid plans add the ISO week, and an IANA timezone to also get the same moment in local time with its UTC offset, abbreviation and daylight saving flag.",
       "category": "Data Conversion",
       "method": "GET",
       "path": "/v1/unixtimestamp",
@@ -9383,6 +9692,14 @@
           "type": "string",
           "description": "Timestamp format",
           "example": "seconds"
+        },
+        {
+          "name": "timezone",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "IANA timezone (or fixed UTC offset) to also show the moment in, returned as a local block",
+          "example": "America/New_York"
         }
       ]
     },
@@ -9988,7 +10305,7 @@
     },
     "webscreenshots": {
       "title": "Website Screenshot",
-      "description": "Website Screenshot renders webpage screenshots from any URL into PNG, JPEG, or WebP format. It returns a signed download link with an expiration timestamp, supporting custom viewport dimensions up to 3840 pixels wide.",
+      "description": "Website Screenshot renders webpage screenshots from any URL as PNG, JPEG or WebP, with ads blocked and cookie notices dismissed. It returns a signed download link with an expiration timestamp, supporting custom viewport dimensions up to 3840 pixels wide, single-element capture by CSS selector, a capture delay, a page-load wait strategy and JPEG or WebP quality.",
       "category": "Data Scraping",
       "method": "POST",
       "path": "/v1/webscreenshots",
@@ -10027,6 +10344,34 @@
           "required": false,
           "type": "boolean",
           "description": "Whether to capture the full page screenshot (true or false)"
+        },
+        {
+          "name": "selector",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "CSS selector of a single element to capture instead of the viewport (e.g., #pricing). The first match is captured; a selector that matches nothing returns 400"
+        },
+        {
+          "name": "delay",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Milliseconds to wait after the page loads before capturing, for animations or late content. Between 0 and 5000"
+        },
+        {
+          "name": "waituntil",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "When navigation counts as finished before capture: domcontentloaded (default, fastest), load (all resources), or networkidle (network quiet). A page that never settles is captured as parsed"
+        },
+        {
+          "name": "quality",
+          "in": "body",
+          "required": false,
+          "type": "number",
+          "description": "Compression quality from 1 to 100. Applies only when type is jpeg or webp"
         }
       ]
     },
@@ -10048,7 +10393,7 @@
     },
     "websitetopdf": {
       "title": "Website to PDF",
-      "description": "Website to PDF renders any public web page into a PDF document from a submitted URL. It returns a temporary signed download link, unique filename, and expiration timestamp, with paid plans adding custom margins and landscape layout.",
+      "description": "Website to PDF renders any public web page into a PDF document from a submitted URL. It returns a temporary signed download link, unique filename, and expiration timestamp, with paid plans adding the page count, paper size, custom margins, landscape layout and background printing control.",
       "category": "Documents",
       "method": "POST",
       "path": "/v1/websitetopdf",
@@ -10094,6 +10439,20 @@
           "required": false,
           "type": "boolean",
           "description": "Set to true for landscape orientation"
+        },
+        {
+          "name": "format",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Paper size"
+        },
+        {
+          "name": "printBackground",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Print background colors and images; set false for an ink-saving document"
         }
       ]
     },
@@ -10383,7 +10742,7 @@
     },
     "workingdays": {
       "title": "Working Days",
-      "description": "Working Days is a working days and business days API that counts the working days and non-working days for any country and month. Pass a two-letter country code and month number to get total counts, working date lists, and non-working days marked with holiday names.",
+      "description": "Working Days is a working days and business days API that counts the working days and non-working days for any country and month. Pass a two-letter country code and month number to get total counts, working date lists, and non-working days marked with holiday names. On paid plans, add a state or region for regional holidays, set a custom weekend, count between any two dates, or add business days to a date.",
       "category": "Calendar",
       "method": "GET",
       "path": "/v1/workingdays",
@@ -10411,12 +10770,52 @@
           "type": "integer",
           "description": "The year you want to get the number of working days for",
           "example": 2026
+        },
+        {
+          "name": "region",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Optional state or region code within the country for regional public holidays (e.g. CA for California, BY for Bavaria)",
+          "example": "CA"
+        },
+        {
+          "name": "weekend",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Comma-separated weekend days as names or numbers 0-6 (Sunday=0), or none. Defaults to sat,sun",
+          "example": "fri,sat"
+        },
+        {
+          "name": "start",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Start date (YYYY-MM-DD). With end, counts working days across that range (up to 366 days, inclusive) instead of a month. With addDays, the date to count from (defaults to today)",
+          "example": "2026-03-01"
+        },
+        {
+          "name": "end",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "End date (YYYY-MM-DD), inclusive. Used with start",
+          "example": "2026-03-31"
+        },
+        {
+          "name": "addDays",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Number of working days to add to start (negative to subtract). The start date itself is not counted. Returns resultDate plus the days it stepped over",
+          "example": 10
         }
       ]
     },
     "worldholidays": {
       "title": "World Holidays",
-      "description": "World Holidays lists public holidays and observances for any two-letter country code. It returns holiday dates, official names, and event types across the year.",
+      "description": "World Holidays lists public holidays and observances for any two-letter country code, optionally for a state or region. It returns holiday dates, local and English names, day of week, event types and substitute-day flags, and can check whether a single date is a holiday.",
       "category": "Calendar",
       "method": "GET",
       "path": "/v1/worldholidays",
@@ -10436,6 +10835,30 @@
           "type": "integer",
           "description": "The year for which you want to get the holidays",
           "example": 2026
+        },
+        {
+          "name": "region",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "State or region code (e.g. BY, CA or US-CA) to include regional holidays",
+          "example": "CA"
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only return these holiday types, comma-separated: public, bank, school, optional, observance",
+          "example": "public"
+        },
+        {
+          "name": "date",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Check a single date (YYYY-MM-DD); returns isHoliday and only the holidays on that day. Overrides year",
+          "example": "2026-07-03"
         }
       ]
     },
@@ -10474,7 +10897,7 @@
     },
     "zipcodes": {
       "title": "Zip Codes Lookup",
-      "description": "Zip Codes Lookup finds all postal codes within a US city or resolves a five-digit ZIP code to its city and state. Paid plans add geographic coordinates.",
+      "description": "Zip Codes Lookup finds all postal codes within a US city or resolves a five-digit ZIP code to its city and state. Paid plans add the IANA time zone, geographic coordinates and the distance from the ZIP to a second ZIP.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/zipcodes",
@@ -10486,6 +10909,14 @@
           "type": "string",
           "description": "The zip code for which you want to get the data",
           "example": "64082"
+        },
+        {
+          "name": "distanceTo",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "A second US ZIP code; adds a distance object with the straight-line distance between the two ZIP centroids",
+          "example": "64106"
         }
       ]
     },

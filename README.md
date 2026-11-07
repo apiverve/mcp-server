@@ -225,7 +225,7 @@ Credit costs vary by API complexity - simple APIs start at 1 credit per call.
 - **Protocol**: MCP 2025-06-18 (negotiates down to 2025-03-26 and 2024-11-05)
 - **Authentication**: OAuth 2.0 with PKCE, or `x-api-key` header
 - **Base URL**: `https://api.apiverve.com/v1/mcp`
-- **API Version**: 1.1.2
+- **API Version**: 1.1.3
 
 ### OAuth Endpoints
 
@@ -268,6 +268,7 @@ If you hit token limits:
 
 - **GitHub Issues**: [apiverve/mcp-server/issues](https://github.com/apiverve/mcp-server/issues)
 - **Email**: hello@apiverve.com
+- **Privacy Policy**: [apiverve.com/privacy](https://apiverve.com/privacy)
 - **Discord**: [Join our community](https://apiverve.com/discord)
 
 ## 📄 License

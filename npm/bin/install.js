@@ -11,13 +11,17 @@ const TARGETS = ['claude', 'vscode', 'cursor', 'all'];
 // WWW-Authenticate challenge and the client runs OAuth. --api-key skips that for
 // headless setups by sending the key directly instead.
 function parseArgs(argv) {
-  const args = { target: 'all', apiKey: null };
+  const args = { target: 'all', apiKey: null, help: false, unknown: null };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === '--api-key') {
+    if (argv[i] === '-h' || argv[i] === '--help') {
+      args.help = true;
+    } else if (argv[i] === '--api-key') {
       args.apiKey = argv[++i] || null;
     } else if (argv[i].startsWith('--api-key=')) {
       args.apiKey = argv[i].slice('--api-key='.length);
-    } else if (!argv[i].startsWith('-')) {
+    } else if (argv[i].startsWith('-')) {
+      args.unknown = args.unknown || argv[i];
+    } else {
       args.target = argv[i];
     }
   }
@@ -115,14 +119,25 @@ function printManualConfig() {
 }
 
 function main() {
-  console.log('\n🔌 APIVerve MCP Server Installer\n');
+  const { target, apiKey, help, unknown } = parseArgs(process.argv.slice(2));
+  const usage = `Usage: apiverve-mcp [${TARGETS.join('|')}] [--api-key KEY]`;
 
-  const { target, apiKey } = parseArgs(process.argv.slice(2));
+  // Without this, --help fell through to the default target and wrote every client's config.
+  if (help) {
+    console.log(`${usage}\n\nAdds the APIVerve MCP server (${SERVER_URL}) to Claude Desktop, VS Code and Cursor.\nOmit --api-key to sign in with OAuth; nothing is stored on disk.`);
+    return;
+  }
+  if (unknown) {
+    console.error(`Unknown option "${unknown}".\n${usage}`);
+    process.exit(1);
+  }
+
+  console.log('\n🔌 APIVerve MCP Server Installer\n');
 
   // An unrecognised target used to match no branch and exit 0 having done nothing.
   if (!TARGETS.includes(target)) {
     console.error(`Unknown target "${target}".`);
-    console.error(`Usage: apiverve-mcp [${TARGETS.join('|')}] [--api-key KEY]\n`);
+    console.error(`${usage}\n`);
     process.exit(1);
   }
 
