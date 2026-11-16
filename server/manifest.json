@@ -1,7 +1,7 @@
 {
   "apiBase": "https://api.apiverve.com",
-  "version": "1.1.3",
-  "generatedAt": 1794089304873,
+  "version": "1.1.4",
+  "generatedAt": 1794846572545,
   "apis": {
     "acronymexpander": {
       "title": "Acronym Expander",
@@ -57,7 +57,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The keyword to spell out (3-15 letters)",
+          "description": "The keyword to spell out, letters A-Z only (3-15 letters recommended, max 100)",
           "example": "HAPPY"
         },
         {
@@ -65,7 +65,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Theme: random, positive, nature, adventure, friendship, learning",
+          "description": "Theme: random, positive, nature, adventure, friendship, learning (any other value is rejected)",
           "example": "positive"
         },
         {
@@ -108,6 +108,71 @@
           "type": "string",
           "description": "IANA timezone used to interpret the date of birth and to determine \"today\" when computing the age",
           "example": "America/Chicago"
+        }
+      ]
+    },
+    "aircrafttypes": {
+      "title": "Aircraft Types",
+      "description": "Aircraft Types returns the physical and operational characteristics of an aircraft type from its ICAO designator, such as B738 or A320, or by searching manufacturer and model. Each type comes with wingspan, length, tail height, maximum takeoff and landing weight, approach speed and category, airplane design group, ICAO wake turbulence category and FAA weight class, with metric conversions. Paid plans add airport planning geometry, RECAT wake categories and US registration and traffic counts.",
+      "category": "Transportation",
+      "method": "GET",
+      "path": "/v1/aircrafttypes",
+      "params": [
+        {
+          "name": "icao",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "ICAO aircraft type designator, for example B738, A20N or C172. When given, the other search parameters are ignored",
+          "example": "B738"
+        },
+        {
+          "name": "manufacturer",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Manufacturer name or part of it, for example Boeing, Airbus or Cessna",
+          "example": "Airbus"
+        },
+        {
+          "name": "model",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Model name or part of it, for example 737, A320 or Citation",
+          "example": "737"
+        },
+        {
+          "name": "engineType",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only types with this engine class",
+          "example": "jet"
+        },
+        {
+          "name": "wakeCategory",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only types in this ICAO wake turbulence category",
+          "example": "heavy"
+        },
+        {
+          "name": "engines",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Only types with this number of engines",
+          "example": 2
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum number of types to return, 1-50",
+          "example": 10
         }
       ]
     },
@@ -172,7 +237,7 @@
     },
     "airports": {
       "title": "Airports Lookup",
-      "description": "Airports Lookup resolves 3-letter IATA codes into official airport names, matching ICAO codes, cities, states, country codes and country names. Paid plans add ICAO code lookups, search by airport name or city, geographic coordinates, elevation, local timezones and the current UTC offset across more than 29,000 facilities.",
+      "description": "Airports Lookup resolves 3-letter IATA codes into official airport names, matching ICAO codes, cities, states, country codes and country names. Paid plans add ICAO code lookups, search by airport name or city, the nearest airports to a latitude and longitude, geographic coordinates, elevation, local timezones and the current UTC offset across more than 29,000 facilities.",
       "category": "Transportation",
       "method": "GET",
       "path": "/v1/airports",
@@ -199,7 +264,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city name for which you want to get the air quality data (e.g., New York)",
+          "description": "The city name for which you want to get the air quality data (e.g., New York). A name shared by several places resolves to the best-known one (Delhi is Delhi, India); add a state, province or country after a comma to pick another (e.g., Portland, Maine or London, Ontario)",
           "example": "San Francisco"
         },
         {
@@ -265,7 +330,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Specific word to create anagram for",
+          "description": "Specific word to create anagram for (letters a-z only; accents are folded, digits, spaces and symbols return 400)",
           "example": "listen"
         },
         {
@@ -467,6 +532,135 @@
         }
       ]
     },
+    "banklookup": {
+      "title": "Bank Lookup",
+      "description": "Bank Lookup is a bank and credit union lookup API covering every FDIC-insured institution ever chartered and every federally insured credit union. Search by name, FDIC certificate, NCUA charter, routing number, SWIFT code, LEI, website domain or IBAN and get the status, headquarters, regulator and identifiers, while paid plans add the successor of merged charters, failure details, the LEI, assets, deposits, members and full branch lists.",
+      "category": "Finance",
+      "method": "GET",
+      "path": "/v1/banklookup",
+      "params": [
+        {
+          "name": "name",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Institution name or part of it; former and trade names match too",
+          "example": "Wells Fargo"
+        },
+        {
+          "name": "id",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Our institution id, e.g. fdic-3511 or ncua-5536",
+          "example": "fdic-3511"
+        },
+        {
+          "name": "fdicCert",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "FDIC certificate number",
+          "example": "3511"
+        },
+        {
+          "name": "ncuaCharter",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "NCUA credit union charter number",
+          "example": "5536"
+        },
+        {
+          "name": "routing",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Nine-digit ABA routing number",
+          "example": "256074974"
+        },
+        {
+          "name": "swift",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "SWIFT/BIC code (8 or 11 characters); non-US codes answer from our SWIFT directory",
+          "example": "WFBIUS6S"
+        },
+        {
+          "name": "lei",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Legal Entity Identifier (20 characters)",
+          "example": "KB1H1DSPRFMYMCUFXT09"
+        },
+        {
+          "name": "domain",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Website domain, URL or email address of the institution",
+          "example": "wellsfargo.com"
+        },
+        {
+          "name": "iban",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "IBAN; names the bank where the IBAN carries a BIC-style bank code (GB, IE, NL and others)",
+          "example": "GB29NWBK60161331926819"
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Two-letter US state of the headquarters, to narrow a name search",
+          "example": "CA"
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Narrow a name search to one institution type",
+          "example": "credit_union"
+        },
+        {
+          "name": "status",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "active, inactive (merged, failed or closed) or any; any searches active institutions first and falls back to closed ones",
+          "example": "any"
+        },
+        {
+          "name": "country",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Two-letter country code; a non-US country searches banks by name in our SWIFT directory",
+          "example": "GB"
+        },
+        {
+          "name": "branches",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include the branch list for the first five institutions",
+          "example": true
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum institutions to return (1-50)",
+          "example": 10
+        }
+      ]
+    },
     "barcodegenerator": {
       "title": "Barcode Generator",
       "description": "Barcode Generator creates downloadable barcode images from text or product codes in Code 128, Code 39, EAN-13, EAN-8, UPC-A, UPC-E, ITF-14, Codabar, MSI and other linear formats, with bar width, height and margin adjustable on paid plans. Each response provides a temporary image download link, the image size in pixels, file format, and expiration timestamp.",
@@ -479,7 +673,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The data you want to generate a barcode from (string)"
+          "description": "The data you want to generate a barcode from (string), up to 256 characters"
         },
         {
           "name": "type",
@@ -764,7 +958,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "An IANA timezone name (America/New_York) or a UTC offset (+05:30). Looked up from the coordinates when omitted",
+          "description": "An IANA timezone name (America/New_York) or a UTC offset (+05:30, -0400 or UTC+05:30). Looked up from the coordinates when omitted",
           "example": "America/New_York"
         },
         {
@@ -806,7 +1000,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The currency to get the price in",
+          "description": "The currency to get the price in. Prices of 1 or more round to 2 decimals; smaller ones (quoted in BTC or XAU) keep 6 significant digits",
           "example": "USD"
         },
         {
@@ -846,7 +1040,7 @@
     },
     "bmicalculator": {
       "title": "BMI Calculator",
-      "description": "BMI Calculator computes Body Mass Index along with ideal weight ranges, BMR (Basal Metabolic Rate), TDEE (Total Daily Energy Expenditure), calorie targets, and macronutrient recommendations for fitness and health applications.",
+      "description": "BMI Calculator is a BMI API that computes Body Mass Index, its category and the healthy weight range for a given height, plus BMR (Basal Metabolic Rate), TDEE (Total Daily Energy Expenditure), calorie targets and macronutrient recommendations for fitness and health applications.",
       "category": "Health/Wellness",
       "method": "GET",
       "path": "/v1/bmicalculator",
@@ -1000,13 +1194,215 @@
         }
       ]
     },
+    "caloriesburned": {
+      "title": "Calories Burned",
+      "description": "Calories Burned estimates the energy any of 1,100+ activities uses, from running and cycling to gardening and office work. Search by name or Compendium code, pass body weight in kg or lb and a duration, and get calories per hour and in total with the MET value, its Compendium code and the intensity class. Personalise with age, sex and height or a measured RMR, or ask how long it takes to burn a calorie target.",
+      "category": "Health/Wellness",
+      "method": "GET",
+      "path": "/v1/caloriesburned",
+      "params": [
+        {
+          "name": "activity",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Activity to search for, e.g. running, biking, yoga or mowing lawn. Required unless code is given.",
+          "example": "running"
+        },
+        {
+          "name": "code",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Five-digit Compendium activity code to look up directly, e.g. 12150.",
+          "example": "12150"
+        },
+        {
+          "name": "weight",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Body weight in kg (metric) or lb (imperial). Defaults to 70 kg.",
+          "example": 70
+        },
+        {
+          "name": "unit",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Unit system for weight and height: metric (kg, cm) or imperial (lb, in). Defaults to metric.",
+          "example": "metric"
+        },
+        {
+          "name": "duration",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Duration of the activity in minutes (1-1440). Defaults to 60.",
+          "example": 30
+        },
+        {
+          "name": "calories",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Calorie target: adds minutesToBurn, the minutes each activity takes to burn this many kcal.",
+          "example": 300
+        },
+        {
+          "name": "age",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Age in years (18-120), for a personalised estimate with sex and height.",
+          "example": 35
+        },
+        {
+          "name": "sex",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Sex for the resting metabolic rate estimate, with age and height.",
+          "example": "female"
+        },
+        {
+          "name": "height",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Height in cm (metric) or inches (imperial), with age and sex.",
+          "example": 170
+        },
+        {
+          "name": "rmr",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Measured resting metabolic rate in kcal per day (500-5000). Overrides age, sex and height.",
+          "example": 1500
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Number of matching activities to return (1-25). Defaults to 5.",
+          "example": 10
+        }
+      ]
+    },
     "captchagenerator": {
       "title": "Captcha Generator",
-      "description": "Captcha Generator generates visual captcha challenges with signed image URLs and text solutions. Each request delivers a challenge image, its correct answer string, an expiration timestamp, and a unique identifier.",
+      "description": "Captcha Generator creates a new captcha on every call: distorted characters or a simple math question as a GIF or PNG, with the answer to check on your server. Add audio=true for a spoken version, the accessible alternative for visitors who can't see the image.",
       "category": "Data Generation",
       "method": "GET",
       "path": "/v1/captchagenerator",
-      "params": []
+      "params": [
+        {
+          "name": "type",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "text draws random characters; math draws an arithmetic question such as 7 + 4 = ? and the solution is the answer. length, charset and unambiguous apply to text only",
+          "example": "math"
+        },
+        {
+          "name": "length",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Number of characters in the captcha (4-8) (text only)",
+          "example": 6
+        },
+        {
+          "name": "charset",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Characters to draw from: lowercase letters, uppercase letters, mixed-case letters, digits, or letters and digits (text only)",
+          "example": "alphanumeric"
+        },
+        {
+          "name": "unambiguous",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Leave out characters that are easy to misread: 0, O, o, 1, l, I, i and Q (text only)",
+          "example": true
+        },
+        {
+          "name": "difficulty",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Distortion level. Harder levels add more rotation, warp, noise lines, background texture and a line through the text. For type=math it also sets the numbers: small additions and subtractions at easy, larger ones at medium, multiplication at hard. It does not change the audio; see audioNoise",
+          "example": "hard"
+        },
+        {
+          "name": "width",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Image width in pixels (100-400)",
+          "example": 240
+        },
+        {
+          "name": "height",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Image height in pixels (40-150)",
+          "example": 80
+        },
+        {
+          "name": "format",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Image format",
+          "example": "png"
+        },
+        {
+          "name": "color",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Text color as a hex code (e.g. #1d3557). By default each character gets a random dark color",
+          "example": "#1d3557"
+        },
+        {
+          "name": "backgroundColor",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Background color as a hex code (e.g. #ffffff)",
+          "example": "#f1faee"
+        },
+        {
+          "name": "audio",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Also return a spoken WAV version of the same challenge in audioURL, for visitors who cannot see the image. Text captchas are read character by character; math questions are read aloud without the answer",
+          "example": true
+        },
+        {
+          "name": "audioNoise",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Background noise in the audio, with audio=true: none (clearest, best for accessibility), low, medium or high. Higher levels make automated transcription harder and the audio harder to follow",
+          "example": "low"
+        },
+        {
+          "name": "inline",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Return the image as a base64 data URI in dataURI (and the audio in audioDataURI) instead of storing them; downloadURL and audioURL are then null",
+          "example": true
+        }
+      ]
     },
     "carddeckshuffler": {
       "title": "Card Deck Shuffler",
@@ -1043,7 +1439,7 @@
     },
     "cardgenerator": {
       "title": "Test Card Generator",
-      "description": "Test Card Generator creates card numbers that pass format and checksum validation, for testing checkout forms and payment UIs across major networks. They aren't real cards: no bank issued them, and they can't be charged or used to buy anything. Specify a brand to receive card numbers, security codes, expiration dates, issuers, and masked strings.",
+      "description": "Test Card Generator is a test credit card generator API: it creates card numbers that pass format and Luhn checksum validation, for testing checkout forms and payment UIs across Visa, Mastercard, Amex, Discover, JCB, Diners Club and UnionPay. They aren't real cards: no bank issued them, and they can't be charged or used to buy anything. Each card comes with a security code, expiration date, issuer and masked number, and the gateway option returns Stripe's or Braintree's own documented test cards instead.",
       "category": "Data Generation",
       "method": "GET",
       "path": "/v1/cardgenerator",
@@ -1303,7 +1699,7 @@
     },
     "citieslookup": {
       "title": "Cities Lookup",
-      "description": "Cities Lookup is a city search API that searches over 150,000 global cities to find country codes, population counts, and city size classifications by name, with an optional country filter. Paid plans add region codes, capital status, GeoJSON coordinates and custom match limits.",
+      "description": "Cities Lookup is a city search API that searches about 135,000 cities worldwide by name to find country codes, population counts and city size classifications, with an optional country filter. Paid plans add region codes, capital status, GeoJSON coordinates and up to 20 matches per search.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/citieslookup",
@@ -1445,7 +1841,7 @@
     },
     "colorpalette": {
       "title": "Color Palette Generator",
-      "description": "Color Palette Generator produces harmonious color schemes from any HEX base color. It returns color codes in HEX and RGB formats, naming matches, dark-mode flags, and recommended text colors.",
+      "description": "Color Palette Generator is a color palette API that builds a harmonious color scheme from one HEX base color. Every plan returns each color's HEX code, closest color name, a dark flag and a legible black or white text color; paid plans add RGB, HSL, WCAG contrast checks, CSS variables and a PNG of the palette.",
       "category": "Data Generation",
       "method": "GET",
       "path": "/v1/colorpalette",
@@ -1699,7 +2095,7 @@
     },
     "costliving": {
       "title": "Cost of Living",
-      "description": "Cost of Living is a cost of living API that provides index values for US regions based on major metropolitan area data. Compare the relative cost of living between states or cities, each mapped to its Census region, and calculate salary equivalents for relocation decisions on paid plans.",
+      "description": "Cost of Living is a cost of living API that returns price-level indices for US states and metropolitan areas, with the US average at 100. Compare the relative cost of living between two states or cities and calculate salary equivalents for relocation decisions on paid plans.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/costliving",
@@ -1709,7 +2105,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "State name, state code (e.g., CA, NY), or major city name.",
+          "description": "State name, state code (e.g., CA, NY), or city name (e.g., Chicago, or Portland, ME).",
           "example": "California"
         }
       ]
@@ -1850,7 +2246,7 @@
     },
     "countydata": {
       "title": "County Data Lookup",
-      "description": "County Data Lookup is a county lookup API that retrieves income, poverty rate, and life expectancy for any US county by state and county name. Paid plans add age demographics, educational attainment, health indicators, ZIP codes, and cost of living.",
+      "description": "County Data Lookup is a county lookup API that retrieves income, poverty rate, and life expectancy for any US county by state and county name, along with its FIPS code and time zone. Paid plans add age demographics, educational attainment, health indicators, ZIP codes, and cost of living.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/countydata",
@@ -1893,7 +2289,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Optional category filter: all, food, housing, apparel, transportation, medical, recreation, education, gasoline, electricity",
+          "description": "Optional category filter: all, food, housing, apparel, transportation, medical, recreation, education, gasoline, electricity. category=all also returns the figures under categories.all, which every plan can read",
           "example": "food"
         }
       ]
@@ -2097,7 +2493,7 @@
           "in": "query",
           "required": true,
           "type": "number",
-          "description": "The amount to convert",
+          "description": "The amount to convert. A value too large to convert to a finite amount returns a 400",
           "example": 1
         },
         {
@@ -2185,7 +2581,7 @@
     },
     "currencysymbols": {
       "title": "Currency Symbols",
-      "description": "Currency Symbols matches ISO currency codes or country names to the countries that use them. Paid plans add the currency symbol, full currency name, ISO numeric code, decimal precision, and the currency's live rate and value against the US dollar.",
+      "description": "Currency Symbols is a currency code and currency symbol API: look up a country to get its ISO 4217 currency code, or a currency code to list every country that uses it. Paid plans add the currency symbol, full currency name, ISO numeric code, decimal precision, and the currency's live rate and value against the US dollar.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/currencysymbols",
@@ -2243,7 +2639,7 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "Array of data types to mask (default: all types)"
+          "description": "Array of data types to mask (default: all types). Allowed values: email, phone, ssn, credit_card, ip_address (IPv4 and IPv6), url, date; any other value returns a 400"
         }
       ]
     },
@@ -2317,7 +2713,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Dice notation in XdY format (e.g., 3d6, 2d20, default: 1d6)",
+          "description": "Dice notation in XdY format (e.g., 3d6, 2d20, default: 1d6); d20 means one die and an inline modifier like 3d6+5 is added to modifier",
           "example": "3d6"
         },
         {
@@ -2325,14 +2721,14 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "Modifier to add to the total (can be negative)",
+          "description": "Modifier to add to the total (can be negative, -10000 to 10000)",
           "example": 5
         }
       ]
     },
     "dictionary": {
       "title": "Dictionary",
-      "description": "Dictionary looks up word definitions for any given term. It returns every recorded meaning as a text list with a total definition count for e-readers, vocabulary builders, and writing assistants.",
+      "description": "Dictionary looks up word definitions for any given term. It returns every recorded meaning as a text list with a total definition count, plus modern part-of-speech meanings with examples, synonyms and IPA pronunciation, for e-readers, vocabulary builders, and writing assistants.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/dictionary",
@@ -2342,7 +2738,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The word for which you want to get the definition (e.g., apple)",
+          "description": "The word or phrase to define (e.g., apple, ice cream, give up). Case-insensitive; inflected forms resolve to their base word",
           "example": "apple"
         }
       ]
@@ -2391,7 +2787,7 @@
     },
     "distancecalculator": {
       "title": "Distance Calculator",
-      "description": "Distance Calculator computes the distance between two coordinate pairs in miles and kilometers. Supply two latitude and longitude points to receive distances and resolved city and state names for both locations.",
+      "description": "Distance Calculator computes the distance between two coordinate pairs in miles and kilometers. Supply two latitude and longitude points anywhere in the world to receive both distances, plus the nearest city and state for points in the US.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/distancecalculator",
@@ -2450,7 +2846,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Which series to return in the history list: quarterly (default) or annual.",
+          "description": "Which series to return in the history list: quarterly (default) or annual. Any other value returns a 400.",
           "example": "annual"
         },
         {
@@ -2719,7 +3115,7 @@
           "required": true,
           "type": "string",
           "description": "First day of last menstrual period (YYYY-MM-DD)",
-          "example": "2025-06-01"
+          "example": "2026-06-01"
         }
       ]
     },
@@ -2782,7 +3178,7 @@
           "in": "query",
           "required": false,
           "type": "number",
-          "description": "Latitude to search around. With lon, returns only earthquakes within radius km, nearest first, each with distanceKm",
+          "description": "Latitude to search around. With lon, returns only earthquakes within radius km, nearest first, each with distanceKm. Sending lat without lon (or lon without lat) returns 400",
           "example": 34.05
         },
         {
@@ -2838,7 +3234,7 @@
     },
     "emailvalidator": {
       "title": "Email Validator",
-      "description": "Email Validator is an email validation API that checks whether an address is well-formed, whether its domain can receive mail, and whether it is safe to accept. It validates the format, resolves MX records (including null MX and the A-record fallback), checks for SPF and DMARC, flags disposable, role and free-provider addresses, and returns a normalized address for spotting duplicates. Paid plans add a risk score and typo correction.",
+      "description": "Email Validator is an email validation API that checks whether an address is well-formed, whether its domain can receive mail, and whether it is safe to accept. It validates the format, resolves MX records (including null MX and the A-record fallback), checks for SPF and DMARC, flags disposable, role and free-provider addresses, and returns a normalized address for spotting duplicates. Paid plans add a risk score, typo correction, the mail provider and what a role mailbox is for (support, billing, noreply and so on).",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/emailvalidator",
@@ -2886,6 +3282,96 @@
         }
       ]
     },
+    "energyprices": {
+      "title": "Energy Prices",
+      "description": "Energy Prices returns the latest daily closing spot price for WTI and Brent crude, Henry Hub natural gas and US gasoline, diesel, heating oil, propane and jet fuel benchmarks, with the previous close, the daily change and the 52-week high and low. Convert to barrels, gallons, liters, MMBtu, therms or MWh, ask for several benchmarks at once, or pull a daily or weekly history.",
+      "category": "Finance",
+      "method": "GET",
+      "path": "/v1/energyprices",
+      "params": [
+        {
+          "name": "benchmark",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Benchmark to price, or a comma-separated list (paid plans), or all. Defaults to wti.",
+          "example": "wti"
+        },
+        {
+          "name": "unit",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Unit to price per: barrel, gallon or liter for crude and refined products; mmbtu, therm or mwh for natural gas. Defaults to each benchmark's published unit.",
+          "example": "gallon"
+        },
+        {
+          "name": "date",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Date to look up (YYYY-MM-DD). Returns the close on that day, or the latest trading day before it. Omit for the latest close.",
+          "example": "2025-06-13"
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Include a price series ending at the returned date: daily closes or the last close of each week.",
+          "example": "daily"
+        },
+        {
+          "name": "days",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Calendar days of history to include (1-3650). Daily history allows up to 366. Defaults to 30.",
+          "example": 30
+        }
+      ]
+    },
+    "entryrequirements": {
+      "title": "Travel Entry Requirements",
+      "description": "Travel Entry Requirements returns what a destination asks of a visitor's passport and health documents: how long the passport must stay valid and from when, and whether a yellow fever certificate is required. Paid plans add a passport check against your trip dates, the blank pages it needs, the Schengen 10-year issue rule, the current UK and US travel advisory levels and plain-English guidance for each rule.",
+      "category": "Transportation",
+      "method": "GET",
+      "path": "/v1/entryrequirements",
+      "params": [
+        {
+          "name": "destination",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "The destination country or territory: a two-letter ISO code such as TH, or an English name such as Thailand",
+          "example": "TH"
+        },
+        {
+          "name": "arrivalDate",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Trip arrival date (YYYY-MM-DD), for passportCheck",
+          "example": "2027-03-01"
+        },
+        {
+          "name": "departureDate",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Trip departure date (YYYY-MM-DD), for passportCheck",
+          "example": "2027-03-15"
+        },
+        {
+          "name": "passportExpiry",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "The traveler's passport expiry date (YYYY-MM-DD); passportCheck says whether it meets the destination's rule",
+          "example": "2027-07-01"
+        }
+      ]
+    },
     "ethereum": {
       "title": "Ethereum Price",
       "description": "Ethereum Price is an Ethereum price feed API that tracks the spot price and movement direction of Ethereum in US dollars. Paid plans add 172 currencies, market cap, 24-hour volume, supply, all-time highs, 1-hour to 1-year changes, 30-day stats, and hourly and 30-day daily history.",
@@ -2898,7 +3384,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The currency to get the price in",
+          "description": "The currency to get the price in. Prices of 1 or more round to 2 decimals; smaller ones (quoted in BTC or XAU) keep 6 significant digits",
           "example": "USD"
         },
         {
@@ -2916,6 +3402,119 @@
           "type": "boolean",
           "description": "Include the daily closing price, market cap and volume for the last 30 days",
           "example": true
+        }
+      ]
+    },
+    "evchargingstations": {
+      "title": "EV Charging Stations",
+      "description": "EV Charging Stations finds electric vehicle charging stations within a radius of a point, a ZIP or postal code, or a city, across the US and Canada, sorted by distance. Each station returns its address, coordinates, distance, status, access, network, Level 1, Level 2 and DC fast port counts and connector types. Filter by connector, network, charging level or fast charging only. Paid plans add charging power in kW, pricing, access hours, phone, facility type and open dates.",
+      "category": "Transportation",
+      "method": "GET",
+      "path": "/v1/evchargingstations",
+      "params": [
+        {
+          "name": "lat",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Latitude of the search centre. Use lat and lon, a zip, or a city and state",
+          "example": 37.7749
+        },
+        {
+          "name": "lon",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Longitude of the search centre",
+          "example": -122.4194
+        },
+        {
+          "name": "zip",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "US ZIP code or Canadian postal code to search around",
+          "example": "10001"
+        },
+        {
+          "name": "city",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "City to search around, with state",
+          "example": "Toronto"
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Two-letter US state or Canadian province code, with city",
+          "example": "ON"
+        },
+        {
+          "name": "radius",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Search radius in kilometres, up to 80",
+          "example": 10
+        },
+        {
+          "name": "connector",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only stations with one of these connectors, comma-separated: j1772, ccs, chademo, nacs, nema515, nema520, nema1450, mcs",
+          "example": "ccs"
+        },
+        {
+          "name": "network",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only stations on a network whose name contains this, for example Tesla, ChargePoint or Electrify America",
+          "example": "Tesla"
+        },
+        {
+          "name": "level",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only stations with ports at this charging level",
+          "example": "2"
+        },
+        {
+          "name": "fastOnly",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Only stations with DC fast charging",
+          "example": true
+        },
+        {
+          "name": "access",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Public stations (default), private ones, or all",
+          "example": "public"
+        },
+        {
+          "name": "status",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Open stations (default), planned, temporarily unavailable, or all",
+          "example": "open"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum number of stations to return, 1-100",
+          "example": 20
         }
       ]
     },
@@ -2970,7 +3569,7 @@
     },
     "exercises": {
       "title": "Exercises",
-      "description": "Exercises filters movements by target muscle group, equipment, and exercise name, returning matching exercises with their force type and required gear. Paid plans add step-by-step instructions, difficulty levels, and movement mechanics.",
+      "description": "Exercises filters movements by target muscle group, equipment, and exercise name, returning up to 5 matching exercises per request (alphabetical) with their force type and required gear. Paid plans add step-by-step instructions, difficulty levels, and movement mechanics.",
       "category": "Health/Wellness",
       "method": "GET",
       "path": "/v1/exercises",
@@ -3453,7 +4052,7 @@
     },
     "gravatarlookup": {
       "title": "Gravatar Lookup",
-      "description": "Gravatar Lookup fetches public Gravatar profiles and avatar image URLs for any email address. It returns the display name, username, biography, location, company, job title and pronouns; paid plans add linked accounts (hidden ones flagged) and whether the email has its own uploaded avatar.",
+      "description": "Gravatar Lookup is a Gravatar API for email lookups: send an email address and get its public Gravatar profile and avatar image URL. It returns the display name, username, biography, location, company, job title and pronouns; paid plans add linked accounts (hidden ones flagged) and whether the email has its own uploaded avatar.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/gravatarlookup",
@@ -3536,7 +4135,7 @@
     },
     "hardinesszone": {
       "title": "USDA Hardiness Zone",
-      "description": "USDA Hardiness Zone looks up the plant hardiness zone by ZIP code, mapping any US ZIP code to its zone title and temperature range. Paid plans add the zone classification code, Celsius values, and plant survival recommendations.",
+      "description": "USDA Hardiness Zone looks up the plant hardiness zone by ZIP code, mapping any US ZIP code to its temperature range. Paid plans add the zone classification code and zone title, Celsius values, and plant survival recommendations.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/hardinesszone",
@@ -3798,28 +4397,28 @@
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The top margin of the PDF in inches (e.g., 0.5)"
+          "description": "The top margin of the PDF in inches from 0 to 4 (e.g., 0.5)"
         },
         {
           "name": "marginRight",
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The right margin of the PDF in inches (e.g., 0.5)"
+          "description": "The right margin of the PDF in inches from 0 to 4 (e.g., 0.5)"
         },
         {
           "name": "marginBottom",
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The bottom margin of the PDF in inches (e.g., 0.5)"
+          "description": "The bottom margin of the PDF in inches from 0 to 4 (e.g., 0.5)"
         },
         {
           "name": "marginLeft",
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The left margin of the PDF in inches (e.g., 0.5)"
+          "description": "The left margin of the PDF in inches from 0 to 4 (e.g., 0.5)"
         },
         {
           "name": "landscape",
@@ -3932,7 +4531,7 @@
     },
     "ibanvalidator": {
       "title": "IBAN Validator",
-      "description": "IBAN Validator checks an IBAN's mod-97 checksum, its length and format for the country, and national check digits where the country defines them. It returns whether the IBAN is valid, the country and the reasons it fails. Paid plans add the bank code, branch code and account number, the correct check digits and the SEPA flag.",
+      "description": "IBAN Validator checks an IBAN's mod-97 checksum, its length and format for the country, and national check digits where the country defines them. It returns whether the IBAN is valid, the country and the reasons it fails. Paid plans add the bank code, branch code and account number, the correct check digits, and the SEPA, EU and EEA flags.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/ibanvalidator",
@@ -4013,6 +4612,54 @@
         }
       ]
     },
+    "imagetopdf": {
+      "title": "Image to PDF",
+      "description": "Image to PDF combines up to 20 images, uploaded or fetched from URLs, into one PDF with one image per page, and returns a download link valid for 2 days. Pages can match each image or be A4, Letter or Legal with a margin, and multi-page TIFF scans and animated GIFs become one page per frame.",
+      "category": "Documents",
+      "method": "POST",
+      "path": "/v1/imagetopdf",
+      "params": [
+        {
+          "name": "urls",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "A JSON array of public image URLs, added in order after image. Up to 20 images per call in all"
+        },
+        {
+          "name": "pageSize",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Page size: fit makes each page the size of its image; a4, letter and legal fit the image inside the margins",
+          "example": "a4"
+        },
+        {
+          "name": "orientation",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Page orientation for a4, letter and legal; auto turns each page to match its image. Ignored for fit",
+          "example": "auto"
+        },
+        {
+          "name": "margin",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Margin around each image in millimetres, from 0 to 50",
+          "example": 10
+        },
+        {
+          "name": "quality",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Re-compress every image as JPG at this quality (1-100) to make the PDF smaller. Omit to keep JPG and PNG images unchanged",
+          "example": 80
+        }
+      ]
+    },
     "imagetotext": {
       "title": "Image to Text",
       "description": "Image to Text is an OCR and image to text API that extracts text from image files or remote image URLs using optical character recognition. Upload a JPG, PNG, or GIF up to 5 MB to receive the raw extracted text.",
@@ -4087,7 +4734,7 @@
     },
     "incometax": {
       "title": "Income Tax Brackets",
-      "description": "Income Tax Brackets retrieves federal income tax brackets, marginal rates, and standard deductions across all US filing statuses. Paid plans can query specific historical tax years back to 2000.",
+      "description": "Income Tax Brackets retrieves US federal income tax brackets, marginal rates, and standard deductions across all filing statuses, and with state=CA (any state or DC) adds that state's brackets, standard deduction and personal exemption. Paid plans can query specific historical tax years back to 2000.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/incometax",
@@ -4107,12 +4754,20 @@
           "type": "integer",
           "description": "The tax year to retrieve brackets for. Defaults to the previous year.",
           "example": 2024
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Two-letter US state code (or DC) to add that state's income tax brackets, standard deduction and personal exemption. States with no wage income tax return hasIncomeTax false. State tables start at 2023; a later year not yet published uses the latest edition.",
+          "example": "CA"
         }
       ]
     },
     "incometaxcalculator": {
       "title": "Income Tax Calculator",
-      "description": "Income Tax Calculator computes US federal income tax and take-home pay from gross income and filing status. It outputs total tax owed, effective and marginal rates, standard deductions, and net monthly income, and can add Social Security and Medicare (FICA) for true take-home pay.",
+      "description": "Income Tax Calculator computes US federal income tax and take-home pay from gross income and filing status. It outputs total tax owed, effective and marginal rates, standard deductions, and net monthly income, can add Social Security and Medicare (FICA) for true take-home pay, and with state=NY adds that state's income tax on the same income.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/incometaxcalculator",
@@ -4143,6 +4798,71 @@
         }
       ]
     },
+    "indiapincode": {
+      "title": "India Pincode Lookup",
+      "description": "India Pincode Lookup is an Indian PIN code API covering all ~19,300 PIN codes and ~157,000 post offices. Look up a PIN code to get its district, state, ISO state code, India Post circle, region, division and post office count, or search by post office, district or state, while paid plans add coordinates, every post office with its type and delivery status, and nearby PIN codes by distance.",
+      "category": "Geography",
+      "method": "GET",
+      "path": "/v1/indiapincode",
+      "params": [
+        {
+          "name": "pincode",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Six-digit PIN code",
+          "example": "110001"
+        },
+        {
+          "name": "office",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Post office name or part of it",
+          "example": "Connaught Place"
+        },
+        {
+          "name": "district",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "District name",
+          "example": "Pune"
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "State or union territory name",
+          "example": "Maharashtra"
+        },
+        {
+          "name": "nearby",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "With pincode, include the PIN codes within radius km",
+          "example": true
+        },
+        {
+          "name": "radius",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Radius in km for nearby (1-50)",
+          "example": 10
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum PIN codes to return for searches (1-50)",
+          "example": 10
+        }
+      ]
+    },
     "inflation": {
       "title": "Inflation Rate",
       "description": "Inflation Rate reports annual inflation rates and Consumer Price Index (CPI) values for any country by two-letter country code. Outputs include the year-over-year price change percentage, CPI index, and base comparison year, with paid plans supporting historical lookups by year. On paid plans, changes=true adds the prior year's rate and the change from it, plus the 5-year average, high, low and cumulative CPI rise.",
@@ -4163,7 +4883,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "The year to retrieve data for. Defaults to the previous year.",
+          "description": "The year to retrieve data for. Defaults to the most recent year with published data for that country (usually one to two years behind).",
           "example": 2023
         },
         {
@@ -4236,6 +4956,127 @@
           "type": "integer",
           "description": "Number of transactions to return (1-25). Defaults to 5.",
           "example": 10
+        }
+      ]
+    },
+    "institutionalholdings": {
+      "title": "Institutional Holdings",
+      "description": "Institutional Holdings returns SEC Form 13F holdings: every position a fund manager reported for a quarter, with shares, value, portfolio weight, put/call, discretion and voting authority, plus the quarter-over-quarter change on every position. Look up a manager by CIK or name, or reverse it and list every institution holding a ticker or CUSIP.",
+      "category": "Finance",
+      "method": "GET",
+      "path": "/v1/institutionalholdings",
+      "params": [
+        {
+          "name": "cik",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "SEC Central Index Key of the 13F filer, e.g. 1067983 for Berkshire Hathaway. Returns that manager's holdings.",
+          "example": "1067983"
+        },
+        {
+          "name": "manager",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Manager name to search for instead of cik, e.g. bridgewater. The best match is returned, with other close matches in otherMatches.",
+          "example": "berkshire hathaway"
+        },
+        {
+          "name": "ticker",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Ticker symbol. Alone, lists the managers holding it; with cik or manager, filters that manager's holdings to it.",
+          "example": "AAPL"
+        },
+        {
+          "name": "cusip",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "9-character CUSIP. Alone, lists the managers holding it; with cik or manager, filters that manager's holdings to it.",
+          "example": "037833100"
+        },
+        {
+          "name": "period",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Quarter to read, as a quarter end (2026-03-31) or quarter (2026Q1). Defaults to the latest quarter.",
+          "example": "2026Q1"
+        },
+        {
+          "name": "changeType",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only positions that are new, increased, decreased, unchanged or soldout since the previous quarter. Sold-out positions appear only with soldout.",
+          "example": "new"
+        },
+        {
+          "name": "putCall",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Option filter: put, call, none (shares and principal only) or all. Defaults to all.",
+          "example": "none"
+        },
+        {
+          "name": "minValue",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Only positions worth at least this many US dollars.",
+          "example": 1000000
+        },
+        {
+          "name": "maxValue",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Only positions worth at most this many US dollars.",
+          "example": 1000000000
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Sort by value (default), shares, change (share change), changepercent or portfolio (weight).",
+          "example": "value"
+        },
+        {
+          "name": "order",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Sort order: desc (default) or asc.",
+          "example": "desc"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Rows to return (1-100). Defaults to 10.",
+          "example": 25
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Rows to skip, for paging through a large portfolio or holder list.",
+          "example": 25
+        },
+        {
+          "name": "summary",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add a summary: for a manager, value change, position counts by change type, top-10 concentration and turnover; for a security, holder flows and top-10 share concentration.",
+          "example": true
         }
       ]
     },
@@ -4425,7 +5266,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The items being invoiced (qty, description, unit_price)"
+          "description": "The items being invoiced, one object per line: qty, description, unit_price"
         }
       ]
     },
@@ -4654,8 +5495,15 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "Page of results: 10 jobs per page up to page 5 on the free plan, 50 per page up to page 10 on paid plans.",
+          "description": "Page of results: 10 jobs per page up to page 5 on the free plan, 50 per page up to page 10 on paid plans. To page through a search, prefer cursor, which carries on from where the last page stopped.",
           "example": 1
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "The nextCursor value from the previous response, to get the next page of the same search. Send it with the same filters; page is then ignored."
         }
       ]
     },
@@ -4840,7 +5688,7 @@
     },
     "languagedetector": {
       "title": "Language Detector",
-      "description": "Language Detector is a language detection API that identifies the language of any submitted text string. It returns the primary language, its ISO 639-1 code, and candidate matches ranked by confidence scores.",
+      "description": "Language Detector is a language detection API that identifies the language of text written in Latin, Cyrillic and other alphabetic scripts (Chinese, Japanese, Korean and Greek are not supported). It returns the primary language, its ISO 639-1 code, and candidate matches ranked by confidence scores.",
       "category": "AI/Computer Vision",
       "method": "POST",
       "path": "/v1/languagedetector",
@@ -4879,7 +5727,7 @@
     },
     "lemmatizer": {
       "title": "Text Lemmatizer",
-      "description": "Text Lemmatizer reduces inflected words in submitted text down to their dictionary base forms. It confirms when valid lemmas exist, while paid plans return full word-by-word mappings.",
+      "description": "Text Lemmatizer reduces inflected words in submitted text down to their dictionary base forms. It confirms when valid lemmas exist, while paid plans return each lemma with its occurrence count.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/lemmatizer",
@@ -5030,7 +5878,7 @@
           "in": "body",
           "required": true,
           "type": "number",
-          "description": "The loan amount"
+          "description": "The loan amount (0 to 1,000,000,000,000)"
         },
         {
           "name": "interestRate",
@@ -5381,7 +6229,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "Markdown text to convert (max 100,000 characters)"
+          "description": "Markdown text to convert (max 500,000 characters); leading indentation and trailing spaces are kept"
         }
       ]
     },
@@ -5434,7 +6282,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "Markdown text to convert (max 100,000 characters)"
+          "description": "Markdown text to convert (max 500,000 characters)"
         },
         {
           "name": "format",
@@ -5576,7 +6424,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Difficulty level",
+          "description": "Difficulty level; harder mazes have a longer solution path",
           "example": "medium"
         },
         {
@@ -5823,7 +6671,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The date to get the moon position data for (MM-dd-yyyy)",
+          "description": "The date to get the moon position data for (MM-dd-yyyy). Years 1700 to 2300 are supported",
           "example": "01-16-2026"
         },
         {
@@ -5896,7 +6744,7 @@
           "in": "body",
           "required": false,
           "type": "boolean",
-          "description": "Set to true to include an audio file of the Morse code"
+          "description": "Set to true to include an audio file of the Morse code. Audio is generated only when the encoded morse is 300 characters or fewer (roughly 60-80 characters of text); longer input returns audio: null with an audioError"
         }
       ]
     },
@@ -5912,7 +6760,7 @@
           "in": "body",
           "required": true,
           "type": "number",
-          "description": "The loan amount"
+          "description": "The loan amount (0 to 1,000,000,000,000)"
         },
         {
           "name": "rate",
@@ -6028,6 +6876,87 @@
         }
       ]
     },
+    "motorcarrierlookup": {
+      "title": "Motor Carrier Lookup",
+      "description": "Motor Carrier Lookup returns the FMCSA record of a trucking or bus company from its USDOT number or its MC, MX or FF docket number. It covers USDOT status, entity and operation type, addresses, dockets, fleet and driver counts, MCS-150 date, safety rating, out-of-service orders, operating authority status and insurance on file. Paid plans add contact details, cargo classes, equipment, mileage, crash rate, insurance policies, authority history and pass/fail compliance checks with your own thresholds.",
+      "category": "Transportation",
+      "method": "GET",
+      "path": "/v1/motorcarrierlookup",
+      "params": [
+        {
+          "name": "dot",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "USDOT number, for example 80806. Use dot, docket or mc",
+          "example": "80806"
+        },
+        {
+          "name": "docket",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Docket number with its prefix: MC, MX or FF, for example MC135797",
+          "example": "MC135797"
+        },
+        {
+          "name": "mc",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "MC number without the prefix, for example 135797",
+          "example": "135797"
+        },
+        {
+          "name": "checks",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add pass/fail compliance checks against the thresholds below",
+          "example": true
+        },
+        {
+          "name": "history",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add authority history and revocations",
+          "example": true
+        },
+        {
+          "name": "minBipd",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Compliance threshold: minimum BI&PD insurance on file in US dollars",
+          "example": 750000
+        },
+        {
+          "name": "minCargo",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Compliance threshold: minimum cargo insurance in US dollars; 0 skips the check",
+          "example": 100000
+        },
+        {
+          "name": "maxMcs150Months",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Compliance threshold: the MCS-150 must be updated within this many months",
+          "example": 24
+        },
+        {
+          "name": "minAuthorityDays",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Compliance threshold: minimum days since operating authority was first granted",
+          "example": 90
+        }
+      ]
+    },
     "murmurhash": {
       "title": "MurmurHash",
       "description": "MurmurHash generates fast, non-cryptographic hashes using the MurmurHash3 algorithm. Ideal for hash tables, data partitioning, bloom filters, and checksums where cryptographic security isn't needed.",
@@ -6047,7 +6976,7 @@
           "in": "body",
           "required": false,
           "type": "integer",
-          "description": "Seed value for the hash function"
+          "description": "Seed value for the hash function, an unsigned 32-bit integer (0 to 4294967295)"
         },
         {
           "name": "variant",
@@ -6105,6 +7034,55 @@
           "type": "string",
           "description": "The domain you want to get the MX records for (e.g. yahoo.com)",
           "example": "yahoo.com"
+        }
+      ]
+    },
+    "naicslookup": {
+      "title": "NAICS Lookup",
+      "description": "NAICS Lookup is a NAICS code lookup and search API for the 2022 North American Industry Classification System. Look up one code or up to 500 at once, or search by keyword, and get the title, description, level, parent, hierarchy and children, while paid plans add the SBA small-business size standard, the Census index terms, cross-references and the 2017 concordance.",
+      "category": "Reference Data",
+      "method": "GET",
+      "path": "/v1/naicslookup",
+      "params": [
+        {
+          "name": "code",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "One NAICS code, or several separated by commas (up to 10 on Free, 500 on paid plans)",
+          "example": "541511"
+        },
+        {
+          "name": "search",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Keywords to search titles, index terms and descriptions",
+          "example": "software publisher"
+        },
+        {
+          "name": "level",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Only return codes at this level when searching (2 to 6 digits)",
+          "example": 6
+        },
+        {
+          "name": "details",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Include index terms, cross-references and the NAICS 2017 concordance",
+          "example": true
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum search results (1-50)",
+          "example": 10
         }
       ]
     },
@@ -6283,7 +7261,7 @@
     },
     "nsfwimagedetector": {
       "title": "NSFW Image Detector",
-      "description": "NSFW Image Detector scans uploaded photos to determine whether an image contains adult content. Send a JPG, PNG, or GIF file up to 10 MB to receive safe and adult content boolean flags.",
+      "description": "NSFW Image Detector is an NSFW detection API that checks whether an image contains explicit adult content. Upload a JPG, PNG or GIF up to 5 MB, or pass an image URL, to get isNSFW and isSafe flags.",
       "category": "Images",
       "method": "POST",
       "path": "/v1/nsfwimagedetector",
@@ -6361,6 +7339,31 @@
           "type": "number",
           "description": "Serving weight in grams to scale the nutrition panel to. Defaults to a per-100-gram basis.",
           "example": 118
+        }
+      ]
+    },
+    "objectdetector": {
+      "title": "Object Detector",
+      "description": "Object Detector finds the objects in an image, from people, cars and traffic lights to dogs, laptops and cups, and returns each one's label, a numeric confidence and its bounding box in pixels and as fractions of the image, plus a count per label. Filter by minimum confidence or by the labels you care about.",
+      "category": "Images",
+      "method": "POST",
+      "path": "/v1/objectdetector",
+      "params": [
+        {
+          "name": "minConfidence",
+          "in": "query",
+          "required": false,
+          "type": "number",
+          "description": "Lowest confidence to return, from 0.05 to 1",
+          "example": 0.5
+        },
+        {
+          "name": "labels",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Comma-separated object labels to keep, such as person,car,dog; all 80 labels when omitted",
+          "example": "person,car"
         }
       ]
     },
@@ -6553,7 +7556,7 @@
     },
     "passwordgenerator": {
       "title": "Password Generator",
-      "description": "Password Generator creates random passwords, pronounceable strings, and multi-word passphrases configured by length, complexity, and character sets. It outputs generated strings with character counts and configuration metadata.",
+      "description": "Password Generator is a password generator API that creates random passwords, pronounceable passwords and multi-word passphrases from length, complexity and character-set rules, up to 100 per call. Each comes back with its length and the settings used to build it.",
       "category": "Data Generation",
       "method": "GET",
       "path": "/v1/passwordgenerator",
@@ -6770,6 +7773,38 @@
         }
       ]
     },
+    "pdftohtml": {
+      "title": "PDF to HTML",
+      "description": "PDF to HTML converts the pages of a PDF, uploaded or fetched from a URL, into one self-contained HTML file that looks like the original: same layout, embedded fonts and images, and real selectable text. Choose a page range, unlock password-protected PDFs, or ask for text only; long documents are converted in batches, with nextPage pointing to the next one.",
+      "category": "Documents",
+      "method": "POST",
+      "path": "/v1/pdftohtml",
+      "params": [
+        {
+          "name": "pages",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "One page or range: 3, 2-7, or 5- for page 5 onwards. Each call converts up to 10 pages (2 on the Free plan) from the start of the range; nextPage says where to continue",
+          "example": "1-"
+        },
+        {
+          "name": "password",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "User or owner password of an encrypted PDF"
+        },
+        {
+          "name": "textOnly",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Leave out images and vector graphics and keep only the positioned text in its fonts",
+          "example": false
+        }
+      ]
+    },
     "pdftoimage": {
       "title": "PDF to Image",
       "description": "PDF to Image renders the pages you choose from a PDF, uploaded or fetched from a URL, as PNG or JPG images and returns a download link for each, valid for 2 days, with its pixel size. The Free plan renders one page per call at 150 dpi; paid plans render up to 10 pages per call and can set the resolution from 72 to 300 dpi.",
@@ -6873,7 +7908,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The domain to check (e.g., example.com)"
+          "description": "The domain to check (e.g., example.com). To check a raw IP host, send it through the url endpoint (e.g., http://1.2.3.4/)"
         }
       ]
     },
@@ -7057,7 +8092,14 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "The time of day for the calculation (HH:mm format, 24-hour). Defaults to 00:00 if not provided"
+          "description": "The time of day for the calculation (HH:mm format, 24-hour), read as UTC unless timezone is given. Defaults to 00:00 if not provided"
+        },
+        {
+          "name": "timezone",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "IANA timezone to read the date and time in, such as America/Los_Angeles. Defaults to UTC"
         },
         {
           "name": "lat",
@@ -7124,7 +8166,7 @@
     },
     "population": {
       "title": "Population Data",
-      "description": "A country population and demographic data API. Look up any country by ISO code to get its population data, with total population, growth rate, density, urban/rural breakdown, and life expectancy on paid plans.",
+      "description": "A country population and demographic data API. Look up any country by ISO code to get its population data, with total population, world population rank and share, growth rate, density, urban/rural breakdown, and life expectancy on paid plans.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/population",
@@ -7220,7 +8262,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Unicode text or domain to encode (max 1000 characters)",
+          "description": "Unicode label, domain, email address or URL to encode; only the domain of an email or the host of a URL is converted (max 1000 characters)",
           "example": "münchen.de"
         },
         {
@@ -7245,7 +8287,7 @@
           "in": "query",
           "required": true,
           "type": "number",
-          "description": "The dollar amount to convert",
+          "description": "The dollar amount to convert (0 to 1,000,000,000,000)",
           "example": 100
         },
         {
@@ -7414,7 +8456,7 @@
     },
     "randomgenerator": {
       "title": "Random Data Generator",
-      "description": "Random Data Generator produces random numbers in any range (whole or decimal, with or without repeats), dice of any size, coin flips, booleans, random strings, UUIDs, and mock names, emails, addresses and dates for application testing. Numbers, dice, coins, booleans and strings come from a cryptographically secure generator. Paid plans can generate batches up to 100 items.",
+      "description": "Random Data Generator is a random data API that produces random numbers in any range (whole or decimal, with or without repeats), dice of any size, coin flips, booleans, random strings, UUIDs, and mock names, emails, addresses and dates for application testing. Numbers, dice, coins, booleans and strings come from a cryptographically secure generator. Paid plans can generate batches up to 100 items.",
       "category": "Data Generation",
       "method": "GET",
       "path": "/v1/randomgenerator",
@@ -7733,7 +8775,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Reference time to compare against (default: current time)",
+          "description": "Date or ISO 8601 date-time to compare against (default: current time). A time and offset are used; a date alone is midnight UTC",
           "example": "2024-06-01T00:00:00Z"
         },
         {
@@ -7781,7 +8823,7 @@
     },
     "reversegeocode": {
       "title": "Reverse Geocode",
-      "description": "Reverse Geocode converts latitude and longitude coordinates into US and Canada location details. Pass geographic coordinates to retrieve the corresponding city, state, postal code, and country code.",
+      "description": "Reverse Geocode converts latitude and longitude coordinates into US, Canada and Australia location details. Pass geographic coordinates to retrieve the corresponding city, state, postal code, country code, time zone and US county. Paid plans can add the point's geohash, plus code and degrees-minutes-seconds notation.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/reversegeocode",
@@ -7801,6 +8843,14 @@
           "type": "number",
           "description": "The longitude of the coordinates",
           "example": -73.961452
+        },
+        {
+          "name": "geocodes",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Add a geocodes object with the point's geohash, plus code (Open Location Code) and degrees-minutes-seconds notation",
+          "example": true
         }
       ]
     },
@@ -7929,7 +8979,7 @@
     },
     "routinglookup": {
       "title": "Routing Number Lookup",
-      "description": "Routing Number Lookup is a bank routing number lookup and validation API for US ABA numbers. It checks the check digit, finds the bank name and state, and identifies the routing type and Federal Reserve district, while paid plans add full street addresses, branch details, and replacement numbers.",
+      "description": "Routing Number Lookup is a bank routing number lookup and validation API for US ABA numbers. It checks the check digit, finds the bank name and state, identifies the routing type and Federal Reserve district, and says whether the number takes FedACH payments and Fedwire transfers, while paid plans add full street addresses, branch details, Fedwire and ACH directory details, and replacement numbers.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/routinglookup",
@@ -7989,7 +9039,7 @@
           "in": "query",
           "required": true,
           "type": "number",
-          "description": "Purchase amount to calculate tax on",
+          "description": "Purchase amount to calculate tax on (0 to 1,000,000,000,000)",
           "example": 100
         },
         {
@@ -7997,7 +9047,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Valid US 5-digit ZIP code (required unless state is given)",
+          "description": "Valid US 5-digit ZIP code (required unless state is given). ZIP+4 (64082-1234) is accepted and priced at its 5-digit ZIP. If both zip and state are given, zip wins and state is ignored",
           "example": "90210"
         },
         {
@@ -8022,7 +9072,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The person or company name to screen (minimum 3 characters)",
+          "description": "The person or company name to screen (3-300 characters, at most 15 words)",
           "example": "Banco Nacional de Cuba"
         },
         {
@@ -8030,7 +9080,7 @@
           "in": "query",
           "required": false,
           "type": "number",
-          "description": "Minimum match score to return, between 0.5 and 1. Lower catches more names but returns more false positives",
+          "description": "Minimum match score to return, between 0.5 and 1. Lower catches more names but returns more false positives. Values outside the range are clamped to 0.5 or 1",
           "example": 0.85
         },
         {
@@ -8038,7 +9088,7 @@
           "in": "query",
           "required": false,
           "type": "number",
-          "description": "Maximum number of matches to return (1-50)",
+          "description": "Maximum number of matches to return (1-50; values outside the range are clamped)",
           "example": 10
         },
         {
@@ -8046,7 +9096,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Restrict screening to one entry type",
+          "description": "Restrict screening to one entry type: individual, entity, vessel or aircraft. Any other value is ignored and every type is screened",
           "example": "individual"
         },
         {
@@ -8054,7 +9104,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Comma-separated list codes to screen (ofac_sdn, ofac_cons, un, eu, uk). Omit to screen every list",
+          "description": "Comma-separated list codes to screen (ofac_sdn, ofac_cons, un, eu, uk). Omit to screen every list. Unknown codes are ignored, and if none of the codes is valid every list is screened",
           "example": "ofac_sdn,un,eu,uk"
         }
       ]
@@ -8184,7 +9234,7 @@
     },
     "shoesizeconverter": {
       "title": "Shoe Size Converter",
-      "description": "Shoe Size Converter translates footwear measurements across regional standards, including US, UK, Australian, Mexican, and Korean sizing systems. Provide a size, source region, and gender category to get equivalent sizes, with paid plans adding European, Japanese, and centimeter measurements.",
+      "description": "Shoe Size Converter translates footwear measurements across regional standards, including US, UK, Australian, European, Mexican, Korean and Japanese sizing systems. Provide a size, source region, and gender category to get US, UK and Australian equivalents, with paid plans adding European, Mexican, Korean, Japanese, and centimeter measurements.",
       "category": "Reference Data",
       "method": "GET",
       "path": "/v1/shoesizeconverter",
@@ -8353,7 +9403,7 @@
           "in": "query",
           "required": false,
           "type": "number",
-          "description": "Bet amount per spin",
+          "description": "Bet amount per spin, rounded to 2 decimal places",
           "example": 1
         }
       ]
@@ -8707,7 +9757,7 @@
     },
     "sudoku": {
       "title": "Sudoku Generator",
-      "description": "Sudoku Generator creates 9x9 Sudoku puzzle grids across multiple difficulty settings, with empty cells marked as zeros. Paid plans add the full solution grid for validation or hints.",
+      "description": "Sudoku Generator creates 9x9 Sudoku puzzle grids across multiple difficulty settings, returned as an 81-character row-major string with \"-\" for empty cells, plus a ready-to-render HTML table and an image. Paid plans add the full solution grid for validation or hints.",
       "category": "Entertainment",
       "method": "GET",
       "path": "/v1/sudoku",
@@ -8750,7 +9800,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The date to get the sun position data for (MM-DD-YYYY)",
+          "description": "The date to get the sun position data for (MM-DD-YYYY). Years 1700 to 2300 are supported",
           "example": "01-16-2026"
         },
         {
@@ -8882,7 +9932,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The SWIFT code to lookup information about",
+          "description": "The SWIFT code to lookup information about. A partial code of at least 4 characters matches every code it prefixes",
           "example": "CHASUS33ARP"
         }
       ]
@@ -8968,6 +10018,36 @@
         }
       ]
     },
+    "textembeddings": {
+      "title": "Text Embeddings",
+      "description": "Text Embeddings turns a sentence, paragraph or short document into a 384-dimension vector that captures its meaning, ready for semantic search, clustering, deduplication and recommendations. Send one text or a batch of up to 32, and add a compare text to get the cosine similarity of each one to it in the same call.",
+      "category": "AI/Computer Vision",
+      "method": "POST",
+      "path": "/v1/textembeddings",
+      "params": [
+        {
+          "name": "text",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "The text to embed, up to 10,000 characters. Send text or texts"
+        },
+        {
+          "name": "texts",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "A JSON array of texts to embed in one call: up to 32 on paid plans and 4 on the Free plan, 10,000 characters each and 50,000 in total. Send text or texts"
+        },
+        {
+          "name": "compare",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Optional reference text; each embedding gets its cosine similarity to it"
+        }
+      ]
+    },
     "textlanguage": {
       "title": "Text Language",
       "description": "Text Language is a language detection API that detects the language of any input string, returning the full language name and its two-letter ISO 639-1 code. Send plain text passages or short snippets to identify incoming multilingual content.",
@@ -9032,7 +10112,7 @@
     },
     "textsummarizer": {
       "title": "Text Summarizer",
-      "description": "Text Summarizer condenses raw text into concise summaries of a specified sentence count. Pass up to 5,000 characters to extract key points into readable summaries, with paid plans adding word counts and reduction metrics.",
+      "description": "Text Summarizer condenses raw text into concise summaries of a specified sentence count. Pass up to 50,000 characters to extract key points into readable summaries, with paid plans adding word counts and summary-length metrics.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/textsummarizer",
@@ -9042,7 +10122,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The text to summarize (up to 5000 characters)"
+          "description": "The text to summarize (up to 50,000 characters)"
         },
         {
           "name": "sentences",
@@ -9179,7 +10259,7 @@
     },
     "timezonelookup": {
       "title": "Timezone Lookup",
-      "description": "Timezone Lookup resolves any city or IANA zone name to its local time, UTC offset, and calendar date. Responses include 12-hour and 24-hour clocks plus the minute offset from GMT.",
+      "description": "Timezone Lookup resolves a city, an IANA zone name or a latitude and longitude to its local time, UTC offset, and calendar date. Responses include 12-hour and 24-hour clocks plus the minute offset from GMT.",
       "category": "Data Lookup",
       "method": "GET",
       "path": "/v1/timezonelookup",
@@ -9189,7 +10269,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city name for which you want to get the data (e.g., Harare)",
+          "description": "The city name for which you want to get the data (e.g., Harare). A name shared by several places resolves to the best-known one (London is London, UK); add a state, province or country after a comma to pick another (e.g., Portland, Maine or London, Ontario)",
           "example": "Harare"
         }
       ]
@@ -9206,7 +10286,7 @@
           "in": "query",
           "required": true,
           "type": "number",
-          "description": "The bill amount before tip",
+          "description": "The bill amount before tip (max 1,000,000,000,000)",
           "example": 100
         },
         {
@@ -9313,7 +10393,7 @@
           "required": true,
           "type": "string",
           "description": "The IP address to check against the Tor exit node list",
-          "example": "185.189.183.143"
+          "example": "171.25.193.234"
         }
       ]
     },
@@ -9427,13 +10507,13 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "text (default) or html. With html, markup and entities are kept and only the text between tags is translated"
+          "description": "text (default) or html. With html, tags and attributes are kept and only the text between tags is translated; entities such as &amp; are decoded and may be translated as words. Any other value returns 400"
         }
       ]
     },
     "treasuryyields": {
       "title": "Treasury Yields",
-      "description": "Treasury Yields provides current and historical US Treasury constant-maturity market yields across the full curve (1-month through 30-year), plus TIPS real yields. Paid plans add curve spreads, inversion flags, the curve's shape and breakeven inflation for yield curve analysis.",
+      "description": "Treasury Yields provides current and historical US Treasury constant-maturity market yields across the full curve (1-month through 30-year), plus TIPS real yields. Every plan gets today's full nominal curve. Paid plans add history back to 2010, TIPS real yields, day-over-day changes, curve spreads, inversion flags, the curve's shape and breakeven inflation.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/treasuryyields",
@@ -9451,7 +10531,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Optional filter for a single point. Legacy security types: bills, notes, bonds, tips, frn. Or a maturity: 1mo, 3mo, 6mo, 1yr, 2yr, 3yr, 5yr, 7yr, 10yr, 20yr, 30yr",
+          "description": "Optional filter for a single point. Legacy security types: bills, notes, bonds, tips, frn. Or a maturity: 1mo, 3mo, 6mo, 1yr, 2yr, 3yr, 5yr, 7yr, 10yr, 20yr, 30yr. tips and frn are paid-plan values; on the free plan they return a null rate with a note",
           "example": "10yr"
         }
       ]
@@ -9585,7 +10665,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The text to escape"
+          "description": "The text to escape; leading and trailing whitespace is escaped too"
         },
         {
           "name": "action",
@@ -9670,6 +10750,63 @@
         }
       ]
     },
+    "universitylookup": {
+      "title": "University Lookup",
+      "description": "University Lookup is a university search and academic domain API covering about 12,000 institutions worldwide. Search by name and country, or pass a domain or email address to learn whether it belongs to a university, and for US institutions get IPEDS details such as control, level and highest degree, while paid plans add enrollment, admission rate and tuition.",
+      "category": "Reference Data",
+      "method": "GET",
+      "path": "/v1/universitylookup",
+      "params": [
+        {
+          "name": "name",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "University name or words from it; US abbreviations match too",
+          "example": "Stanford"
+        },
+        {
+          "name": "domain",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Domain to check, e.g. stanford.edu; subdomains match their institution",
+          "example": "stanford.edu"
+        },
+        {
+          "name": "email",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Email address to check; its domain is used",
+          "example": "jane@cs.stanford.edu"
+        },
+        {
+          "name": "country",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Country name or two-letter code",
+          "example": "US"
+        },
+        {
+          "name": "state",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "State or province (two-letter code in the US)",
+          "example": "CA"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum universities to return (1-50)",
+          "example": 10
+        }
+      ]
+    },
     "unixtimestamp": {
       "title": "Unix Timestamp Converter",
       "description": "Unix Timestamp Converter converts Unix timestamps into formatted dates and parses ISO 8601 strings back into epoch seconds. Responses break down dates into ISO 8601, RFC 2822, simple time strings, individual calendar components like year, month and hour, plus the day of the year. Paid plans add the ISO week, and an IANA timezone to also get the same moment in local time with its UTC offset, abbreviation and daylight saving flag.",
@@ -9698,7 +10835,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "IANA timezone (or fixed UTC offset) to also show the moment in, returned as a local block",
+          "description": "IANA timezone (e.g. America/New_York) or a UTC/GMT-prefixed fixed offset (e.g. UTC+05:30) to also show the moment in, returned as a local block",
           "example": "America/New_York"
         }
       ]
@@ -9715,7 +10852,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The text to encode"
+          "description": "The text to encode; leading and trailing whitespace is encoded too"
         },
         {
           "name": "action",
@@ -10058,6 +11195,63 @@
         }
       ]
     },
+    "vehiclefueleconomy": {
+      "title": "Vehicle Fuel Economy",
+      "description": "Vehicle Fuel Economy returns the EPA ratings of every car and light truck sold in the US since 1984, electric vehicles included. Search by make, model, year and fuel type to get city, highway and combined MPG (or MPGe), electric range, engine, drive and transmission. Paid plans add kWh per 100 miles, charge time at 240V, annual fuel cost, five-year savings, CO2 per mile and the EPA fuel economy, greenhouse gas and smog scores.",
+      "category": "Transportation",
+      "method": "GET",
+      "path": "/v1/vehiclefueleconomy",
+      "params": [
+        {
+          "name": "make",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Vehicle make, for example Toyota, Ford or Tesla. Either make or model is required",
+          "example": "Tesla"
+        },
+        {
+          "name": "model",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Model name or the start of it, for example Camry or Model 3. Either make or model is required",
+          "example": "Model 3"
+        },
+        {
+          "name": "year",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Model year, 1984 or later",
+          "example": 2024
+        },
+        {
+          "name": "fuelType",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only vehicles with this powertrain",
+          "example": "electric"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Vehicles per page, 1-50",
+          "example": 20
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Page of results to return, starting at 1",
+          "example": 1
+        }
+      ]
+    },
     "vindecoder": {
       "title": "VIN Decoder",
       "description": "VIN Decoder turns a 17-character Vehicle Identification Number into the vehicle it identifies. Returns make, model, year, trim, body class and manufacturer, plus engine specifications, plant of manufacture, and the safety equipment fitted to that specific build. Optionally adds every safety recall issued for that vehicle and its NHTSA 5-star crash-test rating.",
@@ -10101,7 +11295,7 @@
     },
     "visarequirements": {
       "title": "Visa Requirements",
-      "description": "Visa Requirements tells you what a passport holder needs to enter another country: no visa, an electronic travel authorization, an eVisa, a visa on arrival, a visa arranged in advance, or entry restricted. It also returns the allowed stay in days where one is set. Paid plans can list every destination for one passport.",
+      "description": "Visa Requirements tells you what a passport holder needs to enter another country: no visa, an electronic travel authorization, an eVisa, a visa on arrival, a visa arranged in advance, or entry restricted. Paid plans add the allowed stay in days, every alternative route (an eVisa or a visa on arrival, say), a link to the official government portal for ETAs and eVisas, per-category counts for a passport and its full destination list.",
       "category": "Transportation",
       "method": "GET",
       "path": "/v1/visarequirements",
@@ -10192,7 +11386,7 @@
     },
     "weatherforecast": {
       "title": "Weather",
-      "description": "Weather is a current weather API that reports conditions for any city name or zip code: real-time temperature and wind speed with compass direction, in both metric and imperial units, with the location's coordinates, time zone and local time, day or night, and a UV risk level. Paid plans add a 7-day forecast with daily highs, lows, rain chance and conditions for the week ahead.",
+      "description": "Weather is a current weather API that reports conditions for any city name or zip code: real-time temperature and wind speed with compass direction, in both metric and imperial units, with the location's coordinates, time zone and local time, day or night, and a UV risk level. Paid plans add a 7-day forecast with daily highs, lows, rain chance and conditions for the week ahead, and an optional hourly forecast.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/weatherforecast",
@@ -10202,7 +11396,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city for which you want to get the current weather (e.g., San Francisco)",
+          "description": "The city for which you want to get the current weather (e.g., San Francisco). A name shared by several places resolves to the best-known one (London is London, UK); add a state, province or country after a comma to pick another (e.g., Portland, Maine or London, Ontario)",
           "example": "San Francisco"
         },
         {
@@ -10211,6 +11405,14 @@
           "required": false,
           "type": "boolean",
           "description": "Included by default. Set to false to omit the 7-day forecast and return current conditions only.",
+          "example": true
+        },
+        {
+          "name": "hourly",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Set to true to add an hourly forecast: every hour from now through the end of the 7-day window.",
           "example": true
         }
       ]
@@ -10227,7 +11429,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "The year to get the dates of the solstice and equinox",
+          "description": "The year to get the dates of the solstice and equinox; defaults to the current year (UTC)",
           "example": 2024
         }
       ]
@@ -10410,28 +11612,28 @@
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The top margin of the PDF in inches (e.g., 0.4)"
+          "description": "The top margin of the PDF in inches from 0 to 4 (e.g., 0.4)"
         },
         {
           "name": "marginRight",
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The right margin of the PDF in inches (e.g., 0.4)"
+          "description": "The right margin of the PDF in inches from 0 to 4 (e.g., 0.4)"
         },
         {
           "name": "marginBottom",
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The bottom margin of the PDF in inches (e.g., 0.4)"
+          "description": "The bottom margin of the PDF in inches from 0 to 4 (e.g., 0.4)"
         },
         {
           "name": "marginLeft",
           "in": "body",
           "required": false,
           "type": "number",
-          "description": "The left margin of the PDF in inches (e.g., 0.4)"
+          "description": "The left margin of the PDF in inches from 0 to 4 (e.g., 0.4)"
         },
         {
           "name": "landscape",
@@ -10501,7 +11703,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Starting word (3-6 letters)",
+          "description": "Starting word (3-6 letters); must differ from end",
           "example": "cold"
         },
         {
@@ -10558,7 +11760,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Letters in word but wrong position (e.g., R2 means R not at position 2)",
+          "description": "Letters in word but wrong position (e.g., R2 means R not at position 2); each entry is a letter with an optional position 1-5",
           "example": "R2,O3"
         },
         {
@@ -10566,7 +11768,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Letters not in the word",
+          "description": "Letters not in the word. A letter that is also green or yellow is capped at the number of times it is marked green or yellow, as in Wordle's duplicate-letter rule",
           "example": "STLN"
         },
         {
@@ -10768,7 +11970,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "The year you want to get the number of working days for",
+          "description": "The year you want to get the number of working days for; defaults to the current year",
           "example": 2026
         },
         {
@@ -10874,7 +12076,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city name for which you want to get the current time (e.g., New York)",
+          "description": "The city name for which you want to get the current time (e.g., New York). Add a state, province or country after a comma to narrow it (e.g., Portland, Maine or London, UK). Matches are ordered with the best-known city first",
           "example": "San Francisco"
         }
       ]
@@ -10897,7 +12099,7 @@
     },
     "zipcodes": {
       "title": "Zip Codes Lookup",
-      "description": "Zip Codes Lookup finds all postal codes within a US city or resolves a five-digit ZIP code to its city and state. Paid plans add the IANA time zone, geographic coordinates and the distance from the ZIP to a second ZIP.",
+      "description": "Zip Codes Lookup finds all postal codes within a US city or resolves a five-digit ZIP code to its city and state. Every ZIP also returns its primary county. Paid plans add the county and state FIPS codes, every county a ZIP crosses with its land share, the IANA time zone, geographic coordinates and the distance from the ZIP to a second ZIP.",
       "category": "Geography",
       "method": "GET",
       "path": "/v1/zipcodes",
