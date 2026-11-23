@@ -1,7 +1,7 @@
 {
   "apiBase": "https://api.apiverve.com",
-  "version": "1.1.4",
-  "generatedAt": 1794846572545,
+  "version": "1.1.5",
+  "generatedAt": 1795459613625,
   "apis": {
     "acronymexpander": {
       "title": "Acronym Expander",
@@ -139,7 +139,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Model name or part of it, for example 737, A320 or Citation",
+          "description": "Model name or part of it, for example 737, A320 or Citation. Marketing names such as E175, A321XLR and 737 MAX 8 resolve to their ICAO type",
           "example": "737"
         },
         {
@@ -222,7 +222,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The IATA code of the first airport (e.g. JFK)",
+          "description": "The IATA code of the first airport (e.g. JFK); a city code such as NYC uses that city's primary airport",
           "example": "JFK"
         },
         {
@@ -230,7 +230,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The IATA code of the second airport (e.g. LAX)",
+          "description": "The IATA code of the second airport (e.g. LAX); a city code such as LON uses that city's primary airport",
           "example": "LAX"
         }
       ]
@@ -247,14 +247,14 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The IATA code of the airport for which you want to get the information (e.g., MCI)",
+          "description": "The IATA code of the airport for which you want to get the information (e.g., MCI). A metropolitan city code such as NYC or LON returns that city's airports",
           "example": "MCI"
         }
       ]
     },
     "airquality": {
       "title": "Air Quality",
-      "description": "Air Quality is an air pollution API that reports particulate pollution levels and health recommendations for any city or zip code. Look up PM2.5 and PM10 concentrations to check current air conditions; paid plans add ozone, toxic gases, EPA and DEFRA index scores, and an estimated 0-500 US AQI with its category and dominant pollutant.",
+      "description": "Air Quality is an air pollution API that reports particulate pollution levels and health recommendations for any city, or a US, UK or Canadian postal code. Look up PM2.5 and PM10 concentrations to check current air conditions; paid plans add ozone, toxic gases, EPA and DEFRA index scores, and an estimated 0-500 US AQI with its category and dominant pollutant.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/airquality",
@@ -279,7 +279,7 @@
     },
     "anagramdetector": {
       "title": "Anagram Detector",
-      "description": "Anagram Detector checks whether two words or phrases are anagrams of each other. Submit two strings to receive a true or false match verdict, cleaned comparison text, and character counts with options to ignore letter case and spaces.",
+      "description": "Anagram Detector checks whether two words or phrases are anagrams of each other. Submit two strings to receive a true or false match verdict, cleaned comparison text, and character counts with options to ignore letter case, spaces, punctuation and accents.",
       "category": "Text Processing",
       "method": "GET",
       "path": "/v1/anagramdetector",
@@ -314,6 +314,22 @@
           "required": false,
           "type": "boolean",
           "description": "Ignore spaces when comparing (default: true)",
+          "example": true
+        },
+        {
+          "name": "ignorepunctuation",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Ignore punctuation and symbols when comparing, so Funeral! and Real fun. match (default: true)",
+          "example": true
+        },
+        {
+          "name": "ignoreaccents",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Ignore accents and other diacritics when comparing, so résumé matches resume (default: true)",
           "example": true
         }
       ]
@@ -446,7 +462,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The ASN you want to get information about",
+          "description": "The ASN you want to get information about, such as AS15169, AS 15169, ASN15169 or 15169",
           "example": "AS15169"
         }
       ]
@@ -600,7 +616,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Website domain, URL or email address of the institution",
+          "description": "Website domain, URL or email address of the institution. Consumer domains of the largest banks (chase.com, citi.com, tdbank.com, schwab.com) resolve as well as the domain the regulator lists",
           "example": "wellsfargo.com"
         },
         {
@@ -901,7 +917,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The first six digits of the credit card number (BIN)",
+          "description": "The first 6 to 8 digits of the card number (BIN). A full card number is also accepted; only its first 8 digits are used",
           "example": "448590"
         },
         {
@@ -926,7 +942,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The birth date (YYYY-MM-DD or MM-DD-YYYY), between 1700 and 2200",
+          "description": "The birth date (YYYY-MM-DD or MM-DD-YYYY; DD/MM/YYYY when the day is over 12 and month names such as June 15, 1990 also work), between 1700 and 2200",
           "example": "1990-06-15"
         },
         {
@@ -934,7 +950,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The local birth time in 24-hour HH:mm format",
+          "description": "The local birth time: 24-hour HH:mm (09:05), H:mm (9:05), HH:mm:ss (seconds are ignored) or 12-hour (9:05 PM)",
           "example": "14:30"
         },
         {
@@ -983,7 +999,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The month number (1-12) or name",
+          "description": "The month number (1-12, leading zero allowed), full name, or abbreviation (Jan, Sept)",
           "example": "5"
         }
       ]
@@ -1058,7 +1074,7 @@
           "in": "query",
           "required": true,
           "type": "number",
-          "description": "Height in cm (metric) or inches (imperial)",
+          "description": "Height in cm (metric) or inches (imperial). Values under 3 (metric) are read as metres and under 8 (imperial) as feet",
           "example": 70
         },
         {
@@ -1165,7 +1181,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The CAA record string to parse"
+          "description": "The CAA record string to parse. A full record set, such as dig output with one record per line, is accepted; the top-level fields describe the first record and records/policy cover all of them"
         }
       ]
     },
@@ -1181,7 +1197,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The 2 letter ISO code for the country (e.g. FR)",
+          "description": "The country: a 2 or 3 letter ISO code (e.g. FR or FRA; UK is read as GB), an IOC code (e.g. GER) or an English name (e.g. France)",
           "example": "FR"
         },
         {
@@ -1206,7 +1222,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Activity to search for, e.g. running, biking, yoga or mowing lawn. Required unless code is given.",
+          "description": "Activity to search for, e.g. running, biking, yoga or mowing lawn. Add a speed or pace (running 6 mph, cycling 25 km/h, running 9 min/mile) to get the entry for that speed. Required unless code is given.",
           "example": "running"
         },
         {
@@ -1496,7 +1512,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The card number to validate",
+          "description": "The card number to validate, up to 19 digits; spaces or dashes between digit groups are accepted",
           "example": "4900264223817524"
         }
       ]
@@ -1513,7 +1529,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The make (manufacturer) of the car (e.g., Toyota, Honda, Ford)",
+          "description": "The make (manufacturer) of the car (e.g., Toyota, Honda, Ford). Common nicknames such as Chevy, VW, Caddy and Land Rover/LR are accepted",
           "example": "Toyota"
         },
         {
@@ -1667,7 +1683,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Chess move in algebraic notation",
+          "description": "Chess move in SAN (Nf3, exd5, O-O, e8=Q) or long algebraic (Ng1-f3, e2-e4); move numbers and !? annotations are ignored",
           "example": "Nf3"
         }
       ]
@@ -1684,7 +1700,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The date in YYYY-MM-DD format (years 1900-2100)",
+          "description": "The date in YYYY-MM-DD format (years 1900-2100). A year alone (1985) returns that year's animal, with a note that births before its Chinese New Year belong to the previous animal",
           "example": "1990-01-15"
         }
       ]
@@ -1709,7 +1725,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city name for which you want to get the data (e.g., New York)",
+          "description": "The city name to look up (e.g., New York). Accents are optional (Zurich finds Zürich), common former and informal names work (Bombay, Saigon, NYC), and a trailing \", ST\" or \", Country\" narrows the match (Dallas, TX or London, Canada)",
           "example": "San Francisco"
         },
         {
@@ -1742,7 +1758,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The name of the cocktail for which you want to get the recipe (e.g., martini)",
+          "description": "The name of the cocktail for which you want to get the recipe (e.g., martini). Spelling variants match: mai tai, old-fashioned, whisky sour, piña colada, aperol spritz",
           "example": "martini"
         }
       ]
@@ -1809,7 +1825,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The color in hexadecimal format (e.g., FF0000). Make sure you ommit the #",
+          "description": "The color in hexadecimal format (e.g., FF0000). A leading # or 0x is accepted, and 8-digit hex with alpha (FF000080) returns the alpha separately",
           "example": "FF0000"
         }
       ]
@@ -1875,7 +1891,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "Caps how many colors are returned (1-16). Each scheme has its own ceiling and count cannot raise it - mono yields 4, contrast 8, triade and analogic 12, tetrade 16. The colorCount field reports how many were actually returned. Free tier limited to 5 colors",
+          "description": "Caps how many colors are returned (1-16). Each scheme has its own ceiling and count cannot raise it - mono yields 4, contrast 8, triade and analogic 12, tetrade 16. When capped, one shade of every hue is returned before a second shade of any, so a 5-color triade holds all 3 hues. The colorCount field reports how many were actually returned. Free tier limited to 5 colors",
           "example": 5
         },
         {
@@ -1982,7 +1998,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Stock ticker symbol (e.g. AAPL, MSFT, GOOGL)",
+          "description": "Stock ticker symbol (e.g. AAPL, MSFT, GOOGL). A secondary share class such as GOOG resolves to its company",
           "example": "AAPL"
         }
       ]
@@ -2041,7 +2057,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the web page to extract contact data from"
+          "description": "The URL of the web page to extract contact data from (a full URL or a bare domain such as example.com; https:// is assumed when no scheme is given)"
         },
         {
           "name": "limit",
@@ -2105,7 +2121,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "State name, state code (e.g., CA, NY), or city name (e.g., Chicago, or Portland, ME).",
+          "description": "State name, state code (e.g., CA, NY), city name (e.g., Chicago, or Portland, ME) or 5-digit ZIP code (e.g., 78701).",
           "example": "California"
         }
       ]
@@ -2158,6 +2174,14 @@
           "type": "string",
           "description": "The Country 2 Letter ISO code (e.g., CA)",
           "example": "CA"
+        },
+        {
+          "name": "resolution",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Outline detail: low (default, simplified world-scale outlines), medium (Natural Earth 1:50m) or high (Natural Earth 1:10m, including small islands). Use high for maps zoomed to a country or point-in-country tests near borders and coasts. Any other value returns 400",
+          "example": "high"
         }
       ]
     },
@@ -2173,7 +2197,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The 2 letter ISO Country Code (e.g. ZW)",
+          "description": "The country: a 2 or 3 letter ISO code (e.g. ZW or ZWE; UK is read as GB) or an English name (e.g. Zimbabwe)",
           "example": "ZW"
         },
         {
@@ -2223,7 +2247,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The Country name or ISO code of the country for which you want to get the data (e.g., USA)",
+          "description": "The country name or ISO code to look up (e.g., USA). Native names (Deutschland, España), dotted codes (U.S., U.K.) and England, Scotland, Wales or Northern Ireland are accepted",
           "example": "USA"
         },
         {
@@ -2256,7 +2280,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The two letter name of the US state the county is in (e.g., MO)",
+          "description": "The US state the county is in: a two-letter code (MO) or the full name (Missouri)",
           "example": "MO"
         },
         {
@@ -2264,7 +2288,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The name of the US county to get data about (e.g. Jackson)",
+          "description": "The name of the US county to get data about (e.g. Jackson). Accents, punctuation, spacing and St/Saint are ignored, so Prince Georges, De Kalb and Saint Louis City match",
           "example": "Jackson"
         }
       ]
@@ -2323,8 +2347,16 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The cron expression to parse (5-field or 6-field format)",
+          "description": "The cron expression to parse: 5-field, 6-field (leading seconds), a macro such as @daily, Quartz 7-field with * year, or AWS cron(...)",
           "example": "0 9 * * 1-5"
+        },
+        {
+          "name": "timezone",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "IANA timezone the schedule runs in (default UTC). nextRuns stay UTC; nextRunsLocal shows the same runs with this zone's offset",
+          "example": "America/New_York"
         }
       ]
     },
@@ -2453,7 +2485,7 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "The delimiter used in the CSV"
+          "description": "The delimiter used in the CSV. When omitted, it is detected from the header line (comma, semicolon, tab or pipe), so European Excel exports with ; work as-is"
         },
         {
           "name": "has_header",
@@ -2639,7 +2671,7 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "Array of data types to mask (default: all types). Allowed values: email, phone, ssn, credit_card, ip_address (IPv4 and IPv6), url, date; any other value returns a 400"
+          "description": "Array of data types to mask (default: all types). Allowed values: email, phone, ssn, credit_card, ip_address (IPv4 and IPv6), url, date; any other value returns a 400. A comma-separated string such as \"email,phone\" is also accepted"
         }
       ]
     },
@@ -2713,7 +2745,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Dice notation in XdY format (e.g., 3d6, 2d20, default: 1d6); d20 means one die and an inline modifier like 3d6+5 is added to modifier",
+          "description": "Dice notation in XdY format (e.g., 3d6, 2d20, default: 1d6); d20 means one die, d% means d100, spaces are ignored, an inline modifier like 3d6+5 is added to modifier, and a keep/drop suffix (kh, kl, dh, dl followed by a count, e.g. 4d6kh3 or 2d20kh1 for advantage) counts only the kept dice; several groups joined with + (e.g. 1d8+1d6 or 2d6+1d4+3) are rolled and summed",
           "example": "3d6"
         },
         {
@@ -2772,7 +2804,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The phone number to check, in E.164 format (e.g., +12085813945), or in national format together with country",
+          "description": "The phone number to check, in E.164 format (e.g., +12085813945), or in national format together with country. A bare 10-digit North American number without country is also checked as +1; passing country is still recommended",
           "example": "+12085813945"
         },
         {
@@ -2946,7 +2978,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The domain or DNS name to look up, without the protocol. Underscore names work too, such as _dmarc.example.com or _sip._tcp.example.com",
+          "description": "The domain or DNS name to look up, without the protocol. Underscore names work too, such as _dmarc.example.com or _sip._tcp.example.com, and so do Unicode names such as münchen.de. With type PTR, a bare IP address is looked up as its reverse name",
           "example": "myspace.com"
         },
         {
@@ -3081,7 +3113,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The OBD-II trouble code: P, B, C or U followed by four characters, for example P0301, U0100 or P2BAC",
+          "description": "The OBD-II trouble code: P, B, C or U followed by four characters, for example P0301, U0100 or P2BAC. A VAG (VW, Audi, SEAT, Skoda) 5-digit code in the OBD-II ranges is also accepted, for example 16684 for P0300",
           "example": "P0301"
         },
         {
@@ -3089,7 +3121,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The vehicle make, for carmaker-specific codes, for example Ford, Chevrolet or Volkswagen",
+          "description": "The vehicle make, for carmaker-specific codes, for example Ford, Chevrolet, Audi or Lexus. Brands that share a code list answer from it, so Audi, SEAT and Skoda use the Volkswagen list and Lexus uses Toyota's",
           "example": "Ford"
         },
         {
@@ -3116,6 +3148,14 @@
           "type": "string",
           "description": "First day of last menstrual period (YYYY-MM-DD)",
           "example": "2026-06-01"
+        },
+        {
+          "name": "cycle_length",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Average menstrual cycle length in days (default 28). The due date, conception date and milestones move by cycle_length minus 28 days (modified Naegele rule)",
+          "example": 28
         }
       ]
     },
@@ -3162,7 +3202,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Time window: hour (the past hour) or day (the past 24 hours)",
+          "description": "Time window: hour (the past hour), day (the past 24 hours) or week (the past 7 days, refreshed every 3 hours)",
           "example": "day"
         },
         {
@@ -3194,7 +3234,7 @@
           "in": "query",
           "required": false,
           "type": "number",
-          "description": "Search radius in kilometers around lat/lon",
+          "description": "Search radius in kilometers around lat/lon. Outside the US the source lists mostly M4-4.5 and larger quakes, so a small radius there can return none even when smaller quakes were felt",
           "example": 250
         },
         {
@@ -3261,7 +3301,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The emoji for which you want to get the text representation (e.g., 🥳)",
+          "description": "The emoji for which you want to get the text representation (e.g., 🥳). A :shortcode: such as :smile: or a code point such as U+1F600 is also accepted",
           "example": "🥳"
         }
       ]
@@ -3294,7 +3334,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Benchmark to price, or a comma-separated list (paid plans), or all. Defaults to wti.",
+          "description": "Benchmark to price, or a comma-separated list (paid plans), or all. Defaults to wti. Ids: wti, brent, henryhub, gasoline_nyh, gasoline_gulf, rbob_la, ulsd_nyh, ulsd_gulf, carbdiesel_la, heatingoil, propane, jetfuel. Common names work too: crude or oil (wti), natural gas, natgas or henry hub (henryhub), gasoline (gasoline_nyh), diesel or ulsd (ulsd_nyh), heating oil, jet fuel or kerosene (jetfuel).",
           "example": "wti"
         },
         {
@@ -3577,9 +3617,9 @@
         {
           "name": "muscle",
           "in": "query",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The muscle group to get exercises for",
+          "description": "The muscle group to get exercises for. Optional when name or equipment is given; everyday names abs, core, back, legs, arms, quads, hams, delts and pecs cover their muscle groups",
           "example": "chest"
         },
         {
@@ -3587,7 +3627,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The name of the exercise to get information about",
+          "description": "The name of the exercise to get information about; hyphens, spaces and plurals don't matter (pull up, pull-up and pullups all match)",
           "example": "barbell"
         },
         {
@@ -3723,6 +3763,47 @@
         }
       ]
     },
+    "filmography": {
+      "title": "Filmography",
+      "description": "Filmography returns the films a person worked on, newest first, from their name or Wikidata id: each film's title, year and the person's roles in it, such as director and writer. Filter by role to get only the films someone directed or acted in. When several people share a name, the best-known comes first and the others are listed with a film they are known for. Covers the cast and crew of about 450,000 films.",
+      "category": "Entertainment",
+      "method": "GET",
+      "path": "/v1/filmography",
+      "params": [
+        {
+          "name": "name",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Person name, e.g. Christopher Nolan. Use name or id",
+          "example": "Christopher Nolan"
+        },
+        {
+          "name": "id",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Wikidata id of the person, e.g. Q25191",
+          "example": "Q25191"
+        },
+        {
+          "name": "role",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Only films with this role",
+          "example": "director"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum films to return (1-50)",
+          "example": 25
+        }
+      ]
+    },
     "financialratios": {
       "title": "Financial Ratios",
       "description": "Financial Ratios returns the key profitability, liquidity, leverage, efficiency and cash-flow ratios for a US public company by ticker - margins, ROE, ROA, current ratio, debt-to-equity, interest coverage, asset turnover, FCF margin and more - all computed from SEC filing data. On paid plans, valuation=true adds market cap, P/E, P/S, P/B and earnings yield against the latest stored share price.",
@@ -3768,7 +3849,16 @@
       "category": "Games",
       "method": "GET",
       "path": "/v1/fortunecookie",
-      "params": []
+      "params": [
+        {
+          "name": "type",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Optional fortune type: wisdom, prediction, advice, humor or motivational (case-insensitive); omitted or unrecognised picks a type at random",
+          "example": "humor"
+        }
+      ]
     },
     "fortuneteller": {
       "title": "Fortune Teller",
@@ -3849,7 +3939,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Country to get prices for: US, GB, EU (the EU average) or any EU member code such as DE, FR or PL. Defaults to US. Countries other than US require a paid plan.",
+          "description": "Country to get prices for: US, GB (UK is accepted too), EU (the EU average) or any EU member code such as DE, FR or PL. English country names such as Germany are accepted too. Defaults to US. Countries other than US require a paid plan.",
           "example": "US"
         },
         {
@@ -3857,7 +3947,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "US only: a state code (CA, CO, FL, MA, MN, NY, OH, TX, WA), a region (eastcoast, midwest, gulfcoast, rockymountain, westcoast and the PADD 1 sub-regions) or a city (losangeles, chicago, houston, newyorkcity and more). Omit for the national average. Requires a paid plan.",
+          "description": "US only: any state as a code or full name (GA, Georgia), a region (eastcoast, newengland, centralatlantic, loweratlantic, midwest, gulfcoast, rockymountain, westcoast, westcoastexcalifornia) or a city (boston, chicago, cleveland, denver, houston, losangeles, miami, newyorkcity, sanfrancisco, seattle; spaces are fine). EIA publishes its own series for CA, CO, FL, MA, MN, NY, OH, TX and WA; any other state returns its PADD region average with resolvedFrom and a note. Omit for the national average. Requires a paid plan.",
           "example": "CA"
         },
         {
@@ -3898,7 +3988,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "ISO 2 or 3-letter country code (e.g., US, USA, GB, GBR)",
+          "description": "ISO 2 or 3-letter country code (e.g., US, USA, GB, GBR). UK and EL are accepted for GB and GR",
           "example": "US"
         },
         {
@@ -3972,7 +4062,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "ISO 2-letter country code",
+          "description": "ISO 2-letter country code. UK and EL are accepted for GB and GR",
           "example": "DE"
         },
         {
@@ -4036,7 +4126,7 @@
     },
     "grammarcheck": {
       "title": "Grammar Check",
-      "description": "Grammar Check is a grammar checker and spell check API that inspects text for spelling and grammar errors, returning the corrected wording, error count, and a modified flag. Paid plans add detailed rule descriptions, character offsets, and suggestions for every detected mistake.",
+      "description": "Grammar Check is a grammar checker and spell check API for English text that inspects text for spelling and grammar errors, returning the corrected wording, error count, and a modified flag. Paid plans add detailed rule descriptions, character offsets, and suggestions for every detected mistake.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/grammarcheck",
@@ -4046,7 +4136,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The text you want to check for grammatical and spelling errors"
+          "description": "The English text you want to check for grammatical and spelling errors"
         }
       ]
     },
@@ -4112,7 +4202,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Difficulty level",
+          "description": "Difficulty by letter count: easy is 6 letters or fewer, medium 5-9, hard 8 or more",
           "example": "medium"
         },
         {
@@ -4145,7 +4235,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The zip code to get the USDA Plant Hardiness Zone for",
+          "description": "The US ZIP code to get the USDA Plant Hardiness Zone for. ZIP+4 (97201-1234) and ZIPs missing their leading zero (2134) are accepted",
           "example": "97201"
         }
       ]
@@ -4290,6 +4380,20 @@
           "required": false,
           "type": "string",
           "description": "Output encoding format"
+        },
+        {
+          "name": "secretEncoding",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "How the secret is encoded. Use base64 for Svix / Standard Webhooks keys (a leading whsec_ is stripped) and hex for binary keys such as chained AWS SigV4 keys. Stripe and GitHub secrets are plain utf8, whsec_ prefix included"
+        },
+        {
+          "name": "signature",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Optional signature received with a webhook. When sent, the response adds matches (timing-safe compare in the chosen encoding). Prefixes like sha256=, v1, and Svix space-separated lists are accepted"
         }
       ]
     },
@@ -4375,6 +4479,13 @@
           "required": false,
           "type": "string",
           "description": "Output image format"
+        },
+        {
+          "name": "fullPage",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Capture the whole page instead of cropping at the viewport height, so a long receipt, invoice or report comes back complete (default: false)"
         }
       ]
     },
@@ -4484,6 +4595,13 @@
           "required": true,
           "type": "string",
           "description": "The HTML to convert to text"
+        },
+        {
+          "name": "mode",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "auto (default): the main article, or all text when no article is found; article: the main article only; full: all visible text minus navigation, sidebars and banners, for emails, homepages and other non-article HTML"
         }
       ]
     },
@@ -4624,7 +4742,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "A JSON array of public image URLs, added in order after image. Up to 20 images per call in all"
+          "description": "A JSON array of public image URLs, added in order after image; a comma- or newline-separated list also works. Up to 20 images per call in all"
         },
         {
           "name": "pageSize",
@@ -4826,7 +4944,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "District name",
+          "description": "District name. Former and everyday city names work (Bangalore, Gurgaon, Bombay, Noida, Delhi), and a name that is the start of several districts returns all of them (Bengaluru covers Bengaluru Urban and Rural)",
           "example": "Pune"
         },
         {
@@ -4875,7 +4993,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "ISO 2-letter country code (e.g., US, GB, JP, DE, BR)",
+          "description": "ISO 2-letter or 3-letter country code (e.g., US, USA, GB, JP, DE, BR). UK is accepted for GB",
           "example": "US"
         },
         {
@@ -5082,7 +5200,7 @@
     },
     "interestrate": {
       "title": "Interest Rate",
-      "description": "Interest Rate retrieves central bank policy rates for 22 major economies by country code. It delivers the latest interest rate percentage, central bank name, recorded date, and whether the rate moved up, down, or remained unchanged, while paid plans add the 12-month change, the 12-month high, low and average, and the last 12 monthly rates.",
+      "description": "Interest Rate retrieves central bank policy rates for 23 major economies by country code. It delivers the latest interest rate percentage, central bank name, recorded date, and whether the rate moved up, down, or remained unchanged, while paid plans add the 12-month change, the 12-month high, low and average, and the last 12 monthly rates.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/interestrate",
@@ -5092,7 +5210,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "2-letter country code",
+          "description": "Country code: AU, BR, CA, CH, CN, CZ, DK, EU (euro area), GB, HU, IL, IN, JP, KR, MX, NO, NZ, PL, RU, SE, TR, US or ZA. ISO 3-letter codes (USA, GBR) and UK are also accepted",
           "example": "US"
         },
         {
@@ -5166,16 +5284,30 @@
         {
           "name": "from_state",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The state of the person or company issuing the invoice"
+          "description": "The state, province or region of the person or company issuing the invoice (optional; left out of the address when blank)"
         },
         {
           "name": "from_zip",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The zip code of the person or company issuing the invoice"
+          "description": "The postal or ZIP code of the person or company issuing the invoice (optional; any country's format)"
+        },
+        {
+          "name": "from_country",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "The country of the person or company issuing the invoice, printed as its own address line (optional)"
+        },
+        {
+          "name": "from_taxId",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "VAT, GST, ABN or other tax registration number of the person or company issuing the invoice, printed as a Tax ID line (optional)"
         },
         {
           "name": "to_name",
@@ -5201,16 +5333,30 @@
         {
           "name": "to_state",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The state of the person or company being invoiced"
+          "description": "The state, province or region of the person or company being invoiced (optional; left out of the address when blank)"
         },
         {
           "name": "to_zip",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "The zip code of the person or company being invoiced"
+          "description": "The postal or ZIP code of the person or company being invoiced (optional; any country's format)"
+        },
+        {
+          "name": "to_country",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "The country of the person or company being invoiced, printed as its own address line (optional)"
+        },
+        {
+          "name": "to_taxId",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "VAT, GST, ABN or other tax registration number of the person or company being invoiced, printed as a Tax ID line (optional)"
         },
         {
           "name": "job",
@@ -5248,18 +5394,25 @@
           "description": "The sales tax rate for the invoice as a percentage, applied to the subtotal after discount (e.g. 7.5 for 7.5%)"
         },
         {
+          "name": "taxLabel",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Label for the tax row, for example VAT or GST (default: Sales Tax)"
+        },
+        {
           "name": "logoURL",
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "Public http(s) URL of an image to use as the invoice logo (max 2 MB, fetched with a 5 second timeout; a placeholder logo is used if it can't be loaded)"
+          "description": "Public http(s) URL of an image to use as the invoice logo (max 2 MB, fetched with a 5 second timeout). The invoice has no logo when this is omitted or the image can't be loaded"
         },
         {
           "name": "currency",
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "The currency for the invoice"
+          "description": "The currency code for the invoice; amounts are labelled with it and use its decimal places"
         },
         {
           "name": "items",
@@ -5604,6 +5757,13 @@
           "required": false,
           "type": "boolean",
           "description": "Whether to include column headers in the output (default: true)"
+        },
+        {
+          "name": "flatten",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Flatten nested objects into dot-path columns such as customer.address.city instead of writing them as JSON in one cell (default: false)"
         }
       ]
     },
@@ -5642,7 +5802,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The Gregorian date in YYYY-MM-DD format",
+          "description": "The Gregorian date in YYYY-MM-DD format. An ISO date-time (2024-03-15T18:00:00Z) is also accepted and sets the time used for julianDate; without Z or an offset the time is read as UT",
           "example": "2024-03-15"
         }
       ]
@@ -5659,7 +5819,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "JWT token to decode"
+          "description": "JWT token to decode; a pasted Authorization header value (Bearer <token>) is accepted"
         },
         {
           "name": "publicKey",
@@ -5688,7 +5848,7 @@
     },
     "languagedetector": {
       "title": "Language Detector",
-      "description": "Language Detector is a language detection API that identifies the language of text written in Latin, Cyrillic and other alphabetic scripts (Chinese, Japanese, Korean and Greek are not supported). It returns the primary language, its ISO 639-1 code, and candidate matches ranked by confidence scores.",
+      "description": "Language Detector is a language detection API that identifies the language of text in Latin, Cyrillic, Arabic, Greek, Hebrew, Thai, Chinese, Japanese and Korean scripts, including one-line messages. It returns the primary language, its ISO 639-1 code, and candidate matches ranked by confidence scores.",
       "category": "AI/Computer Vision",
       "method": "POST",
       "path": "/v1/languagedetector",
@@ -5808,6 +5968,20 @@
           "required": false,
           "type": "boolean",
           "description": "Enable case-sensitive sorting"
+        },
+        {
+          "name": "natural",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Natural (numeric-aware) order: runs of digits compare as numbers, so item2 sorts before item10"
+        },
+        {
+          "name": "unique",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Remove duplicate lines before sorting (case-insensitive unless caseSensitive is true); the first spelling is kept"
         }
       ]
     },
@@ -5823,7 +5997,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the web page to scrape links from"
+          "description": "The URL of the web page to scrape links from (a full URL or a bare domain such as example.com; https:// is assumed when no scheme is given)"
         },
         {
           "name": "maxlinks",
@@ -5838,6 +6012,13 @@
           "required": false,
           "type": "boolean",
           "description": "Include query strings in the scraped links"
+        },
+        {
+          "name": "unique",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Return each href once, skipping repeats before the maxlinks cap (by default every anchor is returned, repeats included)"
         }
       ]
     },
@@ -5868,7 +6049,7 @@
     },
     "loanpaymentcalculator": {
       "title": "Loan Calculator",
-      "description": "Loan Calculator is a payment calculation API that computes monthly loan payments, total interest, and overall loan costs based on principal, annual interest rate, and term length. Include an optional down payment to determine adjusted financing balances and interest ratios. On paid plans, optional inputs add an extra-payment payoff plan with months and interest saved, payoff dates from a start date, biweekly or weekly payment figures, and an APR that includes upfront fees.",
+      "description": "Loan Calculator is a payment calculation API that computes monthly loan payments, total interest, and overall loan costs based on principal, annual interest rate, and term length in years or months. Include an optional down payment to determine adjusted financing balances and interest ratios. On paid plans, optional inputs add an extra-payment payoff plan with months and interest saved, payoff dates from a start date, biweekly or weekly payment figures, and an APR that includes upfront fees.",
       "category": "Finance",
       "method": "POST",
       "path": "/v1/loanpaymentcalculator",
@@ -5890,9 +6071,16 @@
         {
           "name": "loanTerm",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "integer",
-          "description": "The loan term in years"
+          "description": "The loan term in whole years (e.g. 5 or 30). For terms quoted in months, send loanTermMonths instead"
+        },
+        {
+          "name": "loanTermMonths",
+          "in": "body",
+          "required": false,
+          "type": "integer",
+          "description": "The loan term in months (e.g. 36, 60, 72, 75). Overrides loanTerm; use it for auto and personal loans quoted in months, including terms that are not whole years such as 18 or 30"
         },
         {
           "name": "downpayment",
@@ -5976,7 +6164,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The lottery game to lookup: powerball, megamillions, euromillions, or lottomax",
+          "description": "The lottery game to lookup: powerball, megamillions, euromillions, or lottomax (mega millions and mega_millions are also accepted)",
           "example": "powerball"
         },
         {
@@ -5984,7 +6172,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Optional date for historical lookup (YYYY-MM-DD). Returns the nearest draw to this date.",
+          "description": "Optional date for historical lookup (YYYY-MM-DD). Returns the nearest draw within 30 days of this date; history depth varies by game, and a date outside it returns 404 with the covered range.",
           "example": "2024-01-15"
         },
         {
@@ -6009,7 +6197,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Lottery game preset",
+          "description": "Lottery game preset; pick3 and pick4 are US daily digit games (each digit 0-9, repeats allowed, order kept) and uklotto is the UK Lotto 6 from 59",
           "example": "powerball"
         },
         {
@@ -6148,7 +6336,7 @@
     },
     "marineweather": {
       "title": "Marine Weather",
-      "description": "Marine Weather fetches offshore weather conditions for any marine coordinates by latitude and longitude. Each response details high and low temperatures, maximum wind speeds, precipitation totals, humidity, UV index, and sunrise and sunset times.",
+      "description": "Marine Weather fetches offshore weather conditions for any marine coordinates by latitude and longitude. Each response details significant wave height, swell, water temperature and gusts alongside high and low temperatures, maximum wind speeds, precipitation totals, humidity, UV index, and sunrise and sunset times.",
       "category": "Weather",
       "method": "GET",
       "path": "/v1/marineweather",
@@ -6197,16 +6385,16 @@
         {
           "name": "headers",
           "in": "body",
-          "required": true,
+          "required": false,
           "type": "string",
-          "description": "Array of column header names"
+          "description": "Array of column header names. Required when rows are arrays; with object rows it picks and orders the columns, and when omitted the headers come from the objects' keys"
         },
         {
           "name": "rows",
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "Array of row arrays containing cell values"
+          "description": "Array of row arrays, or an array of objects such as an API or database result (headers derived from the keys when omitted)"
         },
         {
           "name": "alignment",
@@ -6272,7 +6460,7 @@
     },
     "markdowntopdf": {
       "title": "Markdown to PDF",
-      "description": "Markdown to PDF is a PDF generator API that converts markdown text into professionally formatted PDF documents and returns a temporary download URL for each file. Paid plans can set the paper size, orientation and margins, style the document with their own CSS, and print a header and footer with page numbers on every page.",
+      "description": "Markdown to PDF is a PDF generator API that converts markdown text into professionally formatted PDF documents, with a clean default stylesheet (sans-serif text, bordered tables, shaded code blocks), and returns a temporary download URL for each file. Paid plans can set the paper size, orientation and margins, style the document with their own CSS, and print a header and footer with page numbers on every page.",
       "category": "Data Conversion",
       "method": "POST",
       "path": "/v1/markdowntopdf",
@@ -6331,7 +6519,7 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "Stylesheet applied to the rendered markdown, e.g. body { font-family: Georgia, serif } table { border-collapse: collapse }"
+          "description": "Stylesheet applied after the default one, so its rules win, e.g. body { font-family: Georgia, serif } table { border-collapse: collapse }"
         },
         {
           "name": "headerTemplate",
@@ -6351,7 +6539,7 @@
     },
     "math": {
       "title": "Math Calculator",
-      "description": "Math Calculator performs mathematical operations including arithmetic, number properties, base conversions, and expression evaluation.",
+      "description": "Math Calculator performs mathematical operations including arithmetic, number properties, base conversions, and expression evaluation. Decimal results are rounded to 15 significant digits, as a calculator shows them, so 0.1 + 0.2 returns 0.3.",
       "category": "Data Conversion",
       "method": "POST",
       "path": "/v1/math",
@@ -6457,7 +6645,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Time in HH:MM format (24-hour)",
+          "description": "Time in HH:MM or HH:MM:SS format (24-hour)",
           "example": "14:30"
         },
         {
@@ -6465,7 +6653,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Source IANA timezone identifier",
+          "description": "Source timezone: an IANA name (America/New_York), a North American abbreviation (EST, EDT, PST, PDT and so on, always DST-aware) or a UTC/GMT offset such as UTC+05:30",
           "example": "America/New_York"
         },
         {
@@ -6473,7 +6661,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Target IANA timezone identifier",
+          "description": "Target timezone, in the same forms as fromTimezone",
           "example": "Europe/London"
         },
         {
@@ -6505,8 +6693,8 @@
           "name": "cycle_length",
           "in": "query",
           "required": false,
-          "type": "integer",
-          "description": "Average cycle length in days",
+          "type": "number",
+          "description": "Average cycle length in days (18-60; decimals such as 29.5 are rounded to the nearest whole day)",
           "example": 28
         },
         {
@@ -6539,7 +6727,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the web page to extract metadata from"
+          "description": "The URL of the web page to extract metadata from; without a scheme, https:// is assumed"
         }
       ]
     },
@@ -6671,7 +6859,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The date to get the moon position data for (MM-dd-yyyy). Years 1700 to 2300 are supported",
+          "description": "The date to get the moon position data for (MM-DD-YYYY or YYYY-MM-DD). An ISO date-time such as 2026-06-21T21:00:00 is also accepted and supplies the time; with Z or an offset it is read as that exact instant. Years 1700 to 2300 are supported",
           "example": "01-16-2026"
         },
         {
@@ -6679,7 +6867,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The time of day for the calculation (HH:mm format, 24-hour). Defaults to 00:00 if not provided",
+          "description": "The time of day for the calculation (HH:mm, 24-hour; HH:mm:ss and 12-hour times such as 9:00 PM are also accepted, seconds are ignored). Defaults to 00:00 if not provided",
           "example": "14:30"
         },
         {
@@ -6722,6 +6910,14 @@
           "type": "string",
           "description": "The date to get the moonrise and moonset times for (MM-dd-yyyy)",
           "example": "01-16-2026"
+        },
+        {
+          "name": "local",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Also return the IANA timezone of the coordinates and moonrise/moonset as local ISO 8601 times",
+          "example": true
         }
       ]
     },
@@ -6957,6 +7153,63 @@
         }
       ]
     },
+    "movielookup": {
+      "title": "Movie Lookup",
+      "description": "Movie Lookup returns the record of a film from its title, IMDb id or Wikidata id: release year and date, runtime, genres, countries, languages, director and cast. Paid plans add writers, producers, composer, cinematographer, editor, studios, distributors, awards, box office, budget, filming locations, franchise links and APIVerve's own 0-100 movie rating with acclaim and popularity scores. Covers about 450,000 films and filmed works: features, animation, documentaries, shorts, TV films and specials, music videos and more.",
+      "category": "Entertainment",
+      "method": "GET",
+      "path": "/v1/movielookup",
+      "params": [
+        {
+          "name": "title",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Film title to search, e.g. Inception. Use title, imdb or id",
+          "example": "Inception"
+        },
+        {
+          "name": "year",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Release year, to pick one of several films with the same title",
+          "example": 2010
+        },
+        {
+          "name": "imdb",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "IMDb title id (tt1375666) or IMDb title URL",
+          "example": "tt1375666"
+        },
+        {
+          "name": "id",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Wikidata id, e.g. Q25188",
+          "example": "Q25188"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "Maximum films to return for a title search (1-10)",
+          "example": 5
+        },
+        {
+          "name": "cast",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Return the full cast instead of the top 5",
+          "example": true
+        }
+      ]
+    },
     "murmurhash": {
       "title": "MurmurHash",
       "description": "MurmurHash generates fast, non-cryptographic hashes using the MurmurHash3 algorithm. Ideal for hash tables, data partitioning, bloom filters, and checksums where cryptographic security isn't needed.",
@@ -6983,7 +7236,7 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "Hash variant: 32 (32-bit) or 128 (128-bit)"
+          "description": "Hash variant: 32 (MurmurHash3_x86_32), 128 (MurmurHash3_x86_128) or 128x64 (MurmurHash3_x64_128, the 128-bit hash Python mmh3, Guava and Cassandra use)"
         }
       ]
     },
@@ -7049,7 +7302,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "One NAICS code, or several separated by commas (up to 10 on Free, 500 on paid plans)",
+          "description": "One NAICS code, or several separated by commas (up to 10 on Free, 500 on paid plans). NAICS 2017 codes retired in 2022 come back under retired with their replacements",
           "example": "541511"
         },
         {
@@ -7057,7 +7310,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Keywords to search titles, index terms and descriptions",
+          "description": "Keywords to search titles, index terms and descriptions. Plain-language terms are understood too: online store or ecommerce, SaaS, IT consulting, and occupations such as plumber or electrician",
           "example": "software publisher"
         },
         {
@@ -7197,7 +7450,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Only stories whose headlines or summaries contain every word given, in any case.",
+          "description": "Only stories whose headlines or summaries contain every word given, in any case. Without category or edition, q searches every section feed (business, tech, crypto, sport and the rest), not only front pages.",
           "example": "chips"
         },
         {
@@ -7238,7 +7491,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The last name of the Nobel Prize winner to get information about",
+          "description": "The last name of the Nobel Prize winner to get information about (accents optional: Schrodinger matches Schrödinger)",
           "example": "Einstein"
         },
         {
@@ -7246,7 +7499,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The category of the Nobel Prize to get information about",
+          "description": "The category of the Nobel Prize to get information about (official names like Physiology or Medicine and Economic Sciences are accepted)",
           "example": "Physics"
         },
         {
@@ -7279,7 +7532,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The number to convert",
+          "description": "The number to convert. Prefixes matching the base (0x or # for hex, 0b for binary, 0o for octal) and space or underscore digit grouping are accepted",
           "example": "255"
         },
         {
@@ -7287,7 +7540,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "Source base (default: 10)",
+          "description": "Source base (default: 10, or the base a 0x, #, 0b or 0o prefix names)",
           "example": 10
         },
         {
@@ -7314,6 +7567,14 @@
           "type": "number",
           "description": "The number to convert to words",
           "example": 975.07
+        },
+        {
+          "name": "currency",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Currency for the currencyWords block: USD (default), CAD, AUD, NZD, EUR, GBP, INR or ZAR. INR amounts are worded in lakh and crore",
+          "example": "USD"
         }
       ]
     },
@@ -7329,7 +7590,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Name of the food to look up (e.g. banana, chicken breast, olive oil)",
+          "description": "Name of the food to look up (e.g. banana, chicken breast, olive oil). A leading quantity such as 1 cup rice, 2 eggs or 100g chicken breast is accepted and reported in parsedQuantity",
           "example": "banana"
         },
         {
@@ -7369,7 +7630,7 @@
     },
     "officetopdf": {
       "title": "Office to PDF",
-      "description": "Office to PDF converts Word, Excel, PowerPoint, OpenDocument, RTF, text and CSV files to PDF and returns a download link valid for 2 days, with the page count of the result. Upload the file or send its URL. Paid plans can convert only selected pages and set landscape orientation.",
+      "description": "Office to PDF converts Word, Excel, PowerPoint, OpenDocument, RTF, text and CSV files to PDF and returns a download link valid for 2 days, with the page count of the result. Upload the file or send its URL. Wide spreadsheets can be fitted one sheet per page. Paid plans can convert only selected pages and set landscape orientation.",
       "category": "Documents",
       "method": "POST",
       "path": "/v1/officetopdf",
@@ -7389,6 +7650,14 @@
           "type": "boolean",
           "description": "Lay the pages out in landscape orientation",
           "example": false
+        },
+        {
+          "name": "singlePageSheets",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "Fit each spreadsheet sheet onto a single page, so wide sheets keep all their columns together. Spreadsheet inputs only",
+          "example": false
         }
       ]
     },
@@ -7404,7 +7673,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The name of the open source license to get information about",
+          "description": "The name of the open source license to get information about. Accepts SPDX ids, full titles and common written forms (Apache 2.0, GPLv3, The MIT License), plus SPDX expressions like MIT OR Apache-2.0",
           "example": "MIT"
         }
       ]
@@ -7421,15 +7690,15 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "First day of last menstrual period (YYYY-MM-DD)",
+          "description": "First day of last menstrual period (YYYY-MM-DD; DD.MM.YYYY and MM/DD/YYYY also work)",
           "example": "2024-01-01"
         },
         {
           "name": "cycle_length",
           "in": "query",
           "required": false,
-          "type": "integer",
-          "description": "Average menstrual cycle length in days",
+          "type": "number",
+          "description": "Average menstrual cycle length in days (18-60; decimals such as 29.5 are rounded to the nearest whole day)",
           "example": 28
         }
       ]
@@ -7533,7 +7802,7 @@
     },
     "passwordbreach": {
       "title": "Password Breach Checker",
-      "description": "Password Breach Checker tells you whether a password appears in the Pwned Passwords corpus of passwords exposed in data breaches. Send the password or its SHA-1 hash and get a breached flag. Paid plans add how many times it was seen and a risk level.",
+      "description": "Password Breach Checker tells you whether a password has been pwned: whether it appears in the Pwned Passwords corpus of passwords exposed in data breaches, the same corpus behind Have I Been Pwned. Send the password or its SHA-1 hash and get a breached flag. Paid plans add how many times it was seen and a risk level.",
       "category": "Security",
       "method": "POST",
       "path": "/v1/passwordbreach",
@@ -7693,7 +7962,7 @@
     },
     "passwordstrength": {
       "title": "Password Strength",
-      "description": "Password Strength is a password strength checker API that scores how strong a password is. It returns a strength label and score, a breakdown of the character types used, weak-pattern detection, theoretical entropy in bits, and recommendations to improve it.",
+      "description": "Password Strength is a password strength checker API that scores how strong a password is. It returns a strength label and score, a breakdown of the character types used, weak-pattern detection, theoretical entropy in bits, and recommendations to improve it. Paid plans also check the password against over 2 billion breached passwords and return how often it has been seen.",
       "category": "Data Validation",
       "method": "GET",
       "path": "/v1/passwordstrength",
@@ -7720,7 +7989,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "A JSON array of 2 to 10 public PDF URLs, merged in order. Or upload the PDFs as multipart files instead"
+          "description": "A JSON array of 2 to 10 public PDF URLs, merged in order; a comma- or newline-separated list also works. Or upload the PDFs as multipart files instead"
         }
       ]
     },
@@ -7866,7 +8135,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The name of the chemical element to get information about",
+          "description": "The name of the chemical element to get information about. US and IUPAC spellings (aluminum or aluminium, cesium or caesium, sulfur or sulphur) and atomic numbers (26) are accepted",
           "example": "hydrogen"
         }
       ]
@@ -7898,7 +8167,7 @@
     },
     "phishingcheck": {
       "title": "Phishing Domain Checker",
-      "description": "Phishing Domain Checker is a phishing detection API that verifies whether a domain or URL appears in a comprehensive database of known phishing sites. Updated every 6 hours from two independent blocklists covering 570,000+ phishing domains.",
+      "description": "Phishing Domain Checker is a phishing detection API that verifies whether a domain or URL appears in a comprehensive database of known phishing sites. Updated every 6 hours from three independent blocklists covering about 700,000 phishing domains.",
       "category": "Networking",
       "method": "POST",
       "path": "/v1/phishingcheck",
@@ -7932,7 +8201,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The two-letter country code of the phone number (e.g., us, uk). Optional when the number is in international format starting with +",
+          "description": "The two-letter country code of the phone number (e.g., us, uk). Optional when the number is in international format starting with + or 00",
           "example": "us"
         }
       ]
@@ -8022,7 +8291,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The host name or public IP that you want to ping"
+          "description": "The host name or public IP that you want to ping. A URL (https://example.com/path) or host:port is reduced to its host"
         },
         {
           "name": "timeout",
@@ -8085,14 +8354,14 @@
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "The date to get planetary position data for (MM-DD-YYYY)"
+          "description": "The date to get planetary position data for (MM-DD-YYYY). An ISO date-time such as 2026-11-17T20:00:00 is also accepted and supplies the time; with Z or an offset it is read as that exact instant"
         },
         {
           "name": "time",
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "The time of day for the calculation (HH:mm format, 24-hour), read as UTC unless timezone is given. Defaults to 00:00 if not provided"
+          "description": "The time of day for the calculation (HH:mm, 24-hour; HH:mm:ss and 12-hour times such as 9:00 PM are also accepted, seconds are ignored), read as UTC unless timezone is given. Defaults to 00:00 if not provided"
         },
         {
           "name": "timezone",
@@ -8176,7 +8445,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "ISO 2 or 3-letter country code (e.g., US, USA, GB, GBR)",
+          "description": "ISO 2 or 3-letter country code (e.g., US, USA, GB, GBR). UK is accepted for GB",
           "example": "US"
         },
         {
@@ -8270,7 +8539,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Conversion mode",
+          "description": "encode or decode; when omitted, an all-ASCII input with an xn-- label is decoded and anything else is encoded",
           "example": "encode"
         }
       ]
@@ -8295,7 +8564,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Starting year (YYYY format, data available from 1947)",
+          "description": "Starting period: a year (YYYY, priced at January of that year) or a month (YYYY-MM). Data available from 1913-01",
           "example": "1990"
         },
         {
@@ -8303,7 +8572,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Ending year (YYYY format). Omit for current.",
+          "description": "Ending period: a year (YYYY, priced at January) or a month (YYYY-MM). Omit for the latest published month",
           "example": "2024"
         }
       ]
@@ -8320,7 +8589,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The text or data to encode in the QR code"
+          "description": "The text or data to encode in the QR code. For type=wifi, the network name (SSID) with password and encryption, or a full payload like T:WPA;S:MyNetwork;P:secret;;. For type=vcard, a contact name, vCard property lines (FN:, TEL:, EMAIL:) or a full BEGIN:VCARD card"
         },
         {
           "name": "type",
@@ -8328,6 +8597,27 @@
           "required": false,
           "type": "string",
           "description": "The type of data being encoded. Advanced types (wifi, vcard) are premium."
+        },
+        {
+          "name": "password",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Wi-Fi password when type=wifi and value is the network name"
+        },
+        {
+          "name": "encryption",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "Wi-Fi security when type=wifi: WPA (default when a password is given, covers WPA2), WEP, or nopass for an open network"
+        },
+        {
+          "name": "hidden",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Set true when the Wi-Fi network does not broadcast its name (type=wifi)"
         },
         {
           "name": "format",
@@ -8801,6 +9091,20 @@
           "required": true,
           "type": "string",
           "description": "The text to remove punctuation from"
+        },
+        {
+          "name": "replacement",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "What removed punctuation becomes: none (deleted, the default) or space, so well-known becomes well known instead of wellknown. Apostrophes inside words are always deleted (don't becomes dont)"
+        },
+        {
+          "name": "keepNumbers",
+          "in": "body",
+          "required": false,
+          "type": "boolean",
+          "description": "Keep periods, commas and colons that sit between two digits, so 3.14, 1,000 and 5:30 survive; they are not counted as removed"
         }
       ]
     },
@@ -8889,7 +9193,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The ring size to convert",
+          "description": "The ring size to convert. Numbers accept decimals and fractions (6.5, 6 1/2, 6½); UK and AU letters accept half sizes (N½, N 1/2)",
           "example": "7"
         },
         {
@@ -8989,7 +9293,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The routing number to lookup information about",
+          "description": "The routing number to lookup information about. Dashes, dots and spaces are ignored (021-000-021)",
           "example": "121000358"
         }
       ]
@@ -9022,7 +9326,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The zip code for which you want to get the sales tax rate. ZIP+4 (64082-1234) is accepted and priced at its 5-digit ZIP",
+          "description": "The zip code for which you want to get the sales tax rate. ZIP+4 (64082-1234) is accepted and priced at its 5-digit ZIP; a ZIP that lost its leading zero (2108) is read as 02108",
           "example": "64082"
         }
       ]
@@ -9072,7 +9376,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The person or company name to screen (3-300 characters, at most 15 words)",
+          "description": "The person or company name to screen (3-300 characters, at most 15 words). Latin, Cyrillic and Greek are fuzzy-matched; other scripts match native-script list aliases",
           "example": "Banco Nacional de Cuba"
         },
         {
@@ -9111,7 +9415,7 @@
     },
     "savingsbonds": {
       "title": "I-Bond Rates",
-      "description": "I-Bond Rates provides current and historical interest rates for US Series I Savings Bonds. I-Bonds are inflation-protected savings bonds with a composite rate made up of a fixed rate plus an inflation rate that adjusts every 6 months.",
+      "description": "I-Bond Rates provides current and historical interest rates for US Series I Savings Bonds. I-Bonds are inflation-protected savings bonds with a composite rate made up of a fixed rate plus an inflation rate that adjusts every 6 months. Looking up an issue period also returns what a bond bought then earns today, from its fixed rate and the inflation rate at its latest six-month reset.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/savingsbonds",
@@ -9121,7 +9425,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Specific issue period to lookup (YYYY-MM format, e.g., 2024-11). Omit for current rates.",
+          "description": "Specific issue period to lookup (YYYY-MM format, e.g., 2022-05). Returns that period's issue rates plus what a bond issued then earns today. Omit for current rates.",
           "example": "2024-11"
         }
       ]
@@ -9212,7 +9516,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the web page to scrape SEO data from"
+          "description": "The URL of the web page to scrape SEO data from (a full URL or a bare domain such as example.com; https:// is assumed when no scheme is given)"
         }
       ]
     },
@@ -9244,7 +9548,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The shoe size to convert",
+          "description": "The shoe size to convert: a number, a fraction (9 1/2, 9½, EU 42 2/3), or a US kids size with its suffix (11C toddler/little kid, 5Y big kid; W or M picks the adult scale)",
           "example": "9"
         },
         {
@@ -9277,7 +9581,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "Number of codes to generate",
+          "description": "Number of codes to generate. Codes are unique within one response; uniqueness across calls is up to you",
           "example": 5
         },
         {
@@ -9293,7 +9597,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Character set",
+          "description": "Character set. uppercase is A-Z and 0-9; unambiguous is uppercase without 0, O, 1, I or L, for printed vouchers people retype",
           "example": "alphanumeric"
         }
       ]
@@ -9343,7 +9647,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "Array of URLs (strings or objects with url, priority, changeFreq, lastMod)"
+          "description": "Array of URLs (strings or objects with url, priority, changeFreq, lastMod). Non-ASCII paths are percent-encoded and international domains punycoded; exact duplicates are dropped"
         },
         {
           "name": "baseUrl",
@@ -9371,7 +9675,7 @@
           "in": "body",
           "required": false,
           "type": "boolean",
-          "description": "Include lastmod dates in sitemap"
+          "description": "Include lastmod dates in sitemap. URLs without their own lastMod are stamped with the request date, so pass false when you have no real modification dates"
         }
       ]
     },
@@ -9600,7 +9904,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The SRV record string to parse"
+          "description": "The SRV record string to parse. A full record set, one record per line, is accepted; the top-level fields describe the first record and records/priority_groups cover all of them"
         }
       ]
     },
@@ -9616,7 +9920,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The domain of the website to check the SSL certificate of",
+          "description": "The domain of the website to check the SSL certificate of. www.example.com and example.com are checked as separate hosts, since they often serve different certificates",
           "example": "ebay.com"
         }
       ]
@@ -9633,7 +9937,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The name of the star for which you want to get the data (e.g., Sirius)",
+          "description": "The name of the star (e.g., Sirius). IAU proper names (Rigil Kentaurus), Bayer designations (Alpha Orionis or alf Ori), Flamsteed numbers (58 Ori), HD and HIP numbers (HD 48915) and common names (Sun, North Star) are also accepted",
           "example": "Sirius"
         }
       ]
@@ -9650,7 +9954,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The 2 Letter State Code (e.g., CA)",
+          "description": "The state: a two-letter code (CA) or the full name (California)",
           "example": "CA"
         }
       ]
@@ -9684,7 +9988,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The stock exchange code",
+          "description": "The stock exchange code (e.g., NYSE, LSE, NSE). ISO 10383 MIC codes such as XNYS, XNAS, XLON, XETR and XTKS, and aliases such as XETRA and NYSEARCA, are accepted and answered under the venue's own code",
           "example": "NYSE"
         },
         {
@@ -9800,7 +10104,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The date to get the sun position data for (MM-DD-YYYY). Years 1700 to 2300 are supported",
+          "description": "The date to get the sun position data for (MM-DD-YYYY or YYYY-MM-DD). An ISO date-time such as 2026-06-21T13:30:00 is also accepted and supplies the time; with Z or an offset it is read as that exact instant. Years 1700 to 2300 are supported",
           "example": "01-16-2026"
         },
         {
@@ -9808,7 +10112,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The time of day for the calculation (HH:mm format, 24-hour), read in the timezone of the coordinates. Defaults to 00:00 if not provided",
+          "description": "The time of day for the calculation (HH:mm, 24-hour; HH:mm:ss and 12-hour times such as 1:30 PM are also accepted, seconds are ignored), read in the timezone of the coordinates. Defaults to 00:00 if not provided",
           "example": "14:30"
         },
         {
@@ -9934,6 +10238,14 @@
           "type": "string",
           "description": "The SWIFT code to lookup information about. A partial code of at least 4 characters matches every code it prefixes",
           "example": "CHASUS33ARP"
+        },
+        {
+          "name": "country",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Optional. Keep only codes in this country: an ISO two-letter code (US) or the country name (United States)",
+          "example": "US"
         }
       ]
     },
@@ -9967,6 +10279,14 @@
           "type": "string",
           "description": "The US Tax ID to validate (SSN, EIN, or ITIN format)",
           "example": "123-45-6789"
+        },
+        {
+          "name": "type",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "Optional: skip auto-detection and validate as this type (ssn, ein or itin). Use it for unformatted EINs, which otherwise read as SSNs",
+          "example": "ein"
         }
       ]
     },
@@ -9982,7 +10302,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The URL of the website to analyze",
+          "description": "The URL of the website to analyze (a full URL or a bare domain such as example.com; https:// is assumed when no scheme is given)",
           "example": "https://wordpress.org"
         },
         {
@@ -9997,7 +10317,7 @@
     },
     "tenseconverter": {
       "title": "Tense Converter",
-      "description": "Tense Converter rewrites text into past or future tense. Submit any passage with your chosen target tense to receive the transformed wording and a flag indicating whether the text changed.",
+      "description": "Tense Converter rewrites text into past, present or future tense. Submit any passage with your chosen target tense to receive the transformed wording and a flag indicating whether the text changed.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/tenseconverter",
@@ -10007,14 +10327,14 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The text to convert to past or future tense"
+          "description": "The text to convert to past, present or future tense"
         },
         {
           "name": "tense",
           "in": "body",
           "required": false,
           "type": "string",
-          "description": "The tense to convert the text to"
+          "description": "The tense to convert the text to: past, present or future"
         }
       ]
     },
@@ -10089,7 +10409,7 @@
     },
     "textstyler": {
       "title": "Text Styler",
-      "description": "Text Styler converts plain text into styled text formats like bubble letters, strikethrough, typewriter, and vaporwave. Submit your string with a chosen style to receive the formatted text output.",
+      "description": "Text Styler converts plain text into styled text formats like bold, italic, script, fraktur, double-struck, bubble letters, strikethrough, typewriter, and vaporwave. Submit your string with a chosen style to receive the formatted text output.",
       "category": "Text Processing",
       "method": "POST",
       "path": "/v1/textstyler",
@@ -10135,7 +10455,7 @@
     },
     "texttocolor": {
       "title": "Text to Color",
-      "description": "Text to Color converts natural language color names into hexadecimal color codes. Send descriptive color phrases to receive matching hex values and channel counts, with paid plans adding RGB, HSL, and CMYK formats.",
+      "description": "Text to Color converts color names and descriptive color text into hexadecimal color codes. CSS names, hex/rgb()/hsl() values and about 900 everyday color names such as burgundy, charcoal or navy blue resolve to their real color; other text is hashed to a stable color. Paid plans add RGB, HSL, and CMYK formats.",
       "category": "Data Conversion",
       "method": "GET",
       "path": "/v1/texttocolor",
@@ -10269,7 +10589,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city name for which you want to get the data (e.g., Harare). A name shared by several places resolves to the best-known one (London is London, UK); add a state, province or country after a comma to pick another (e.g., Portland, Maine or London, Ontario)",
+          "description": "The city name for which you want to get the data (e.g., Harare). A name shared by several places resolves to the best-known one (London is London, UK); add a state, province or country after a comma to pick another (e.g., Portland, Maine, London, Ontario or Toronto, ON; Canadian and Australian abbreviations such as ON, QC, NSW and VIC are understood). Smaller cities (Plano, TX) and common former or local names (Bangalore, Bombay, NYC, Munchen) are found too",
           "example": "Harare"
         }
       ]
@@ -10367,7 +10687,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The domain to check the TLS/SSL configuration for",
+          "description": "The host to check the TLS/SSL configuration for. It is probed exactly as given, so www.example.com and example.com are checked separately; a scheme or path is dropped",
           "example": "amazon.com"
         },
         {
@@ -10580,7 +10900,7 @@
     },
     "truthtable": {
       "title": "Truth Table Generator",
-      "description": "Truth Table Generator creates complete truth tables for boolean expressions with support for AND, OR, NOT, XOR, NAND, and NOR operators.",
+      "description": "Truth Table Generator creates complete truth tables for boolean expressions with support for AND, OR, NOT, XOR, NAND, NOR, implication (->) and biconditional (<->) operators.",
       "category": "Math/Calculations",
       "method": "GET",
       "path": "/v1/truthtable",
@@ -10590,7 +10910,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "Boolean expression using A-Z variables and operators (AND, OR, NOT, XOR, NAND, NOR)",
+          "description": "Boolean expression using A-Z variables and operators (AND, OR, NOT, XOR, NAND, NOR, IMPLIES/->, IFF/XNOR/<->); adjacent variables such as AB mean AND",
           "example": "A AND B OR C"
         }
       ]
@@ -10696,14 +11016,14 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The Unicode codepoint in hex (e.g., '1F44B' or 'U+1F44B'). Supply either character or codepoint.",
+          "description": "The Unicode codepoint in hex (e.g., '1F44B', 'U+1F44B' or '0x1F44B'); HTML entities (&#x1F44B; or &#128075;) and JS/JSON escapes (\\u{1F44B}, \\uD83D\\uDC4B) are accepted too. Supply either character or codepoint.",
           "example": "1F44B"
         }
       ]
     },
     "unitconverter": {
       "title": "Unit Converter",
-      "description": "Unit Converter converts values between 185 units across 23 measures, from length, mass and volume to speed, pressure, data size, energy and electrical units. Pass a numeric value with source and target unit codes to get the converted result and unit abbreviations. On paid plans, precision sets the decimal places and conversions=true adds the value in every unit of the same measure.",
+      "description": "Unit Converter converts values between 200 units across 24 measures, from length, mass and volume to speed, pressure, data size, energy and electrical units. Pass a numeric value with source and target units (codes such as lb or km/h, or everyday names such as pounds, mph or °F) to get the converted result and unit abbreviations. On paid plans, precision sets the decimal places and conversions=true adds the value in every unit of the same measure.",
       "category": "Data Conversion",
       "method": "GET",
       "path": "/v1/unitconverter",
@@ -10721,7 +11041,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The unit to convert from",
+          "description": "The unit to convert from: a code such as lb, km/h or C, or a common name, plural or abbreviation such as pounds, lbs, mph, feet, tbsp or °F (any casing)",
           "example": "lb"
         },
         {
@@ -10729,7 +11049,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The unit to convert to",
+          "description": "The unit to convert to, in the same forms as from",
           "example": "kg"
         },
         {
@@ -10737,7 +11057,7 @@
           "in": "query",
           "required": false,
           "type": "integer",
-          "description": "Decimal places to round results to, between 0 and 10 (default 2)",
+          "description": "Decimal places to round results to, between 0 and 10. Without it, results are rounded to 2 decimal places and results under 1 keep 4 significant figures",
           "example": 4
         },
         {
@@ -10762,7 +11082,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "University name or words from it; US abbreviations match too",
+          "description": "University name or words from it; abbreviations such as NYU, UCL or KAIST match too. The best match ranks first: University of Oxford before Oxford Brookes",
           "example": "Stanford"
         },
         {
@@ -10860,6 +11180,13 @@
           "required": false,
           "type": "string",
           "description": "The action to perform"
+        },
+        {
+          "name": "mode",
+          "in": "body",
+          "required": false,
+          "type": "string",
+          "description": "component (default) percent-encodes spaces as %20 and leaves + alone; form follows application/x-www-form-urlencoded, encoding spaces as + and decoding + as a space"
         }
       ]
     },
@@ -10875,7 +11202,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL to lookup the location of. Include the https protocol"
+          "description": "The URL to lookup the location of. Without a scheme, https:// is assumed"
         }
       ]
     },
@@ -10891,7 +11218,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the web page to get the title of"
+          "description": "The URL of the web page to get the title of; without a scheme, https:// is assumed"
         }
       ]
     },
@@ -10907,7 +11234,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the webpage to convert to Markdown"
+          "description": "The URL of the webpage to convert to Markdown; without a scheme, https:// is assumed"
         },
         {
           "name": "includeImages",
@@ -10937,7 +11264,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The shortened URL to unshorten"
+          "description": "The shortened URL to unshorten; without a scheme, https:// is assumed"
         }
       ]
     },
@@ -10953,7 +11280,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The USB vendor ID in 4-digit hex format (e.g., 05AC for Apple)",
+          "description": "The USB vendor ID in hex (e.g., 05AC for Apple). 0x046D, VID_046D, the Windows USB\\VID_046D&PID_C52B form and lsusb 046d:c52b are accepted, and short hex is zero-padded",
           "example": "05AC"
         },
         {
@@ -10961,7 +11288,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "The USB product ID in 4-digit hex format (optional)",
+          "description": "The USB product ID in hex (optional). 0xC52B and PID_C52B are accepted; a product ID inside vendorid is used when this is omitted",
           "example": "8290"
         }
       ]
@@ -11027,7 +11354,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The email address to generate usernames from",
+          "description": "The email address to generate usernames from. A plus tag (john+news@) is dropped, and dots, dashes or underscores in the local part split it into name parts",
           "example": "sean@mail.com"
         },
         {
@@ -11141,7 +11468,7 @@
     },
     "variablenameconverter": {
       "title": "Variable Name Converter",
-      "description": "Variable Name Converter transforms variable names between different naming conventions including camelCase, snake_case, PascalCase, and kebab-case.",
+      "description": "Variable Name Converter transforms variable names between different naming conventions including camelCase, snake_case, PascalCase, and kebab-case. Punctuation that cannot appear in an identifier, such as the parentheses in Order Total ($), separates words and is dropped, so spreadsheet headers convert cleanly.",
       "category": "Data Conversion",
       "method": "POST",
       "path": "/v1/variablenameconverter",
@@ -11164,7 +11491,7 @@
     },
     "vatrates": {
       "title": "VAT Rates",
-      "description": "VAT Rates is a European VAT rates API: send a two-letter country code and get the current VAT rates for that country as JSON, with the full standard, reduced, super-reduced and parking set for EU members plus the UK, and standard rates for non-EU countries such as Switzerland and Norway. Paid plans add historical rates by date and regional exceptions by postcode.",
+      "description": "VAT Rates is a European VAT rates API: send a two-letter country code and get the current VAT rates for that country as JSON, with the full standard, reduced, super-reduced and parking set for EU members plus the UK, and standard VAT/GST rates for non-EU countries such as Switzerland, Norway, Canada, India, Japan, Australia, Singapore, the UAE, Saudi Arabia and Turkey. Paid plans add historical rates by date and regional exceptions by postcode.",
       "category": "Finance",
       "method": "GET",
       "path": "/v1/vatrates",
@@ -11174,7 +11501,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "ISO 2-letter country code (e.g., DE, FR, ES)",
+          "description": "ISO 2-letter country code (e.g., DE, FR, ES). EL, XI, 3-letter codes and English country names are also accepted",
           "example": "DE"
         },
         {
@@ -11305,7 +11632,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The passport's country: a two-letter ISO code such as US, or an English name such as United States",
+          "description": "The passport's country: a two-letter ISO code such as US, an English name such as United States, UK for the United Kingdom, or a passport MRZ code such as D or GBR",
           "example": "US"
         },
         {
@@ -11313,7 +11640,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The destination country or territory: a two-letter ISO code such as JP, or an English name such as Japan",
+          "description": "The destination country or territory: a two-letter ISO code such as JP, an English name such as Japan, or UK for the United Kingdom",
           "example": "JP"
         }
       ]
@@ -11379,7 +11706,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Two-letter US state or territory code (e.g., MO) for every alert in effect across it. Used when lat and lon are not sent",
+          "description": "Two-letter US state or territory code (e.g., MO), or the full state name (e.g., Missouri, Puerto Rico), for every alert in effect across it. Used when lat and lon are not sent",
           "example": "TX"
         }
       ]
@@ -11396,7 +11723,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city for which you want to get the current weather (e.g., San Francisco). A name shared by several places resolves to the best-known one (London is London, UK); add a state, province or country after a comma to pick another (e.g., Portland, Maine or London, Ontario)",
+          "description": "The city for which you want to get the current weather (e.g., San Francisco). A name shared by several places resolves to the best-known one (London is London, UK); add a state, province or country after a comma to pick another (e.g., Portland, Maine or London, Ontario). Korean and Japanese names with an administrative suffix (Seongnam-si, Shinjuku-ku) resolve too",
           "example": "San Francisco"
         },
         {
@@ -11446,7 +11773,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the website you want to scrape images from"
+          "description": "The URL of the website you want to scrape images from (a full URL or a bare domain such as example.com; https:// is assumed when no scheme is given)"
         },
         {
           "name": "maxlinks",
@@ -11517,7 +11844,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the web page to capture the screenshot (e.g., https://example.com)"
+          "description": "The URL of the web page to capture the screenshot (a full URL or a bare domain such as example.com; https:// is assumed when no scheme is given)"
         },
         {
           "name": "type",
@@ -11605,7 +11932,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the website to convert to PDF"
+          "description": "The URL of the website to convert to PDF; without a scheme, https:// is assumed"
         },
         {
           "name": "marginTop",
@@ -11670,7 +11997,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "The URL of the website to convert to text"
+          "description": "The URL of the website to convert to text; without a scheme, https:// is assumed"
         }
       ]
     },
@@ -11893,7 +12220,7 @@
           "in": "body",
           "required": true,
           "type": "string",
-          "description": "Array of words to hide in the puzzle (3-20 words)"
+          "description": "Array of words to hide in the puzzle (3-20 words), in Latin, Cyrillic or Greek letters; the grid is filled from the same alphabet"
         },
         {
           "name": "size",
@@ -11937,7 +12264,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The words to convert to numbers",
+          "description": "The words to convert to numbers, e.g. two hundred forty-five, minus seven, three point five or 2 million",
           "example": "seven thousand six hundred and twenty"
         }
       ]
@@ -11986,7 +12313,7 @@
           "in": "query",
           "required": false,
           "type": "string",
-          "description": "Comma-separated weekend days as names or numbers 0-6 (Sunday=0), or none. Defaults to sat,sun",
+          "description": "Comma-separated weekend days as names or numbers 0-6 (Sunday=0), or none. Defaults to the country's weekend (fri,sat for SA, IL, EG and other Gulf/MENA countries; fri for IR; sat,sun elsewhere)",
           "example": "fri,sat"
         },
         {
@@ -12027,7 +12354,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The 2-letter country code for which you want to get the holidays",
+          "description": "The country to get holidays for: an ISO 3166-1 alpha-2 code such as US or GB. Alpha-3 codes (USA, DEU), English country names (Germany) and UK are also accepted",
           "example": "US"
         },
         {
@@ -12076,7 +12403,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The city name for which you want to get the current time (e.g., New York). Add a state, province or country after a comma to narrow it (e.g., Portland, Maine or London, UK). Matches are ordered with the best-known city first",
+          "description": "The city name for which you want to get the current time (e.g., New York). Add a state, province or country after a comma to narrow it (e.g., Portland, Maine or London, UK). Matches are ordered with the best-known city first. Smaller cities (Plano, TX; Noida) and common former or local names (Bangalore, Bombay, Saigon, NYC, Munchen) are found too",
           "example": "San Francisco"
         }
       ]
@@ -12109,7 +12436,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "The zip code for which you want to get the data",
+          "description": "The US ZIP code to look up. ZIP+4 (64082-1234) and ZIPs that lost their leading zero in a spreadsheet (2134 for 02134) are accepted",
           "example": "64082"
         },
         {
@@ -12134,7 +12461,7 @@
           "in": "query",
           "required": true,
           "type": "string",
-          "description": "5-digit US ZIP code",
+          "description": "5-digit US ZIP code (ZIP+4 like 78701-1234 and ZIPs whose leading zero a spreadsheet dropped, like 2108, are accepted)",
           "example": "90210"
         }
       ]
