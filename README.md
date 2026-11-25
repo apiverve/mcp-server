@@ -10,6 +10,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/apiverve-mcp)](https://pypi.org/project/apiverve-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-blue)](https://modelcontextprotocol.io)
+[![APIVerve MCP connector](https://glama.ai/mcp/connectors/com.apiverve/mcp-server/badges/score.svg)](https://glama.ai/mcp/connectors/com.apiverve/mcp-server)
 
 [Website](https://apiverve.com) • [Documentation](https://docs.apiverve.com) • [API Explorer](https://apiverve.com/marketplace) • [Report Bug](https://github.com/apiverve/mcp-server/issues)
 
